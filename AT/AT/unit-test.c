@@ -15,10 +15,10 @@ int main(int argc, char **argv)
 
 	// test the given file
 	if (verify_response(argv[1], &error_state) == 1) {
-		printf("\nResponse OK!\n");
+		printf("Response OK!\n\n");
 	}
 	else {
-		printf("\nResponse NOT OK!");
+		printf("Response NOT OK!");
 
 		if (error_state != -1) {
 			printf(" It stops in state %" PRId8 ".", error_state);
