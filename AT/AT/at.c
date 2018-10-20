@@ -62,7 +62,6 @@ int verify_response(char* filename, int8_t* error_state)
 				*error_state = current_state;
 				current_state = ERROR_STATE;
 			}
-			current_state = check_char(current_char, '+', 2, 3, error_state);
 			break;
 		case 3:
 			// expecting any char, but '<CR>' or '<LF>'
