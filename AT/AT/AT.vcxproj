@@ -140,6 +140,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="at.c" />
+    <ClCompile Include="unit-test.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="at.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

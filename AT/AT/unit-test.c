@@ -1,8 +1,12 @@
 #include <stdio.h>
+#include <stdint.h>
+#include <inttypes.h>
 #include "at.h"
 
 int main(int argc, char **argv)
 {
+	int8_t error_state = -1;
+
 	// check if there is an argument to the program
 	if (argc < 2) {
 		printf("\nMissing argument!\n");
@@ -10,11 +14,17 @@ int main(int argc, char **argv)
 	}
 
 	// test the given file
-	if (verify_response(argv[1]) == 1) {
+	if (verify_response(argv[1], &error_state) == 1) {
 		printf("\nResponse OK!\n");
 	}
 	else {
-		printf("\nResponse NOT OK!\n");
+		printf("\nResponse NOT OK!");
+
+		if (error_state != -1) {
+			printf(" It stops in state %" PRId8 ".", error_state);
+		}
+
+		printf("\n\n");
 	}
 
 	return 0;

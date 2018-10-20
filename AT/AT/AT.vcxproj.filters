@@ -18,5 +18,13 @@
     <ClCompile Include="at.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="unit-test.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="at.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
