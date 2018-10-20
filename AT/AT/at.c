@@ -4,8 +4,16 @@
 #define SUCCES_STATE 12
 #define ERROR_STATE 17
 
+/*typedef struct data {
+
+};*/
+
+// extracts the data and saves it in a file
 void collect_data()
 {
+	FILE* f;
+
+	f = fopen("data.out", "wb");
 
 }
 
