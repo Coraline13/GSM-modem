@@ -1,6 +1,6 @@
 # GSM-modem ![CI status](https://img.shields.io/badge/build-passing-brightgreen.svg)
 
-Foobar is a Python library for dealing with word pluralization.
+AT is the finite automata that checks the response of the GSM modem.
 
 ## Installation
 
