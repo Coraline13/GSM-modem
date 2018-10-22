@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <inttypes.h>
+#include <stdbool.h>
 #include "at.h"
 
 int main(int argc, char **argv)
@@ -14,7 +15,7 @@ int main(int argc, char **argv)
 	}
 
 	// test the given file
-	if (verify_response(argv[1], &error_state) == 1) {
+	if (verify_response(argv[1], &error_state) == true) {
 		printf("Response OK!\n\n");
 	}
 	else {

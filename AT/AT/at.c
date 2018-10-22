@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 #define SUCCES_STATE 12
 #define ERROR_STATE 17
@@ -34,9 +35,8 @@ int check_char(char current_char, char expected_char, int8_t current_state, int8
 /*
 - returns 1 if OK
 - returns 0 if error (and error_state will be x, where x is the state number where the error occured)
-- returns -1 if unknown error
 */
-int verify_response(char* filename, int8_t* error_state)
+bool verify_response(char* filename, int8_t* error_state)
 {
 	FILE* f;
 	char current_char;
@@ -141,7 +141,7 @@ int verify_response(char* filename, int8_t* error_state)
 			current_state = check_char(current_char, 0xA, 11, SUCCES_STATE, error_state);
 			break;
 		case SUCCES_STATE:
-			return 1;
+			return true;
 			break;
 		case 13:
 			current_state = check_char(current_char, 'R', 13, 14, error_state);
@@ -156,11 +156,7 @@ int verify_response(char* filename, int8_t* error_state)
 			current_state = check_char(current_char, 'R', 16, 10, error_state);
 			break;
 		case ERROR_STATE:
-			return 0;
-			break;
-		default:
-			printf("\nSomething went wrong!\n");
-			return -1;
+			return false;
 			break;
 		}
 
@@ -170,12 +166,9 @@ int verify_response(char* filename, int8_t* error_state)
 	fclose(f);
 
 	if (current_state == SUCCES_STATE) {
-		return 1;
-	}
-	else if (current_state == ERROR_STATE) {
-		return 0;
+		return true;
 	}
 	else {
-		return -1;
+		return false;
 	}
 }

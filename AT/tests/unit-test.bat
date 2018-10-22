@@ -1,7 +1,7 @@
 echo off
 title Unit-test script
-for %%a in (".\*.txt") do (
+for %%a in (".\*.bin") do (
 	echo %%a:
-	call ..\Debug\at.exe %%a
+	call ..\x64\Debug\AT.exe %%a
 	)
 pause
