@@ -5,6 +5,9 @@
 #define SUCCES_STATE 12
 #define ERROR_STATE 17
 
+#define CR 0xD
+#define LF 0xA
+
 /*typedef struct data {
 
 };*/
@@ -49,14 +52,14 @@ bool verify_response(char* filename, int8_t* error_state)
 		switch (current_state) {
 		case 0:
 			// expecting '<CR>'
-			current_state = check_char(current_char, 0xD, 0, 1, error_state);		// TODO: is it necessary to check for error?
+			current_state = check_char(current_char, CR, 0, 1, error_state);
 			break;
 		case 1: 
 			// expecting '<LF>'
-			current_state = check_char(current_char, 0xA, 1, 2, error_state);
+			current_state = check_char(current_char, LF, 1, 2, error_state);
 			break;
 		case 2:
-			// expecting '+' or 'O' or 'E'							// TODO: does it matter if it's caps?
+			// expecting '+' or 'O' or 'E'
 			if (current_char == '+') {
 				current_state = 3;
 			}
@@ -73,7 +76,7 @@ bool verify_response(char* filename, int8_t* error_state)
 			break;
 		case 3:
 			// expecting any char, but '<CR>' or '<LF>'
-			if (current_char == 0xD || current_char == 0xA) {		// TODO: is it necessary to check for '<LF>'?
+			if (current_char == CR || current_char == LF) {
 				*error_state = current_state;
 				current_state = ERROR_STATE;
 			}
@@ -83,10 +86,10 @@ bool verify_response(char* filename, int8_t* error_state)
 			break;
 		case 4:
 			// expecting '<CR>' or any other char
-			if (current_char == 0xD) {
+			if (current_char == CR) {
 				current_state = 5;
 			}
-			else if (current_char == 0xA) {								// TODO: is it necessary to check for '<LF>'?
+			else if (current_char == LF) {
 				*error_state = current_state;
 				current_state = ERROR_STATE;
 			}
@@ -96,11 +99,11 @@ bool verify_response(char* filename, int8_t* error_state)
 			break;
 		case 5:
 			// expecting '<LF>'
-			current_state = check_char(current_char, 0xA, 5, 6, error_state);
+			current_state = check_char(current_char, LF, 5, 6, error_state);
 			break;
 		case 6:
 			// expecting '<CR>' or '+'
-			if (current_char == 0xD) {
+			if (current_char == CR) {
 				current_state = 7;
 			}
 			else if (current_char == '+') {
@@ -113,10 +116,10 @@ bool verify_response(char* filename, int8_t* error_state)
 			break;
 		case 7:
 			// expecting '<LF>'
-			current_state = check_char(current_char, 0xA, 7, 8, error_state);
+			current_state = check_char(current_char, LF, 7, 8, error_state);
 			break;
 		case 8:
-			// expecting 'O' or 'E'							// TODO: does it matter if it's caps?
+			// expecting 'O' or 'E'
 			if (current_char == 'O') {
 				current_state = 9;
 			}
@@ -134,11 +137,11 @@ bool verify_response(char* filename, int8_t* error_state)
 			break;
 		case 10:
 			// expecting '<CR>'
-			current_state = check_char(current_char, 0xD, 10, 11, error_state);
+			current_state = check_char(current_char, CR, 10, 11, error_state);
 			break;
 		case 11:
 			// expecting '<LF>'
-			current_state = check_char(current_char, 0xA, 11, SUCCES_STATE, error_state);
+			current_state = check_char(current_char, LF, 11, SUCCES_STATE, error_state);
 			break;
 		case SUCCES_STATE:
 			return true;
