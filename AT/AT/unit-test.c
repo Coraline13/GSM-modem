@@ -4,6 +4,41 @@
 #include <stdbool.h>
 #include "at.h"
 
+// receives a file and returns true if it is ok and false if it is not
+bool verify_response(char* filename, int8_t* error_state)
+{
+	FILE* f;
+	char current_char;
+	int8_t current_state = INIT_STATE;
+	int8_t previous_state = current_state;
+	bool response = false;
+
+	f = fopen(filename, "rb");
+
+	if (!f) {
+		printf("File couldn't be open.\n");
+		return false;
+	}
+
+	current_char = fgetc(f);
+
+	while (current_char != EOF && !response) {
+		previous_state = current_state;
+		response = parse(&current_state, current_char);
+		current_char = fgetc(f);
+	}
+
+	fclose(f);
+
+	if (current_state == SUCCES_STATE) {
+		return true;
+	}
+	else {
+		*error_state = previous_state;
+		return false;
+	}
+}
+
 int main(int argc, char **argv)
 {
 	int8_t error_state = -1;

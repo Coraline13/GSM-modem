@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
-
-#define SUCCES_STATE 12
-#define ERROR_STATE 17
+#include "at.h"
 
 #define CR 0xD
 #define LF 0xA
+
+#define STR_CNT 1000
+#define STR_SIZE 200
 
 /*typedef struct data {
 
@@ -19,159 +20,126 @@ void collect_data()
 
 	f = fopen("data.out", "wb");
 
-}
-
-// checks if it's the expected char and returns the next state
-int check_char(char current_char, char expected_char, int8_t current_state, int8_t next_state, int8_t* error_state)
-{
-	if (current_char == expected_char) {
-		current_state = next_state;
-	}
-	else {
-		*error_state = current_state;
-		current_state = ERROR_STATE;
-	}
-
-	return current_state;
-}
-
-/*
-- returns 1 if OK
-- returns 0 if error (and error_state will be x, where x is the state number where the error occured)
-*/
-bool verify_response(char* filename, int8_t* error_state)
-{
-	FILE* f;
-	char current_char;
-	int8_t current_state = 0;
-
-	f = fopen(filename, "rb");
-	current_char = fgetc(f);
-
-	while (current_char != EOF) {
-		switch (current_state) {
-		case 0:
-			// expecting '<CR>'
-			current_state = check_char(current_char, CR, 0, 1, error_state);
-			break;
-		case 1: 
-			// expecting '<LF>'
-			current_state = check_char(current_char, LF, 1, 2, error_state);
-			break;
-		case 2:
-			// expecting '+' or 'O' or 'E'
-			if (current_char == '+') {
-				current_state = 3;
-			}
-			else if (current_char == 'O') {
-				current_state = 9;
-			}
-			else if (current_char == 'E') {
-				current_state = 13;
-			}
-			else {
-				*error_state = current_state;
-				current_state = ERROR_STATE;
-			}
-			break;
-		case 3:
-			// expecting any char, but '<CR>' or '<LF>'
-			if (current_char == CR || current_char == LF) {
-				*error_state = current_state;
-				current_state = ERROR_STATE;
-			}
-			else {
-				current_state = 4;
-			}
-			break;
-		case 4:
-			// expecting '<CR>' or any other char
-			if (current_char == CR) {
-				current_state = 5;
-			}
-			else if (current_char == LF) {
-				*error_state = current_state;
-				current_state = ERROR_STATE;
-			}
-			else {
-				current_state = 4;
-			}
-			break;
-		case 5:
-			// expecting '<LF>'
-			current_state = check_char(current_char, LF, 5, 6, error_state);
-			break;
-		case 6:
-			// expecting '<CR>' or '+'
-			if (current_char == CR) {
-				current_state = 7;
-			}
-			else if (current_char == '+') {
-				current_state = 3;
-			}
-			else {
-				*error_state = current_state;
-				current_state = ERROR_STATE;
-			}
-			break;
-		case 7:
-			// expecting '<LF>'
-			current_state = check_char(current_char, LF, 7, 8, error_state);
-			break;
-		case 8:
-			// expecting 'O' or 'E'
-			if (current_char == 'O') {
-				current_state = 9;
-			}
-			else if (current_char == 'E') {
-				current_state = 13;
-			}
-			else {
-				*error_state = current_state;
-				current_state = ERROR_STATE;
-			}
-			break;
-		case 9:
-			// expecting 'K'
-			current_state = check_char(current_char, 'K', 9, 10, error_state);
-			break;
-		case 10:
-			// expecting '<CR>'
-			current_state = check_char(current_char, CR, 10, 11, error_state);
-			break;
-		case 11:
-			// expecting '<LF>'
-			current_state = check_char(current_char, LF, 11, SUCCES_STATE, error_state);
-			break;
-		case SUCCES_STATE:
-			return true;
-			break;
-		case 13:
-			current_state = check_char(current_char, 'R', 13, 14, error_state);
-			break;
-		case 14:
-			current_state = check_char(current_char, 'R', 14, 15, error_state);
-			break;
-		case 15:
-			current_state = check_char(current_char, 'O', 15, 16, error_state);
-			break;
-		case 16:
-			current_state = check_char(current_char, 'R', 16, 10, error_state);
-			break;
-		case ERROR_STATE:
-			return false;
-			break;
-		}
-
-		current_char = fgetc(f);
-	}
-
 	fclose(f);
+}
 
-	if (current_state == SUCCES_STATE) {
-		return true;
+void print_data()
+{
+
+}
+
+// returns true if the current state is either the succes state or the error state and false if not (and still waits for chars)
+bool parse(int8_t* current_state, char current_char)
+{
+	switch (*current_state) {
+	case INIT_STATE:
+		// expecting '<CR>'
+		*current_state = current_char == CR ? STATE_1 : ERROR_STATE;
+		break;
+	case STATE_1:
+		// expecting '<LF>'
+		*current_state = current_char == LF ? STATE_2 : ERROR_STATE;
+		break;
+	case STATE_2:
+		// expecting '+' or 'O' or 'E'
+		if (current_char == '+') {
+			*current_state = STATE_3;
+		}
+		else if (current_char == 'O') {
+			*current_state = STATE_9;
+		}
+		else if (current_char == 'E') {
+			*current_state = STATE_13;
+		}
+		else {
+			*current_state = ERROR_STATE;
+		}
+		break;
+	case STATE_3:
+		// expecting any char, but '<CR>' or '<LF>'
+		if (current_char == CR || current_char == LF) {
+			*current_state = ERROR_STATE;
+		}
+		else {
+			*current_state = STATE_4;
+		}
+		break;
+	case STATE_4:
+		// expecting '<CR>' or any other char
+		if (current_char == CR) {
+			*current_state = STATE_5;
+		}
+		else if (current_char == LF) {
+			*current_state = ERROR_STATE;
+		}
+		else {
+			*current_state = STATE_4;
+		}
+		break;
+	case STATE_5:
+		// expecting '<LF>'
+		*current_state = current_char == LF ? STATE_6 : ERROR_STATE;
+		break;
+	case STATE_6:
+		// expecting '<CR>' or '+'
+		if (current_char == CR) {
+			*current_state = STATE_7;
+		}
+		else if (current_char == '+') {
+			*current_state = STATE_3;
+		}
+		else {
+			*current_state = ERROR_STATE;
+		}
+		break;
+	case STATE_7:
+		// expecting '<LF>'
+		*current_state = current_char == LF ? STATE_8 : ERROR_STATE;
+		break;
+	case STATE_8:
+		// expecting 'O' or 'E'
+		if (current_char == 'O') {
+			*current_state = STATE_9;
+		}
+		else if (current_char == 'E') {
+			*current_state = STATE_13;
+		}
+		else {
+			*current_state = ERROR_STATE;
+		}
+		break;
+	case STATE_9:
+		// expecting 'K'
+		*current_state = current_char == 'K' ? STATE_10 : ERROR_STATE;
+		break;
+	case STATE_10:
+		// expecting '<CR>'
+		*current_state = current_char == CR ? STATE_11 : ERROR_STATE;
+		break;
+	case STATE_11:
+		// expecting '<LF>'
+		*current_state = current_char == LF ? SUCCES_STATE : ERROR_STATE;
+		break;
+	case STATE_13:
+		// expecting 'R'
+		*current_state = current_char == 'R' ? STATE_14 : ERROR_STATE;
+		break;
+	case STATE_14:
+		// expecting 'R'
+		*current_state = current_char == 'R' ? STATE_15 : ERROR_STATE;
+		break;
+	case STATE_15:
+		// expecting 'O'
+		*current_state = current_char == 'O' ? STATE_16 : ERROR_STATE;
+		break;
+	case STATE_16:
+		// expecting 'R'
+		*current_state = current_char == 'R' ? STATE_10 : ERROR_STATE;
+		break;
+	/*default:
+		*current_state = ERROR_STATE;
+		break;*/
 	}
-	else {
-		return false;
-	}
+
+	return *current_state == SUCCES_STATE || *current_state == ERROR_STATE;
 }
