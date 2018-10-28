@@ -16,7 +16,11 @@ static void append_char(char str[], char c) {
 
 void print_data()
 {
-
+	int i;
+	for(i = 0; i <= data.line_count; i++) {
+		printf("%s\n", data.data[i]);
+	}
+	printf("%s\n", data.ok ? "OK" : "ERROR");
 }
 
 // returns true if the current state is either the succes state or the error state and false if not (and still waits for chars)
