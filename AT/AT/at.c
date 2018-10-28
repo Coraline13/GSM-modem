@@ -1,26 +1,17 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <string.h>
 #include "at.h"
 
 #define CR 0xD
 #define LF 0xA
 
-#define STR_CNT 1000
-#define STR_SIZE 200
+AT_DATA data;
 
-/*typedef struct data {
-
-};*/
-
-// extracts the data and saves it in a file
-void collect_data()
-{
-	FILE* f;
-
-	f = fopen("data.out", "wb");
-
-	fclose(f);
+static void append_char(char str[], char c) {
+	size_t l = strlen(str);
+	str[l] = c;
 }
 
 void print_data()
@@ -35,6 +26,8 @@ bool parse(int8_t* current_state, char current_char)
 	case INIT_STATE:
 		// expecting '<CR>'
 		*current_state = current_char == CR ? STATE_1 : ERROR_STATE;
+		// reset data structure
+		memset(&data, 0x00, sizeof(data));
 		break;
 	case STATE_1:
 		// expecting '<LF>'
