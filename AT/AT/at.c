@@ -17,7 +17,8 @@ static void append_char(char str[], char c) {
 void print_data()
 {
 	int i;
-	for(i = 0; i <= data.line_count; i++) {
+	printf("Line count: %d\n", data.line_count);
+	for(i = 0; i < data.line_count; i++) {
 		printf("%s\n", data.data[i]);
 	}
 	printf("%s\n", data.ok ? "OK" : "ERROR");

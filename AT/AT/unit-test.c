@@ -52,6 +52,7 @@ int main(int argc, char **argv)
 	// test the given file
 	if (verify_response(argv[1], &error_state) == true) {
 		printf("Response OK!\n\n");
+		print_data();
 	}
 	else {
 		printf("Response NOT OK!");
