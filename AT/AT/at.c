@@ -37,6 +37,7 @@ bool parse(int8_t* current_state, char current_char)
 		// expecting '+' or 'O' or 'E'
 		if (current_char == '+') {
 			*current_state = STATE_3;
+			append_char(data.data[data.line_count], current_char); //adds '+' to the current string in data
 		}
 		else if (current_char == 'O') {
 			*current_state = STATE_9;
@@ -55,6 +56,7 @@ bool parse(int8_t* current_state, char current_char)
 		}
 		else {
 			*current_state = STATE_4;
+			append_char(data.data[data.line_count], current_char); // appends current_char to the current line in data
 		}
 		break;
 	case STATE_4:
@@ -67,6 +69,7 @@ bool parse(int8_t* current_state, char current_char)
 		}
 		else {
 			*current_state = STATE_4;
+			append_char(data.data[data.line_count], current_char); // appends current_char to the current line in data unless current_char is CR or LF
 		}
 		break;
 	case STATE_5:
@@ -74,12 +77,16 @@ bool parse(int8_t* current_state, char current_char)
 		*current_state = current_char == LF ? STATE_6 : ERROR_STATE;
 		break;
 	case STATE_6:
+		// if we got here, it means we have parsed a full line of output, so we prepare the next one
+		append_char(data.data[data.line_count], 0); // add \0 to the end of the current line
+		data.line_count++;
 		// expecting '<CR>' or '+'
 		if (current_char == CR) {
 			*current_state = STATE_7;
 		}
 		else if (current_char == '+') {
 			*current_state = STATE_3;
+			append_char(data.data[data.line_count], current_char); // append '+' for the next line of output
 		}
 		else {
 			*current_state = ERROR_STATE;
@@ -104,6 +111,8 @@ bool parse(int8_t* current_state, char current_char)
 	case STATE_9:
 		// expecting 'K'
 		*current_state = current_char == 'K' ? STATE_10 : ERROR_STATE;
+		// if we got here, than the response is OK
+		data.ok = true;
 		break;
 	case STATE_10:
 		// expecting '<CR>'
@@ -128,6 +137,8 @@ bool parse(int8_t* current_state, char current_char)
 	case STATE_16:
 		// expecting 'R'
 		*current_state = current_char == 'R' ? STATE_10 : ERROR_STATE;
+		// if we got here, than the response had an error
+		data.ok = false;
 		break;
 	/*default:
 		*current_state = ERROR_STATE;
