@@ -1,9 +1,6 @@
 #ifndef AT_H
 #define AT_H
 
-#define STR_CNT 1000
-#define STR_SIZE 200
-
 #define INIT_STATE 0
 #define STATE_1 1
 #define STATE_2 2
@@ -16,12 +13,15 @@
 #define STATE_9 9
 #define STATE_10 10
 #define STATE_11 11
-#define SUCCES_STATE 12
+#define SUCCESS_STATE 12
 #define STATE_13 13
 #define STATE_14 14
 #define STATE_15 15
 #define STATE_16 16
 #define ERROR_STATE 17
+
+#define STR_CNT 1000
+#define STR_SIZE 200
 
 typedef struct {
   char data[STR_CNT][STR_SIZE + 1];
@@ -30,8 +30,6 @@ typedef struct {
 } AT_DATA;
 
 extern AT_DATA data;
-
-void collect_data();
 
 void print_data();
 

@@ -30,7 +30,7 @@ bool verify_response(char* filename, int8_t* error_state)
 
 	fclose(f);
 
-	if (current_state == SUCCES_STATE) {
+	if (current_state == SUCCESS_STATE) {
 		return true;
 	}
 	else {
@@ -58,11 +58,11 @@ int main(int argc, char **argv)
 		printf("Response NOT OK!");
 
 		if (error_state != -1) {
-			printf(" It stops in state %" PRId8 ".", error_state);
+			printf(" It stops in state %" PRId8 ".\n", error_state);
 		}
-
-		printf("\n\n");
 	}
+
+	printf("\n");
 
 	return 0;
 }
