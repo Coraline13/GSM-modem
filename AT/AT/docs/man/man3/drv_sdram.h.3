@@ -1,0 +1,79 @@
+.TH "code/drv/drv_sdram.h" 3 "Mon Nov 12 2018" "Lab TD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+code/drv/drv_sdram.h \- 
+.PP
+SDRAM Driver\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdint\&.h>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBSDRAM_BASE_ADDR\fP   0xA0000000"
+.br
+.ti -1c
+.RI "#define \fBSDRAM_SIZE\fP   0x02000000"
+.br
+.ti -1c
+.RI "#define \fBSDRAM_REFRESH\fP   7813"
+.br
+.ti -1c
+.RI "#define \fBSDRAM_TRP\fP   20"
+.br
+.ti -1c
+.RI "#define \fBSDRAM_TRAS\fP   45"
+.br
+.ti -1c
+.RI "#define \fBSDRAM_TAPR\fP   1"
+.br
+.ti -1c
+.RI "#define \fBSDRAM_TDAL\fP   3"
+.br
+.ti -1c
+.RI "#define \fBSDRAM_TWR\fP   3"
+.br
+.ti -1c
+.RI "#define \fBSDRAM_TRC\fP   65"
+.br
+.ti -1c
+.RI "#define \fBSDRAM_TRFC\fP   66"
+.br
+.ti -1c
+.RI "#define \fBSDRAM_TXSR\fP   67"
+.br
+.ti -1c
+.RI "#define \fBSDRAM_TRRD\fP   15"
+.br
+.ti -1c
+.RI "#define \fBSDRAM_TMRD\fP   3"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBDRV_SDRAM_Init\fP ()"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+SDRAM Driver\&. 
+
+\fBAuthor:\fP
+.RS 4
+Valentin STANGACIU, DSPLabs
+.RE
+.PP
+Contains the header file of the driver for the SDRAM memory on the Olimex board The SDRAM Memory can be used after the call of DRV_SDRAM_Init and after this call the memory becomes transparent and may be access started from address defined by SDRAM_BASE_ADDR and the size defined by SDRAM_SIZE 
+.PP
+Definition in file \fBdrv_sdram\&.h\fP\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Lab TD from the source code\&.

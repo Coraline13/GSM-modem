@@ -1,0 +1,56 @@
+.TH "SOFTWARE_TIMER" 3 "Mon Nov 12 2018" "Lab TD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+SOFTWARE_TIMER \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <timer_software\&.h>\fP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "volatile uint8_t \fBTimerControl\fP"
+.br
+.ti -1c
+.RI "volatile uint32_t \fBTimerPeriod\fP"
+.br
+.ti -1c
+.RI "volatile uint32_t \fBTimerCounter\fP"
+.br
+.ti -1c
+.RI "volatile uint8_t \fBTimerStatus\fP"
+.br
+.ti -1c
+.RI "\fBTIMER_SOFTWARE_Callback\fP \fBcallback\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+The structure defines the registers for a software timer 
+.PP
+Definition at line 59 of file timer_software\&.h\&.
+.SH "Field Documentation"
+.PP 
+.SS "\fBTIMER_SOFTWARE_Callback\fP SOFTWARE_TIMER::callback"
+Software timer callback address register 
+.PP
+Definition at line 81 of file timer_software\&.h\&.
+.SS "volatile uint8_t SOFTWARE_TIMER::TimerControl"
+Software timer control register 
+.PP
+Definition at line 70 of file timer_software\&.h\&.
+.SS "volatile uint32_t SOFTWARE_TIMER::TimerPeriod"
+Software timer period 
+.PP
+Definition at line 71 of file timer_software\&.h\&.
+.SS "volatile uint8_t SOFTWARE_TIMER::TimerStatus"
+Software timer status register 
+.PP
+Definition at line 80 of file timer_software\&.h\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Lab TD from the source code\&.

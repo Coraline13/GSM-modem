@@ -1,0 +1,114 @@
+.TH "code/drv/drv_lcd.c" 3 "Mon Nov 12 2018" "Lab TD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+code/drv/drv_lcd.c \- 
+.PP
+LCD Driver\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'drv_lcd\&.h'\fP
+.br
+\fC#include <stdint\&.h>\fP
+.br
+\fC#include <assert\&.h>\fP
+.br
+\fC#include 'LPC177x_8x\&.h'\fP
+.br
+\fC#include 'system_LPC177x_8x\&.h'\fP
+.br
+\fC#include 'drv_general\&.h'\fP
+.br
+\fC#include 'gl_fonts\&.h'\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBGL_FONT_BIG\fP   0x00"
+.br
+.ti -1c
+.RI "#define \fBGL_FONT_SMALL\fP   0x01"
+.br
+.ti -1c
+.RI "#define \fBGL_FONT_BIG_WIDTH\fP   16"
+.br
+.ti -1c
+.RI "#define \fBGL_FONT_BIG_HEIGHT\fP   24"
+.br
+.ti -1c
+.RI "#define \fBGL_FONT_SMALL_WIDTH\fP   8"
+.br
+.ti -1c
+.RI "#define \fBGL_FONT_SMALL_HEIGHT\fP   8"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBDRV_LCD_Init\fP ()"
+.br
+.ti -1c
+.RI "void \fBDRV_LCD_PowerOn\fP ()"
+.br
+.ti -1c
+.RI "void \fBDRV_LCD_PowerOff\fP ()"
+.br
+.ti -1c
+.RI "void \fBDRV_LCD_TestFillColor\fP (uint8_t red, uint8_t green, uint8_t blue)"
+.br
+.ti -1c
+.RI "void \fBDRV_LCD_PutPixel\fP (uint16_t x, uint16_t y, uint8_t red, uint8_t green, uint8_t blue)"
+.br
+.ti -1c
+.RI "void \fBDRV_LCD_ClrScr\fP ()"
+.br
+.ti -1c
+.RI "void \fBDRV_LCD_DrawChar_Big\fP (uint8_t Xpos, uint16_t Ypos, const uint16_t *c, \fBLCD_PIXEL\fP TextColor, \fBLCD_PIXEL\fP BackgroundTextColor)"
+.br
+.ti -1c
+.RI "void \fBDRV_LCD_DrawChar_Small\fP (uint8_t Xpos, uint16_t Ypos, const uint16_t *c, \fBLCD_PIXEL\fP TextColor, \fBLCD_PIXEL\fP BackgroundTextColor)"
+.br
+.ti -1c
+.RI "void \fBDRV_LCD_DisplayCharSmall\fP (uint16_t Line, uint16_t Column, uint8_t Ascii, \fBLCD_PIXEL\fP TextColor, \fBLCD_PIXEL\fP BackgroundTextColor)"
+.br
+.ti -1c
+.RI "void \fBDRV_LCD_DisplayChar\fP (uint16_t Line, uint16_t Column, uint8_t Ascii, \fBLCD_PIXEL\fP TextColor, \fBLCD_PIXEL\fP BackgroundTextColor)"
+.br
+.ti -1c
+.RI "void \fBDRV_LCD_Puts_Small\fP (char *string, uint16_t x, uint16_t y, \fBLCD_PIXEL\fP TextColor, \fBLCD_PIXEL\fP BackgroundTextColor)"
+.br
+.ti -1c
+.RI "void \fBDRV_LCD_Puts_Big\fP (char *string, uint16_t x, uint16_t y, \fBLCD_PIXEL\fP TextColor, \fBLCD_PIXEL\fP BackgroundTextColor)"
+.br
+.ti -1c
+.RI "void \fBDRV_LCD_Puts\fP (char *string, uint16_t x, uint16_t y, \fBLCD_PIXEL\fP TextColor, \fBLCD_PIXEL\fP BackgroundTextColor, \fBBOOLEAN\fP big)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBLCD_PIXEL\fP \fBLCD_Frame_Buffer\fP [\fBLCD_WIDTH\fP *\fBLCD_HEIGHT\fP]"
+.br
+.RI "\fIThe LCD Frame Buffer\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+LCD Driver\&. 
+
+\fBAuthor:\fP
+.RS 4
+Valentin STANGACIU, DSPLabs
+.RE
+.PP
+Contains the driver for the LCD on the Olimex board The LCD on the Olimex Board is a RGB LCD, resolution 480x272\&. Before using any functions from this module, a call of DRV_LCD_Init must be performed 
+.PP
+Definition in file \fBdrv_lcd\&.c\fP\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Lab TD from the source code\&.

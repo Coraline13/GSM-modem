@@ -1,0 +1,736 @@
+.TH "DRV_UART" 3 "Mon Nov 12 2018" "Lab TD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+DRV_UART \- 
+.PP
+UART Driver\&.  
+
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fBUART_MAP\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef void(* \fBUART_TX_CALLBACK\fP )(\fBUART\fP uart, \fBSTATUS\fP status)"
+.br
+.ti -1c
+.RI "typedef void(* \fBUART_RX_CALLBACK\fP )(\fBUART\fP uart, uint32_t size)"
+.br
+.ti -1c
+.RI "typedef \fBBOOLEAN\fP(* \fBUART_RX_TRIGGER\fP )(\fBUART\fP uart, uint8_t byte)"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBUART\fP { \fBUART_0\fP = 0x00, \fBUART_1\fP = 0x01, \fBUART_2\fP = 0x02, \fBUART_3\fP = 0x03, \fBUART_4\fP = 0x04 }"
+.br
+.ti -1c
+.RI "enum \fBUART_PARITY\fP { \fBUART_PARITY_ODD_PARITY\fP = 0x00, \fBUART_PARITY_EVEN_PARITY\fP = 0x01, \fBUART_PARITY_FORCE_0\fP = 0x02, \fBUART_PARITY_FORCE_1\fP = 0x03, \fBUART_PARITY_NO_PARITY\fP = 0x04 }"
+.br
+.ti -1c
+.RI "enum \fBUART_CHARACTER_LENGTH\fP { \fBUART_CHARACTER_LENGTH_5\fP = 0x00, \fBUART_CHARACTER_LENGTH_6\fP = 0x01, \fBUART_CHARACTER_LENGTH_7\fP = 0x02, \fBUART_CHARACTER_LENGTH_8\fP = 0x03 }"
+.br
+.ti -1c
+.RI "enum \fBUART_ERROR_TYPE\fP { \fBUART_ERROR_NO_ERROR\fP, \fBUART_ERROR_READ_TIMEOUT\fP, \fBUART_ERROR_WRITE_TIMEOUT\fP, \fBUART_ERROR_CONFIG_ERROR\fP, \fBUART_ERROR_BUFFER_LIMITS_EXCEEDED\fP, \fBUART_ERROR_BUFFERING_DISABLED\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBDRV_UART_GeneralIRQHandler\fP (\fBUART\fP uart)"
+.br
+.ti -1c
+.RI "void \fBUART0_IRQHandler\fP ()"
+.br
+.ti -1c
+.RI "void \fBUART1_IRQHandler\fP ()"
+.br
+.ti -1c
+.RI "void \fBUART2_IRQHandler\fP ()"
+.br
+.ti -1c
+.RI "void \fBUART3_IRQHandler\fP ()"
+.br
+.ti -1c
+.RI "void \fBUART4_IRQHandler\fP ()"
+.br
+.ti -1c
+.RI "void \fBDRV_UART_SetTimeout\fP (\fBUART\fP uart, uint32_t read_write_timeout_ms)"
+.br
+.ti -1c
+.RI "uint32_t \fBDRV_UART_GetTimeout\fP (\fBUART\fP uart)"
+.br
+.ti -1c
+.RI "void \fBDRV_UART_Configure\fP (\fBUART\fP uart, \fBUART_CHARACTER_LENGTH\fP charLength, uint32_t baud, \fBUART_PARITY\fP parity, uint8_t stopBits, \fBBOOLEAN\fP buffered, uint32_t read_write_timeout_ms)"
+.br
+.ti -1c
+.RI "\fBSTATUS\fP \fBDRV_UART_SendCharBlocking\fP (\fBUART\fP uart, uint8_t data)"
+.br
+.ti -1c
+.RI "void \fBDRV_UART_SendBufferBlocking\fP (\fBUART\fP uart, uint8_t *buffer, uint16_t size)"
+.br
+.ti -1c
+.RI "\fBSTATUS\fP \fBDRV_UART_GetCharBlocking\fP (\fBUART\fP uart, uint8_t *dest)"
+.br
+.ti -1c
+.RI "void \fBDRV_UART_PrivateSendByte\fP (\fBUART\fP uart, uint8_t byte)"
+.br
+.ti -1c
+.RI "uint32_t \fBDRV_UART_BytesAvailable\fP (\fBUART\fP uart)"
+.br
+.ti -1c
+.RI "\fBSTATUS\fP \fBDRV_UART_ReadByte\fP (\fBUART\fP uart, uint8_t *dst)"
+.br
+.ti -1c
+.RI "\fBSTATUS\fP \fBDRV_UART_SendByte\fP (\fBUART\fP uart, uint8_t byte)"
+.br
+.ti -1c
+.RI "\fBUART_ERROR_TYPE\fP \fBDRV_UART_GetErrno\fP (\fBUART\fP uart)"
+.br
+.ti -1c
+.RI "uint32_t \fBDRV_UART_Read\fP (\fBUART\fP uart, uint8_t *dest, uint32_t count)"
+.br
+.ti -1c
+.RI "uint32_t \fBDRV_UART_Write\fP (\fBUART\fP uart, uint8_t *src, uint32_t count)"
+.br
+.ti -1c
+.RI "void \fBDRV_UART_Process\fP ()"
+.br
+.ti -1c
+.RI "\fBSTATUS\fP \fBDRV_UART_SetRxCallback\fP (\fBUART\fP uart_port, \fBUART_RX_CALLBACK\fP callback)"
+.br
+.ti -1c
+.RI "\fBSTATUS\fP \fBDRV_UART_SetTxCallback\fP (\fBUART\fP uart_port, \fBUART_TX_CALLBACK\fP callback)"
+.br
+.ti -1c
+.RI "\fBSTATUS\fP \fBDRV_UART_SetRxTriggerFunction\fP (\fBUART\fP uart_port, \fBUART_RX_TRIGGER\fP function)"
+.br
+.ti -1c
+.RI "\fBSTATUS\fP \fBDRV_UART_FlushRX\fP (\fBUART\fP uart_port)"
+.br
+.ti -1c
+.RI "\fBSTATUS\fP \fBDRV_UART_FlushTX\fP (\fBUART\fP uart_port)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBUART_MAP\fP \fBuartMaps\fP []"
+.br
+.RI "\fIUART Mapping Table\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+UART Driver\&. 
+
+Contains the driver for the uart modules of the microcontroller 
+.SH "Typedef Documentation"
+.PP 
+.SS "UART_RX_CALLBACK"
+Uart transmission callback function type\&. The user callback function is mandatory to have this signature:
+.PP
+void (*UART_RX_CALLBACK)(UART uart, uint32_t size); 
+.PP
+Definition at line 52 of file drv_uart\&.h\&.
+.SS "UART_RX_TRIGGER"
+Uart transmission callback function type\&. The user trigger function is mandatory to have this signature:
+.PP
+BOOLEAN (*UART_RX_TRIGGER)(UART uart, uint8_t byte); 
+.PP
+Definition at line 60 of file drv_uart\&.h\&.
+.SS "UART_TX_CALLBACK"
+Uart transmission callback function type\&. The user callback function is mandatory to have this signature:
+.PP
+void (*UART_TX_CALLBACK)(UART uart, STATUS status); 
+.PP
+Definition at line 43 of file drv_uart\&.h\&.
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBUART\fP"
+Identify the UART module 
+.PP
+\fBEnumerator: \fP
+.in +1c
+.TP
+\fB\fIUART_0 \fP\fP
+Module Uart 0 
+.TP
+\fB\fIUART_1 \fP\fP
+Module Uart 1 
+.TP
+\fB\fIUART_2 \fP\fP
+Module Uart 2 
+.TP
+\fB\fIUART_3 \fP\fP
+Module Uart 3 
+.TP
+\fB\fIUART_4 \fP\fP
+Module Uart 4 
+.PP
+Definition at line 28 of file drv_uart\&.h\&.
+.SS "enum \fBUART_CHARACTER_LENGTH\fP"
+Uart Character Length 
+.PP
+\fBEnumerator: \fP
+.in +1c
+.TP
+\fB\fIUART_CHARACTER_LENGTH_5 \fP\fP
+5 bit per character 
+.TP
+\fB\fIUART_CHARACTER_LENGTH_6 \fP\fP
+6 bit per character 
+.TP
+\fB\fIUART_CHARACTER_LENGTH_7 \fP\fP
+7 bit per character 
+.TP
+\fB\fIUART_CHARACTER_LENGTH_8 \fP\fP
+8 bit per character 
+.PP
+Definition at line 81 of file drv_uart\&.h\&.
+.SS "enum \fBUART_ERROR_TYPE\fP"
+Uart Error Type 
+.PP
+\fBEnumerator: \fP
+.in +1c
+.TP
+\fB\fIUART_ERROR_NO_ERROR \fP\fP
+No Error 
+.TP
+\fB\fIUART_ERROR_READ_TIMEOUT \fP\fP
+Read Timeout 
+.TP
+\fB\fIUART_ERROR_WRITE_TIMEOUT \fP\fP
+Write Timeout 
+.TP
+\fB\fIUART_ERROR_CONFIG_ERROR \fP\fP
+Configuration Error 
+.TP
+\fB\fIUART_ERROR_BUFFER_LIMITS_EXCEEDED \fP\fP
+Buffers exceeded 
+.TP
+\fB\fIUART_ERROR_BUFFERING_DISABLED \fP\fP
+Uart buffering is disabled and no buffer related operations may be used 
+.PP
+Definition at line 94 of file drv_uart\&.h\&.
+.SS "enum \fBUART_PARITY\fP"
+Uart Parity Modes 
+.PP
+\fBEnumerator: \fP
+.in +1c
+.TP
+\fB\fIUART_PARITY_ODD_PARITY \fP\fP
+Parity Enabled\&. Odd Parity 
+.TP
+\fB\fIUART_PARITY_EVEN_PARITY \fP\fP
+Parity Enabled\&. Even Parity 
+.TP
+\fB\fIUART_PARITY_FORCE_0 \fP\fP
+Parity Enabled\&. Parity force at 0 
+.TP
+\fB\fIUART_PARITY_FORCE_1 \fP\fP
+Parity Enabled\&. Parity force at 1 
+.TP
+\fB\fIUART_PARITY_NO_PARITY \fP\fP
+Parity Disabled 
+.PP
+Definition at line 67 of file drv_uart\&.h\&.
+.SH "Function Documentation"
+.PP 
+.SS "uint32_t DRV_UART_BytesAvailable (\fBUART\fPuart)"
+Gets the number of available bytes in the receive buffer\&.
+.PP
+If the buffered mode is disabled then this function returns 0\&.
+.PP
+After calling this function the status of the configuration may be checked via the errno variable for each uart module using \fBDRV_UART_GetErrno\fP 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIuart\fP The UART module\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Number of available byte in the receive buffer 
+.RE
+.PP
+
+.PP
+Definition at line 775 of file drv_uart\&.c\&.
+.SS "void DRV_UART_Configure (\fBUART\fPuart, \fBUART_CHARACTER_LENGTH\fPcharLength, uint32_tbaud, \fBUART_PARITY\fPparity, uint8_tstopBits, \fBBOOLEAN\fPbuffered, uint32_tread_write_timeout_ms)"
+Configure the uart module\&.
+.PP
+This function is used to configure the uart module\&. All parameters are asserted inside the functions for correct values\&.
+.PP
+After calling this function the status of the configuration may be checked via the errno variable for each uart module using \fBDRV_UART_GetErrno\fP 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIuart\fP The UART module to be configured\&. 
+.br
+\fIcharLength\fP The length of the character\&. The number of bits per character\&. See \fBUART_CHARACTER_LENGTH\fP for possible values\&. 
+.br
+\fIbaud\fP The desired baudrate for the selected uart module\&. Can be any value\&. The divisors are calculated even for non standard baudrates\&. 
+.br
+\fIparity\fP Specifies if the parity should be enabled or disabled\&. If enabled it specifies the parity mode\&. See \fBUART_PARITY\fP for possible values\&. 
+.br
+\fIstopBits\fP Specifies the number of stop bits\&. May be 1 or 2\&. Depending on the uart configuration there may be a stopBits value of 2 actually represeting 1\&.5 bits for stop\&. 
+.br
+\fIbuffered\fP Specifies if buffering is enabled\&. If value is \fBFALSE\fP then the timeout system is disabled and all functions operating in a blocking manner and only character based functions are enabled\&. 
+.br
+\fIread_write_timeout_ms\fP The desired timeout in milliseconds\&. If the value is 0 then the timeout system is disabled and all functions operating in a blocking manner\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 411 of file drv_uart\&.c\&.
+.SS "\fBSTATUS\fP DRV_UART_FlushRX (\fBUART\fPuart_port)"
+Empty the UART reception internal buffer
+.PP
+\fBParameters:\fP
+.RS 4
+\fIuart_port\fP The UART module\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+The result of the operation\&. See \fBSTATUS\fP 
+.RE
+.PP
+
+.PP
+Definition at line 1081 of file drv_uart\&.c\&.
+.SS "\fBSTATUS\fP DRV_UART_FlushTX (\fBUART\fPuart_port)"
+Empty the UART transmission internal buffer
+.PP
+\fBParameters:\fP
+.RS 4
+\fIuart_port\fP The UART module\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+The result of the operation\&. See \fBSTATUS\fP 
+.RE
+.PP
+
+.PP
+Definition at line 1093 of file drv_uart\&.c\&.
+.SS "void DRV_UART_GeneralIRQHandler (\fBUART\fPuart)\fC [private]\fP"
+General Interrupt handler routine
+.PP
+This function is the interrupt handling routing for all uart modules\&. It is called by each module's private interrupt handling routine 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIuart\fP Identified the uart module 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 77 of file drv_uart\&.c\&.
+.SS "\fBSTATUS\fP DRV_UART_GetCharBlocking (\fBUART\fPuart, uint8_t *dest)"
+Get a byte from the selected uart module\&. This function blocks the execution of the program until a byte is received by the uart module
+.PP
+\fBParameters:\fP
+.RS 4
+\fIuart\fP The UART module\&. 
+.br
+\fIdest\fP Pointer where the read character will be stored 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+The received byte\&. 
+.RE
+.PP
+
+.PP
+Definition at line 628 of file drv_uart\&.c\&.
+.SS "\fBUART_ERROR_TYPE\fP DRV_UART_GetErrno (\fBUART\fPuart)"
+Gets the current error status of the selected uart module\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIuart\fP The UART module\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Returns the error status\&. See \fBUART_ERROR_TYPE\fP for possible values\&. 
+.RE
+.PP
+
+.PP
+Definition at line 869 of file drv_uart\&.c\&.
+.SS "uint32_t DRV_UART_GetTimeout (\fBUART\fPuart)"
+Get the read/write timeout
+.PP
+This functions returns the value of the current read write timeout\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIuart\fP The UART module\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+The current value of the read write timeout in milliseconds 
+.RE
+.PP
+
+.PP
+Definition at line 390 of file drv_uart\&.c\&.
+.SS "void DRV_UART_PrivateSendByte (\fBUART\fPuart, uint8_tbyte)\fC [private]\fP"
+Send a byte through the selected uart using buffered mode\&.
+.PP
+If the buffered mode is disabled then this function has no effect
+.PP
+After calling this function the status of the configuration may be checked via the errno variable for each uart module using \fBDRV_UART_GetErrno\fP 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIuart\fP The UART module\&. 
+.br
+\fIbyte\fP The data to be sent though the uart module\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 687 of file drv_uart\&.c\&.
+.SS "void DRV_UART_Process ()"
+Uart driver main process function\&. This function is MANDATORY to be called in the program's main loop
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 999 of file drv_uart\&.c\&.
+.SS "uint32_t DRV_UART_Read (\fBUART\fPuart, uint8_t *dest, uint32_tcount)"
+Read a buffer from selected uart using buffered mode\&. The functions reads \fBcount\fP bytes from the uart module and returns the amount of bytes that were received\&. If the read write timeout expires before the function could read \fBcount\fP bytes, then the function return the number of bytes that were received before the timeout expires\&.
+.PP
+If the buffered mode is disabled then this function has no effect\&.
+.PP
+After calling this function the status of the configuration may be checked via the errno variable for each uart module using \fBDRV_UART_GetErrno\fP 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIuart\fP The UART module\&. 
+.br
+\fIdest\fP Pointer to the memory zone where the read bytes should be placed\&. 
+.br
+\fIcount\fP The number of bytes to be read\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+The amount of bytes that were received and written at the memory zone designated by \fBdest\fP\&. 
+.RE
+.PP
+
+.PP
+Definition at line 887 of file drv_uart\&.c\&.
+.SS "\fBSTATUS\fP DRV_UART_ReadByte (\fBUART\fPuart, uint8_t *dst)"
+Read a byte from selected uart using buffered mode\&.
+.PP
+If the buffered mode is disabled then this function has no effect
+.PP
+After calling this function the status of the configuration may be checked via the errno variable for each uart module using \fBDRV_UART_GetErrno\fP 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIuart\fP The UART module\&. 
+.br
+\fIdst\fP Pointer to the memory zone where the read byte should be written\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+The result of the operation\&. See \fBSTATUS\fP 
+.RE
+.PP
+
+.PP
+Definition at line 804 of file drv_uart\&.c\&.
+.SS "void DRV_UART_SendBufferBlocking (\fBUART\fPuart, uint8_t *buffer, uint16_tsize)"
+Send a buffer through the selected uart module\&. This function blocks the execution of the program while transmitting the buffer\&.
+.PP
+After calling this function the status of the configuration may be checked via the errno variable for each uart module using \fBDRV_UART_GetErrno\fP\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIuart\fP The UART module\&. 
+.br
+\fIbuffer\fP A pointer to the memory zone containing the buffer\&. 
+.br
+\fIsize\fP The size of the memory zone buffer\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 607 of file drv_uart\&.c\&.
+.SS "\fBSTATUS\fP DRV_UART_SendByte (\fBUART\fPuart, uint8_tbyte)"
+Send a byte through selected uart using buffered mode\&.
+.PP
+If the buffered mode is disabled then this function has no effect
+.PP
+After calling this function the status of the configuration may be checked via the errno variable for each uart module using \fBDRV_UART_GetErrno\fP 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIuart\fP The UART module\&. 
+.br
+\fIbyte\fP The data to be sent\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+The result of the operation\&. See \fBSTATUS\fP 
+.RE
+.PP
+
+.PP
+Definition at line 840 of file drv_uart\&.c\&.
+.SS "\fBSTATUS\fP DRV_UART_SendCharBlocking (\fBUART\fPuart, uint8_tdata)"
+Send a character through the selected uart module\&. This function blocks the execution of the program while transmitting the character\&.
+.PP
+After calling this function the status of the configuration may be checked via the errno variable for each uart module using \fBDRV_UART_GetErrno\fP 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIuart\fP The UART module\&. 
+.br
+\fIdata\fP The data to be sent though the uart module 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+The result of the operation\&. See \fBSTATUS\fP\&. 
+.RE
+.PP
+
+.PP
+Definition at line 550 of file drv_uart\&.c\&.
+.SS "\fBSTATUS\fP DRV_UART_SetRxCallback (\fBUART\fPuart_port, \fBUART_RX_CALLBACK\fPcallback)"
+Set the receive callback function
+.PP
+If the buffered mode is disabled then this function has no effect The receive user callback function is called by the driver when the receive trigger has be reached\&. If the trigger is not used the the function is called when a character has been received 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIuart_port\fP The UART module\&. 
+.br
+\fIcallback\fP The user RX Callback function\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+The result of the operation\&. See \fBSTATUS\fP 
+.RE
+.PP
+
+.PP
+Definition at line 1027 of file drv_uart\&.c\&.
+.SS "\fBSTATUS\fP DRV_UART_SetRxTriggerFunction (\fBUART\fPuart_port, \fBUART_RX_TRIGGER\fPfunction)"
+Set the receive trigger function
+.PP
+If the buffered mode is disabled then this function has no effect The trigger function designates when the RX callback should be called\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIuart_port\fP The UART module\&. 
+.br
+\fIfunction\fP The user RX Callback function\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+The result of the operation\&. See \fBSTATUS\fP 
+.RE
+.PP
+
+.PP
+Definition at line 1065 of file drv_uart\&.c\&.
+.SS "void DRV_UART_SetTimeout (\fBUART\fPuart, uint32_tread_write_timeout_ms)"
+Set the read/write timeout
+.PP
+This functions sets the timeout for the read and write operations of the selected uart module\&. If the timeout value is 0 then the timeout system is disabled and all functions execute in a blocking manner 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIuart\fP The UART module\&. 
+.br
+\fIread_write_timeout_ms\fP The desired timeout in milliseconds 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 373 of file drv_uart\&.c\&.
+.SS "\fBSTATUS\fP DRV_UART_SetTxCallback (\fBUART\fPuart_port, \fBUART_TX_CALLBACK\fPcallback)"
+Set the transmission callback function
+.PP
+If the buffered mode is disabled then this function has no effect
+.PP
+\fBParameters:\fP
+.RS 4
+\fIuart_port\fP The UART module\&. 
+.br
+\fIcallback\fP The user TX Callback function\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+The result of the operation\&. See \fBSTATUS\fP 
+.RE
+.PP
+
+.PP
+Definition at line 1046 of file drv_uart\&.c\&.
+.SS "uint32_t DRV_UART_Write (\fBUART\fPuart, uint8_t *src, uint32_tcount)"
+Send a buffer through selected uart using buffered mode\&. The functions write \fBcount\fP bytes to the uart module and returns the amount of bytes that were transmitted\&. If the read write timeout expires before the function could send \fBcount\fP bytes, then the function returns the number of bytes that were transmitted before the timeout expires\&.
+.PP
+If the buffered mode is disabled then this function has no effect\&.
+.PP
+After calling this function the status of the configuration may be checked via the errno variable for each uart module using \fBDRV_UART_GetErrno\fP 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIuart\fP The UART module\&. 
+.br
+\fIsrc\fP Pointer to the buffer that is to be sent\&. 
+.br
+\fIcount\fP The number of bytes to send from the buffer designated by \fBsrc\fP\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+The amount of bytes that were successfuly transmitted\&. 
+.RE
+.PP
+
+.PP
+Definition at line 943 of file drv_uart\&.c\&.
+.SS "void UART0_IRQHandler ()\fC [private]\fP"
+Interrupt handling routine for UART 0
+.PP
+This function is the interrupt handling routing for UART0\&. It calls the general interrupt handling routine using UART_0 as the uart parameter 
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 312 of file drv_uart\&.c\&.
+.SS "void UART1_IRQHandler ()\fC [private]\fP"
+Interrupt handling routine for UART 1
+.PP
+This function is the interrupt handling routing for UART1\&. It calls the general interrupt handling routine using UART_1 as the uart parameter 
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 324 of file drv_uart\&.c\&.
+.SS "void UART2_IRQHandler ()\fC [private]\fP"
+Interrupt handling routine for UART 2
+.PP
+This function is the interrupt handling routing for UART2\&. It calls the general interrupt handling routine using UART_2 as the uart parameter 
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 336 of file drv_uart\&.c\&.
+.SS "void UART3_IRQHandler ()\fC [private]\fP"
+Interrupt handling routine for UART 3
+.PP
+This function is the interrupt handling routing for UART3\&. It calls the general interrupt handling routine using UART_3 as the uart parameter 
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 348 of file drv_uart\&.c\&.
+.SS "void UART4_IRQHandler ()\fC [private]\fP"
+Interrupt handling routine for UART 4
+.PP
+This function is the interrupt handling routing for UART4\&. It calls the general interrupt handling routine using UART_4 as the uart parameter 
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 360 of file drv_uart\&.c\&.
+.SH "Variable Documentation"
+.PP 
+.SS "\fBUART_MAP\fP uartMaps[]"
+\fBInitial value:\fP
+.PP
+.nf
+= 
+                        {
+                            {UART_0, FALSE, &uart0_rx_ring_buffer, &uart0_tx_ring_buffer, uart0_rx_buffer, uart0_tx_buffer, UART0_RX_BUFFER_SIZE, UART0_TX_BUFFER_SIZE, UART_ERROR_NO_ERROR, 0, FALSE, 0, FALSE, NULL, NULL, NULL},
+                            {UART_1, FALSE, &uart1_rx_ring_buffer, &uart1_tx_ring_buffer, uart1_rx_buffer, uart1_tx_buffer, UART1_RX_BUFFER_SIZE, UART1_TX_BUFFER_SIZE, UART_ERROR_NO_ERROR, 0, FALSE, 0, FALSE, NULL, NULL, NULL},
+                            {UART_2, FALSE, &uart2_rx_ring_buffer, &uart2_tx_ring_buffer, uart2_rx_buffer, uart2_tx_buffer, UART2_RX_BUFFER_SIZE, UART2_TX_BUFFER_SIZE, UART_ERROR_NO_ERROR, 0, FALSE, 0, FALSE, NULL, NULL, NULL},
+                            {UART_3, FALSE, &uart3_rx_ring_buffer, &uart3_tx_ring_buffer, uart3_rx_buffer, uart3_tx_buffer, UART3_RX_BUFFER_SIZE, UART3_TX_BUFFER_SIZE, UART_ERROR_NO_ERROR, 0, FALSE, 0, FALSE, NULL, NULL, NULL},
+                            {UART_4, FALSE, &uart4_rx_ring_buffer, &uart4_tx_ring_buffer, uart4_rx_buffer, uart4_tx_buffer, UART4_RX_BUFFER_SIZE, UART4_TX_BUFFER_SIZE, UART_ERROR_NO_ERROR, 0, FALSE, 0, FALSE, NULL, NULL, NULL},
+                        }
+.fi
+.PP
+UART Mapping Table\&. 
+.PP
+Definition at line 60 of file drv_uart\&.c\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Lab TD from the source code\&.

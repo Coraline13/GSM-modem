@@ -1,0 +1,99 @@
+.TH "code/Retarget.c" 3 "Fri Nov 30 2012" "Lab TD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+code/Retarget.c \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <rt_misc\&.h>\fP
+.br
+\fC#include <stdint\&.h>\fP
+.br
+\fC#include <DRV\\drv_general\&.h>\fP
+.br
+\fC#include <DRV\\drv_uart\&.h>\fP
+.br
+\fC#include 'retarget\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fB__FILE\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBinitRetargetDebugSystem\fP ()"
+.br
+.ti -1c
+.RI "int \fBfputc\fP (int c, FILE *f)"
+.br
+.ti -1c
+.RI "int \fBfgetc\fP (FILE *f)"
+.br
+.ti -1c
+.RI "int \fBferror\fP (FILE *f)"
+.br
+.ti -1c
+.RI "void \fB_ttywrch\fP (int c)"
+.br
+.ti -1c
+.RI "void \fB_sys_exit\fP (int return_code)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "FILE \fB__stdout\fP"
+.br
+.ti -1c
+.RI "FILE \fB__stdin\fP"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "void _sys_exit (intreturn_code)"
+
+.PP
+Definition at line 58 of file Retarget\&.c\&.
+.SS "void _ttywrch (intc)"
+
+.PP
+Definition at line 53 of file Retarget\&.c\&.
+.SS "int ferror (FILE *f)"
+
+.PP
+Definition at line 47 of file Retarget\&.c\&.
+.SS "int fgetc (FILE *f)"
+
+.PP
+Definition at line 40 of file Retarget\&.c\&.
+.SS "int fputc (intc, FILE *f)"
+
+.PP
+Definition at line 35 of file Retarget\&.c\&.
+.SS "void initRetargetDebugSystem (void)"
+
+.PP
+Definition at line 30 of file Retarget\&.c\&.
+.SH "Variable Documentation"
+.PP 
+.SS "FILE __stdin"
+
+.PP
+Definition at line 28 of file Retarget\&.c\&.
+.SS "FILE __stdout"
+
+.PP
+Definition at line 27 of file Retarget\&.c\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Lab TD from the source code\&.

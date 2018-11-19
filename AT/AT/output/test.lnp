@@ -1,0 +1,22 @@
+--cpu Cortex-M3
+".\output\main.o"
+".\output\system_lpc177x_8x.o"
+".\output\startup_lpc177x_8x.o"
+".\output\retarget.o"
+".\output\drv_sdram.o"
+".\output\drv_lcd.o"
+".\output\drv_uart.o"
+".\output\drv_general.o"
+".\output\drv_touchscreen.o"
+".\output\gl_fonts.o"
+".\output\drv_led.o"
+".\output\wiznet.o"
+".\output\wiznet_io.o"
+".\output\wiznet_print.o"
+".\output\ringbuf.o"
+".\output\timer_software.o"
+".\output\timer_software_init.o"
+--strict --scatter ".\output\test.sct"
+--summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\list\test.map" -o .\output\test.axf

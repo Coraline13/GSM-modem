@@ -1,0 +1,46 @@
+.TH "UART_BAUDRATE_VALUE_DLD" 3 "Mon Nov 12 2018" "Lab TD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+UART_BAUDRATE_VALUE_DLD \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <drv_general\&.h>\fP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "uint8_t \fBDLM\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBDLL\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBDLD\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+The structure used for encapsulating the values used for the uart divisor in order to obtain a specific baudrate This structure uses DLD as the fractional divider 
+.PP
+Definition at line 66 of file drv_general\&.h\&.
+.SH "Field Documentation"
+.PP 
+.SS "uint8_t UART_BAUDRATE_VALUE_DLD::DLD"
+The DLD value - fractional divider 
+.PP
+Definition at line 70 of file drv_general\&.h\&.
+.SS "uint8_t UART_BAUDRATE_VALUE_DLD::DLL"
+The DLL value - least significant byte of the integer divider 
+.PP
+Definition at line 69 of file drv_general\&.h\&.
+.SS "uint8_t UART_BAUDRATE_VALUE_DLD::DLM"
+The DLM value - most significant byte of the integer divider 
+.PP
+Definition at line 68 of file drv_general\&.h\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Lab TD from the source code\&.

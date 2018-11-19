@@ -1,0 +1,181 @@
+.TH "DRV_LED" 3 "Mon Nov 12 2018" "Lab TD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+DRV_LED \- 
+.PP
+LED Driver\&.  
+
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fBLED_MAP\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBLED_STATE\fP { \fBLED_OFF\fP, \fBLED_ON\fP }"
+.br
+.ti -1c
+.RI "enum \fBLED\fP { \fBLED_UNKNOWN\fP = 0, \fBLED_1\fP = 1, \fBLED_2\fP = 2, \fBLED_3\fP = 3, \fBLED_4\fP = 4 }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBDRV_LED_Init\fP ()"
+.br
+.ti -1c
+.RI "void \fBDRV_LED_Off\fP (\fBLED\fP led)"
+.br
+.ti -1c
+.RI "void \fBDRV_LED_On\fP (\fBLED\fP led)"
+.br
+.ti -1c
+.RI "void \fBDRV_LED_Toggle\fP (\fBLED\fP led)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBLED_MAP\fP \fBLedMap\fP []"
+.br
+.RI "\fILED Mapping Table\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+LED Driver\&. 
+
+Contains the driver for the 4 leds on the board 
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBLED\fP"
+Identify the leds 
+.PP
+\fBEnumerator: \fP
+.in +1c
+.TP
+\fB\fILED_UNKNOWN \fP\fP
+Unknown Led 
+.TP
+\fB\fILED_1 \fP\fP
+Led 1 
+.TP
+\fB\fILED_2 \fP\fP
+Led 2 
+.TP
+\fB\fILED_3 \fP\fP
+Led 3 
+.TP
+\fB\fILED_4 \fP\fP
+Led 4 
+.PP
+Definition at line 40 of file drv_led\&.h\&.
+.SS "enum \fBLED_STATE\fP"
+Identify the led state 
+.PP
+\fBEnumerator: \fP
+.in +1c
+.TP
+\fB\fILED_OFF \fP\fP
+Led on 
+.TP
+\fB\fILED_ON \fP\fP
+Led off 
+.PP
+Definition at line 29 of file drv_led\&.h\&.
+.SH "Function Documentation"
+.PP 
+.SS "void DRV_LED_Init ()"
+Initialize the LED driver
+.PP
+This function is used to initialize the structures of the led driver as well as to configure the pins where the leds are connected\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 47 of file drv_led\&.c\&.
+.SS "void DRV_LED_Off (\fBLED\fPled)"
+Turn LED Off
+.PP
+This function is used switch the led off 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIled\fP The led to be switched off 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 69 of file drv_led\&.c\&.
+.SS "void DRV_LED_On (\fBLED\fPled)"
+Turn LED On
+.PP
+This function is used switch the led on 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIled\fP The led to be switched on 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 86 of file drv_led\&.c\&.
+.SS "void DRV_LED_Toggle (\fBLED\fPled)"
+Toggle the led
+.PP
+This function is used toggled the led\&. If the led is off it will be switched on and viceversa\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIled\fP The led to be toggled 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 103 of file drv_led\&.c\&.
+.SH "Variable Documentation"
+.PP 
+.SS "\fBLED_MAP\fP LedMap[]"
+\fBInitial value:\fP
+.PP
+.nf
+=   {
+                        {LED_UNKNOWN,       LED_OFF,        0},
+                        {LED_1,             LED_OFF,        11},
+                        {LED_2,             LED_OFF,        10},
+                        {LED_3,             LED_OFF,        1},
+                        {LED_4,             LED_OFF,        0},
+                    }
+.fi
+.PP
+LED Mapping Table\&. 
+.PP
+Definition at line 33 of file drv_led\&.c\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Lab TD from the source code\&.

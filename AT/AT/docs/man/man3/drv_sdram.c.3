@@ -1,0 +1,51 @@
+.TH "code/drv/drv_sdram.c" 3 "Mon Nov 12 2018" "Lab TD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+code/drv/drv_sdram.c \- 
+.PP
+SDRAM Driver\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'drv_sdram\&.h'\fP
+.br
+\fC#include <stdint\&.h>\fP
+.br
+\fC#include 'LPC177x_8x\&.h'\fP
+.br
+\fC#include 'system_LPC177x_8x\&.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "float \fBDRV_SDRAM_PERIOD\fP (void)"
+.br
+.ti -1c
+.RI "uint32_t \fBDRV_SDRAM_P2C\fP (uint32_t period)"
+.br
+.ti -1c
+.RI "void \fBDRV_SDRAM_InitPins\fP ()"
+.br
+.ti -1c
+.RI "void \fBDRV_SDRAM_Init\fP ()"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+SDRAM Driver\&. 
+
+\fBAuthor:\fP
+.RS 4
+Valentin STANGACIU, DSPLabs
+.RE
+.PP
+Contains the driver for the SDRAM memory on the Olimex board The SDRAM Memory can be used after the call of DRV_SDRAM_Init and after this call the memory becomes transparent and may be access started from address defined by SDRAM_BASE_ADDR and the size defined by SDRAM_SIZE 
+.PP
+Definition in file \fBdrv_sdram\&.c\fP\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Lab TD from the source code\&.

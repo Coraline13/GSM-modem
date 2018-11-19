@@ -1,0 +1,360 @@
+.TH "Ringbuf_api" 3 "Mon Nov 12 2018" "Lab TD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Ringbuf_api \- 
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBNULL\fP   ((void *)0)"
+.br
+.ti -1c
+.RI "#define \fBASSERT\fP(x)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "tBoolean \fBRingBufFull\fP (\fBtRingBufObject\fP *ptRingBuf)"
+.br
+.ti -1c
+.RI "tBoolean \fBRingBufEmpty\fP (\fBtRingBufObject\fP *ptRingBuf)"
+.br
+.ti -1c
+.RI "void \fBRingBufFlush\fP (\fBtRingBufObject\fP *ptRingBuf)"
+.br
+.ti -1c
+.RI "unsigned long \fBRingBufUsed\fP (\fBtRingBufObject\fP *ptRingBuf)"
+.br
+.ti -1c
+.RI "unsigned long \fBRingBufFree\fP (\fBtRingBufObject\fP *ptRingBuf)"
+.br
+.ti -1c
+.RI "unsigned long \fBRingBufContigUsed\fP (\fBtRingBufObject\fP *ptRingBuf)"
+.br
+.ti -1c
+.RI "unsigned long \fBRingBufContigFree\fP (\fBtRingBufObject\fP *ptRingBuf)"
+.br
+.ti -1c
+.RI "unsigned long \fBRingBufSize\fP (\fBtRingBufObject\fP *ptRingBuf)"
+.br
+.ti -1c
+.RI "unsigned char \fBRingBufReadOne\fP (\fBtRingBufObject\fP *ptRingBuf)"
+.br
+.ti -1c
+.RI "void \fBRingBufRead\fP (\fBtRingBufObject\fP *ptRingBuf, unsigned char *pucData, unsigned long ulLength)"
+.br
+.ti -1c
+.RI "void \fBRingBufAdvanceRead\fP (\fBtRingBufObject\fP *ptRingBuf, unsigned long ulNumBytes)"
+.br
+.ti -1c
+.RI "void \fBRingBufAdvanceWrite\fP (\fBtRingBufObject\fP *ptRingBuf, unsigned long ulNumBytes)"
+.br
+.ti -1c
+.RI "void \fBRingBufWriteOne\fP (\fBtRingBufObject\fP *ptRingBuf, unsigned char ucData)"
+.br
+.ti -1c
+.RI "void \fBRingBufWrite\fP (\fBtRingBufObject\fP *ptRingBuf, unsigned char *pucData, unsigned long ulLength)"
+.br
+.ti -1c
+.RI "void \fBRingBufInit\fP (\fBtRingBufObject\fP *ptRingBuf, unsigned char *pucBuf, unsigned long ulSize)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SH "Function Documentation"
+.PP 
+.SS "void RingBufAdvanceRead (\fBtRingBufObject\fP *ptRingBuf, unsigned longulNumBytes)"
+Remove bytes from the ring buffer by advancing the read index\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIptRingBuf\fP points to the ring buffer from which bytes are to be removed\&. 
+.br
+\fIulNumBytes\fP is the number of bytes to be removed from the buffer\&.
+.RE
+.PP
+This function advances the ring buffer read index by a given number of bytes, removing that number of bytes of data from the buffer\&. If \fIulNumBytes\fP is larger than the number of bytes currently in the buffer, the buffer is emptied\&.
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 487 of file ringbuf\&.c\&.
+.SS "void RingBufAdvanceWrite (\fBtRingBufObject\fP *ptRingBuf, unsigned longulNumBytes)"
+Add bytes to the ring buffer by advancing the write index\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIptRingBuf\fP points to the ring buffer to which bytes have been added\&. 
+.br
+\fIulNumBytes\fP is the number of bytes added to the buffer\&.
+.RE
+.PP
+This function should be used by clients who wish to add data to the buffer directly rather than via calls to \fBRingBufWrite()\fP or \fBRingBufWriteOne()\fP\&. It advances the write index by a given number of bytes\&. If the \fIulNumBytes\fP parameter is larger than the amount of free space in the buffer, the read pointer will be advanced to cater for the addition\&. Note that this will result in some of the oldest data in the buffer being discarded\&.
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 529 of file ringbuf\&.c\&.
+.SS "unsigned long RingBufContigFree (\fBtRingBufObject\fP *ptRingBuf)"
+Returns number of contiguous free bytes available in a ring buffer\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIptRingBuf\fP is the ring buffer object to check\&.
+.RE
+.PP
+This function returns the number of contiguous free bytes ahead of the current write pointer in the ring buffer\&.
+.PP
+\fBReturns:\fP
+.RS 4
+Returns the number of contiguous bytes available in the ring buffer\&. 
+.RE
+.PP
+
+.PP
+Definition at line 322 of file ringbuf\&.c\&.
+.SS "unsigned long RingBufContigUsed (\fBtRingBufObject\fP *ptRingBuf)"
+Returns number of contiguous bytes of data stored in ring buffer ahead of the current read pointer\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIptRingBuf\fP is the ring buffer object to check\&.
+.RE
+.PP
+This function returns the number of contiguous bytes of data available in the ring buffer ahead of the current read pointer\&. This represents the largest block of data which does not straddle the buffer wrap\&.
+.PP
+\fBReturns:\fP
+.RS 4
+Returns the number of contiguous bytes available\&. 
+.RE
+.PP
+
+.PP
+Definition at line 285 of file ringbuf\&.c\&.
+.SS "tBoolean RingBufEmpty (\fBtRingBufObject\fP *ptRingBuf)"
+Determines whether the ring buffer whose pointers and size are provided is empty or not\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIptRingBuf\fP is the ring buffer object to empty\&.
+.RE
+.PP
+This function is used to determine whether or not a given ring buffer is empty\&. The structure is specifically to ensure that we do not see warnings from the compiler related to the order of volatile accesses being undefined\&.
+.PP
+\fBReturns:\fP
+.RS 4
+Returns \fBtrue\fP if the buffer is empty or \fBfalse\fP otherwise\&. 
+.RE
+.PP
+
+.PP
+Definition at line 152 of file ringbuf\&.c\&.
+.SS "void RingBufFlush (\fBtRingBufObject\fP *ptRingBuf)"
+Empties the ring buffer\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIptRingBuf\fP is the ring buffer object to empty\&.
+.RE
+.PP
+Discards all data from the ring buffer\&.
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 186 of file ringbuf\&.c\&.
+.SS "unsigned long RingBufFree (\fBtRingBufObject\fP *ptRingBuf)"
+Returns number of bytes available in a ring buffer\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIptRingBuf\fP is the ring buffer object to check\&.
+.RE
+.PP
+This function returns the number of bytes available in the ring buffer\&.
+.PP
+\fBReturns:\fP
+.RS 4
+Returns the number of bytes available in the ring buffer\&. 
+.RE
+.PP
+
+.PP
+Definition at line 257 of file ringbuf\&.c\&.
+.SS "tBoolean RingBufFull (\fBtRingBufObject\fP *ptRingBuf)"
+Determines whether the ring buffer whose pointers and size are provided is full or not\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIptRingBuf\fP is the ring buffer object to empty\&.
+.RE
+.PP
+This function is used to determine whether or not a given ring buffer is full\&. The structure is specifically to ensure that we do not see warnings from the compiler related to the order of volatile accesses being undefined\&.
+.PP
+\fBReturns:\fP
+.RS 4
+Returns \fBtrue\fP if the buffer is full or \fBfalse\fP otherwise\&. 
+.RE
+.PP
+
+.PP
+Definition at line 114 of file ringbuf\&.c\&.
+.SS "void RingBufInit (\fBtRingBufObject\fP *ptRingBuf, unsigned char *pucBuf, unsigned longulSize)"
+Initialize a ring buffer object\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIptRingBuf\fP points to the ring buffer to be initialized\&. 
+.br
+\fIpucBuf\fP points to the data buffer to be used for the ring buffer\&. 
+.br
+\fIulSize\fP is the size of the buffer in bytes\&.
+.RE
+.PP
+This function initializes a ring buffer object, preparing it to store data\&.
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 692 of file ringbuf\&.c\&.
+.SS "void RingBufRead (\fBtRingBufObject\fP *ptRingBuf, unsigned char *pucData, unsigned longulLength)"
+Reads data from a ring buffer\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIptRingBuf\fP points to the ring buffer to be read from\&. 
+.br
+\fIpucData\fP points to where the data should be stored\&. 
+.br
+\fIulLength\fP is the number of bytes to be read\&.
+.RE
+.PP
+This function reads a sequence of bytes from a ring buffer\&.
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 444 of file ringbuf\&.c\&.
+.SS "unsigned char RingBufReadOne (\fBtRingBufObject\fP *ptRingBuf)"
+Reads a single byte of data from a ring buffer\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIptRingBuf\fP points to the ring buffer to be written to\&.
+.RE
+.PP
+This function reads a single byte of data from a ring buffer\&.
+.PP
+\fBReturns:\fP
+.RS 4
+The byte read from the ring buffer\&. 
+.RE
+.PP
+
+.PP
+Definition at line 400 of file ringbuf\&.c\&.
+.SS "unsigned long RingBufSize (\fBtRingBufObject\fP *ptRingBuf)"
+Return size in bytes of a ring buffer\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIptRingBuf\fP is the ring buffer object to check\&.
+.RE
+.PP
+This function returns the size of the ring buffer\&.
+.PP
+\fBReturns:\fP
+.RS 4
+Returns the size in bytes of the ring buffer\&. 
+.RE
+.PP
+
+.PP
+Definition at line 375 of file ringbuf\&.c\&.
+.SS "unsigned long RingBufUsed (\fBtRingBufObject\fP *ptRingBuf)"
+Returns number of bytes stored in ring buffer\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIptRingBuf\fP is the ring buffer object to check\&.
+.RE
+.PP
+This function returns the number of bytes stored in the ring buffer\&.
+.PP
+\fBReturns:\fP
+.RS 4
+Returns the number of bytes stored in the ring buffer\&. 
+.RE
+.PP
+
+.PP
+Definition at line 222 of file ringbuf\&.c\&.
+.SS "void RingBufWrite (\fBtRingBufObject\fP *ptRingBuf, unsigned char *pucData, unsigned longulLength)"
+Writes data to a ring buffer\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIptRingBuf\fP points to the ring buffer to be written to\&. 
+.br
+\fIpucData\fP points to the data to be written\&. 
+.br
+\fIulLength\fP is the number of bytes to be written\&.
+.RE
+.PP
+This function write a sequence of bytes into a ring buffer\&.
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 652 of file ringbuf\&.c\&.
+.SS "void RingBufWriteOne (\fBtRingBufObject\fP *ptRingBuf, unsigned charucData)"
+Writes a single byte of data to a ring buffer\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIptRingBuf\fP points to the ring buffer to be written to\&. 
+.br
+\fIucData\fP is the byte to be written\&.
+.RE
+.PP
+This function writes a single byte of data into a ring buffer\&.
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 615 of file ringbuf\&.c\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Lab TD from the source code\&.

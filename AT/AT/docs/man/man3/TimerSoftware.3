@@ -1,0 +1,442 @@
+.TH "TimerSoftware" 3 "Mon Nov 12 2018" "Lab TD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+TimerSoftware \- 
+.PP
+Timer software library\&.  
+
+.SS "Modules"
+
+.in +1c
+.ti -1c
+.RI "\fBTimerSoftwareHAL\fP"
+.br
+.RI "\fITimer software library hardware abstraction layer\&. \fP"
+.in -1c
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fBSOFTWARE_TIMER\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBVALIDATE_TIMER\fP(timer_id)   (\fBtimers\fP[timer_id]\&.TimerControl |= 1)"
+.br
+.ti -1c
+.RI "#define \fBINVALIDATE_TIMER\fP(timer_id)   (\fBtimers\fP[timer_id]\&.TimerControl &= ~1)"
+.br
+.ti -1c
+.RI "#define \fBTIMER_IS_VALID\fP(timer_id)   ( (\fBtimers\fP[timer_id]\&.TimerControl & 1) ? 1 : 0)"
+.br
+.ti -1c
+.RI "#define \fBTIMER_ENABLE\fP(timer_id)   (\fBtimers\fP[timer_id]\&.TimerControl |= 2)"
+.br
+.ti -1c
+.RI "#define \fBTIMER_DISABLE\fP(timer_id)   (\fBtimers\fP[timer_id]\&.TimerControl &= ~2)"
+.br
+.ti -1c
+.RI "#define \fBTIMER_IS_ENABLED\fP(timer_id)   ( (\fBtimers\fP[timer_id]\&.TimerControl & 2) ? 1 : 0)"
+.br
+.ti -1c
+.RI "#define \fBTIMER_SET_MODE_0\fP(timer_id)   (\fBtimers\fP[timer_id]\&.TimerControl &= ~0x0C)"
+.br
+.ti -1c
+.RI "#define \fBTIMER_SET_MODE_1\fP(timer_id)   (\fBtimers\fP[timer_id]\&.TimerControl = ((\fBtimers\fP[timer_id]\&.TimerControl & (~(1 << 3))) | (1 << 2)))"
+.br
+.ti -1c
+.RI "#define \fBTIMER_SET_MODE_2\fP(timer_id)   (\fBtimers\fP[timer_id]\&.TimerControl = ((\fBtimers\fP[timer_id]\&.TimerControl & (~(1 << 2))) | (1 << 3)))"
+.br
+.ti -1c
+.RI "#define \fBTIMER_SET_MODE_3\fP(timer_id)   (\fBtimers\fP[timer_id]\&.TimerControl |= ((1 << 2) | (1 << 3)))"
+.br
+.ti -1c
+.RI "#define \fBTIMER_GET_MODE\fP(timer_id)   ((\fBtimers\fP[timer_id]\&.TimerControl >> 2) & 0x03)"
+.br
+.ti -1c
+.RI "#define \fBTIMER_SET_PERIOD\fP(timer_id, period)   (\fBtimers\fP[ timer_id ]\&.TimerPeriod = period)"
+.br
+.ti -1c
+.RI "#define \fBTIMER_GET_PERIOD\fP(timer_id)   (\fBtimers\fP[ timer_id ]\&.TimerPeriod)"
+.br
+.ti -1c
+.RI "#define \fBTIMER_GET_COUNTER\fP(timer_id)   (\fBtimers\fP[ timer_id ]\&.TimerCounter)"
+.br
+.ti -1c
+.RI "#define \fBTIMER_SET_COUNTER\fP(timer_id, counter)   (\fBtimers\fP[ timer_id ]\&.TimerCounter = counter)"
+.br
+.ti -1c
+.RI "#define \fBTIMER_RESET\fP(timer_id)   (\fBtimers\fP[ timer_id ]\&.TimerCounter = 0)"
+.br
+.ti -1c
+.RI "#define \fBTIMER_SET_RUNNING_FLAG\fP(timer_id)   (\fBtimers\fP[timer_id]\&.TimerStatus |= 1)"
+.br
+.ti -1c
+.RI "#define \fBTIMER_CLR_RUNNING_FLAG\fP(timer_id)   (\fBtimers\fP[timer_id]\&.TimerStatus &= ~1)"
+.br
+.ti -1c
+.RI "#define \fBTIMER_IS_RUNNING\fP(timer_id)   ( (\fBtimers\fP[timer_id]\&.TimerStatus & 1) ? 1 : 0)"
+.br
+.ti -1c
+.RI "#define \fBTIMER_SET_ERROR_FLAG\fP(timer_id)   (\fBtimers\fP[timer_id]\&.TimerStatus |= (1 << 1))"
+.br
+.ti -1c
+.RI "#define \fBTIMER_CLR_ERROR_FLAG\fP(timer_id)   (\fBtimers\fP[timer_id]\&.TimerStatus &= ~(1 << 1))"
+.br
+.ti -1c
+.RI "#define \fBTIMER_IS_IN_ERROR_STATE\fP(timer_id)   ( (\fBtimers\fP[timer_id]\&.TimerStatus & (1 << 1)) ? 1 : 0)"
+.br
+.ti -1c
+.RI "#define \fBTIMER_SET_INTERRUPT_FLAG\fP(timer_id)   (\fBtimers\fP[timer_id]\&.TimerStatus |= (1 << 2))"
+.br
+.ti -1c
+.RI "#define \fBTIMER_CLR_INTERRUPT_FLAG\fP(timer_id)   (\fBtimers\fP[timer_id]\&.TimerStatus &= ~(1 << 2))"
+.br
+.ti -1c
+.RI "#define \fBTIMER_INTERRUPT_PENDING\fP(timer_id)   ( (\fBtimers\fP[timer_id]\&.TimerStatus & (1 << 2)) ? 1 : 0)"
+.br
+.ti -1c
+.RI "#define \fBTIMER_SET_OVERFLOW_FLAG\fP(timer_id)   (\fBtimers\fP[timer_id]\&.TimerStatus |= (1 << 3))"
+.br
+.ti -1c
+.RI "#define \fBTIMER_CLR_OVERFLOW_FLAG\fP(timer_id)   (\fBtimers\fP[timer_id]\&.TimerStatus &= ~(1 << 3))"
+.br
+.ti -1c
+.RI "#define \fBTIMER_IS_OVERFLOW\fP(timer_id)   ( (\fBtimers\fP[timer_id]\&.TimerStatus & (1 << 3)) ? 1 : 0)"
+.br
+.ti -1c
+.RI "#define \fBSW_TIMER_PERIOD\fP   1000"
+.br
+.ti -1c
+.RI "#define \fBMAX_NR_TIMERS\fP   16"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef int16_t \fBtimer_software_handler_t\fP"
+.br
+.ti -1c
+.RI "typedef void(* \fBTIMER_SOFTWARE_Callback\fP )(\fBtimer_software_handler_t\fP)"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBSOFTWARE_TIMER_MODE\fP { \fBMODE_0\fP, \fBMODE_1\fP, \fBMODE_2\fP, \fBMODE_3\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBTIMER_SOFTWARE_ModX\fP ()"
+.br
+.ti -1c
+.RI "void \fBTIMER_SOFTWARE_init\fP ()"
+.br
+.ti -1c
+.RI "uint8_t \fBTIMER_SOFTWARE_release_timer\fP (\fBtimer_software_handler_t\fP timer_handler)"
+.br
+.ti -1c
+.RI "\fBtimer_software_handler_t\fP \fBTIMER_SOFTWARE_request_timer\fP ()"
+.br
+.ti -1c
+.RI "int8_t \fBTIMER_SOFTWARE_configure_timer\fP (\fBtimer_software_handler_t\fP timer_handler, \fBSOFTWARE_TIMER_MODE\fP timer_mode, uint32_t period, uint8_t enable)"
+.br
+.ti -1c
+.RI "int8_t \fBTIMER_SOFTWARE_enable_timer\fP (\fBtimer_software_handler_t\fP timer_handler)"
+.br
+.ti -1c
+.RI "int8_t \fBTIMER_SOFTWARE_disable_timer\fP (\fBtimer_software_handler_t\fP timer_handler)"
+.br
+.ti -1c
+.RI "int8_t \fBTIMER_SOFTWARE_start_timer\fP (\fBtimer_software_handler_t\fP timer_handler)"
+.br
+.ti -1c
+.RI "int8_t \fBTIMER_SOFTWARE_stop_timer\fP (\fBtimer_software_handler_t\fP timer_handler)"
+.br
+.ti -1c
+.RI "int8_t \fBTIMER_SOFTWARE_set_callback\fP (\fBtimer_software_handler_t\fP timer_handler, \fBTIMER_SOFTWARE_Callback\fP callback)"
+.br
+.ti -1c
+.RI "void \fBTIMER_SOFTWARE_Wait\fP (uint32_t time)"
+.br
+.ti -1c
+.RI "void \fBTIMER_SOFTWARE_reset_timer\fP (\fBtimer_software_handler_t\fP timer_handler)"
+.br
+.ti -1c
+.RI "uint8_t \fBTIMER_SOFTWARE_interrupt_pending\fP (\fBtimer_software_handler_t\fP timer_handler)"
+.br
+.ti -1c
+.RI "void \fBTIMER_SOFTWARE_clear_interrupt\fP (\fBtimer_software_handler_t\fP timer_handler)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "volatile \fBSOFTWARE_TIMER\fP \fBtimers\fP [\fBMAX_NR_TIMERS\fP]"
+.br
+.RI "\fIThe software timers structures\&. \fP"
+.ti -1c
+.RI "\fBtimer_software_handler_t\fP \fBwait_timer\fP"
+.br
+.RI "\fIDefines a software timer needed for a the function\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Timer software library\&. 
+
+Contains a library that implements a software timer module 
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define MAX_NR_TIMERS   16"
+Maximum available timers 
+.PP
+Definition at line 25 of file timer_software\&.h\&.
+.SH "Typedef Documentation"
+.PP 
+.SS "TIMER_SOFTWARE_Callback"
+Defines the callback function type 
+.PP
+Definition at line 51 of file timer_software\&.h\&.
+.SS "\fBtimer_software_handler_t\fP"
+Defines the software timer handler type 
+.PP
+Definition at line 44 of file timer_software\&.h\&.
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBSOFTWARE_TIMER_MODE\fP"
+Defines the software timers possible operating modes 
+.PP
+Definition at line 31 of file timer_software\&.h\&.
+.SH "Function Documentation"
+.PP 
+.SS "void TIMER_SOFTWARE_clear_interrupt (\fBtimer_software_handler_t\fPtimer_handler)"
+Clears a pending software timer interrupt
+.PP
+\fBParameters:\fP
+.RS 4
+\fItimer_handler\fP The handler of the software timer\&. The handler needs to be obtained with \fBTIMER_SOFTWARE_request_timer\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fB-1\fP for error 
+.PP
+\fB0\fP for success 
+.RE
+.PP
+
+.PP
+Definition at line 466 of file timer_software\&.c\&.
+.SS "int8_t TIMER_SOFTWARE_configure_timer (\fBtimer_software_handler_t\fPtimer_handler, \fBSOFTWARE_TIMER_MODE\fPtimer_mode, uint32_tperiod, uint8_tenable)"
+Configure a software timer
+.PP
+\fBParameters:\fP
+.RS 4
+\fItimer_handler\fP The handler of the software timer to configure\&. The handler needs to be obtained with \fBTIMER_SOFTWARE_request_timer\fP 
+.br
+\fItimer_mode\fP The operating mode of the software timer\&. See \fBSOFTWARE_TIMER_MODE\fP 
+.br
+\fIperiod\fP The period of the software timer 
+.br
+\fIenable\fP Designates if the software timer should be automatically enabled (not started) after configuration 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fB-1\fP for error 
+.PP
+\fB0\fP for success 
+.RE
+.PP
+
+.PP
+Definition at line 238 of file timer_software\&.c\&.
+.SS "int8_t TIMER_SOFTWARE_disable_timer (\fBtimer_software_handler_t\fPtimer_handler)"
+Disables a software timer
+.PP
+\fBParameters:\fP
+.RS 4
+\fItimer_handler\fP The handler of the software timer\&. The handler needs to be obtained with \fBTIMER_SOFTWARE_request_timer\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fB-1\fP for error 
+.PP
+\fB0\fP for success 
+.RE
+.PP
+
+.PP
+Definition at line 334 of file timer_software\&.c\&.
+.SS "int8_t TIMER_SOFTWARE_enable_timer (\fBtimer_software_handler_t\fPtimer_handler)"
+Enables a software timer
+.PP
+\fBParameters:\fP
+.RS 4
+\fItimer_handler\fP The handler of the software timer\&. The handler needs to be obtained with \fBTIMER_SOFTWARE_request_timer\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fB-1\fP for error 
+.PP
+\fB0\fP for success 
+.RE
+.PP
+
+.PP
+Definition at line 309 of file timer_software\&.c\&.
+.SS "void TIMER_SOFTWARE_init ()\fC [private]\fP"
+Initializes the software timer structure\&. This function is called by \fBTIMER_SOFTWARE_init_system\fP 
+.PP
+Definition at line 162 of file timer_software\&.c\&.
+.SS "uint8_t TIMER_SOFTWARE_interrupt_pending (\fBtimer_software_handler_t\fPtimer_handler)"
+Checks if an interrupt is pending for a designated software timer
+.PP
+\fBParameters:\fP
+.RS 4
+\fItimer_handler\fP The handler of the software timer\&. The handler needs to be obtained with \fBTIMER_SOFTWARE_request_timer\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fB0\fP if no interrupt is pending 
+.PP
+\fB>0\fP if an interrupt is pending 
+.RE
+.PP
+
+.PP
+Definition at line 454 of file timer_software\&.c\&.
+.SS "void TIMER_SOFTWARE_ModX ()\fC [private]\fP"
+The software timer internal processing function\&. This is called at a period of 1 ms by a hardware timer 
+.PP
+Definition at line 83 of file timer_software\&.c\&.
+.SS "uint8_t TIMER_SOFTWARE_release_timer (\fBtimer_software_handler_t\fPtimer_handler)"
+Release a previously used software timer
+.PP
+\fBParameters:\fP
+.RS 4
+\fItimer_handler\fP The handler of the software timer 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fB1\fP for error 
+.PP
+\fB0\fP for success 
+.RE
+.PP
+
+.PP
+Definition at line 184 of file timer_software\&.c\&.
+.SS "\fBtimer_software_handler_t\fP TIMER_SOFTWARE_request_timer ()"
+Request a new software timer\&. The returned value is a handler associated to the requested software timer\&. All operations of the requested timer will require this handler
+.PP
+\fBReturns:\fP
+.RS 4
+The handler of the software timer 
+.RE
+.PP
+
+.PP
+Definition at line 203 of file timer_software\&.c\&.
+.SS "void TIMER_SOFTWARE_reset_timer (\fBtimer_software_handler_t\fPtimer_handler)"
+Resets a software timer
+.PP
+\fBParameters:\fP
+.RS 4
+\fItimer_handler\fP The handler of the software timer\&. The handler needs to be obtained with \fBTIMER_SOFTWARE_request_timer\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fB-1\fP for error 
+.PP
+\fB0\fP for success 
+.RE
+.PP
+
+.PP
+Definition at line 442 of file timer_software\&.c\&.
+.SS "int8_t TIMER_SOFTWARE_set_callback (\fBtimer_software_handler_t\fPtimer_handler, \fBTIMER_SOFTWARE_Callback\fPcallback)"
+Sets the callback function of the coresponding software timer\&. This function will be called when a software timer expires
+.PP
+\fBParameters:\fP
+.RS 4
+\fItimer_handler\fP The handler of the software timer\&. The handler needs to be obtained with \fBTIMER_SOFTWARE_request_timer\fP 
+.br
+\fIcallback\fP The pointer to the user function callback 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fB-1\fP for error 
+.PP
+\fB0\fP for success 
+.RE
+.PP
+
+.PP
+Definition at line 403 of file timer_software\&.c\&.
+.SS "int8_t TIMER_SOFTWARE_start_timer (\fBtimer_software_handler_t\fPtimer_handler)"
+Starts a software timer
+.PP
+\fBParameters:\fP
+.RS 4
+\fItimer_handler\fP The handler of the software timer\&. The handler needs to be obtained with \fBTIMER_SOFTWARE_request_timer\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fB-1\fP for error 
+.PP
+\fB0\fP for success 
+.RE
+.PP
+
+.PP
+Definition at line 355 of file timer_software\&.c\&.
+.SS "int8_t TIMER_SOFTWARE_stop_timer (\fBtimer_software_handler_t\fPtimer_handler)"
+Stops a software timer
+.PP
+\fBParameters:\fP
+.RS 4
+\fItimer_handler\fP The handler of the software timer\&. The handler needs to be obtained with \fBTIMER_SOFTWARE_request_timer\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fB-1\fP for error 
+.PP
+\fB0\fP for success 
+.RE
+.PP
+
+.PP
+Definition at line 381 of file timer_software\&.c\&.
+.SS "void TIMER_SOFTWARE_Wait (uint32_ttime)"
+A wait function that freezes execution for an amount of time\&. This function may be used separately of the whole driver\&. No other function calls are needed\&. It uses an internal software timer
+.PP
+\fBParameters:\fP
+.RS 4
+\fItime\fP The amount of time in ms to wait 
+.RE
+.PP
+
+.PP
+Definition at line 422 of file timer_software\&.c\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Lab TD from the source code\&.

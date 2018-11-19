@@ -1,0 +1,440 @@
+.TH "DRV_LCD" 3 "Mon Nov 12 2018" "Lab TD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+DRV_LCD \- 
+.PP
+LCD Driver\&.  
+
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fBLCD_PIXEL\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBGL_FONT_BIG\fP   0x00"
+.br
+.ti -1c
+.RI "#define \fBGL_FONT_SMALL\fP   0x01"
+.br
+.ti -1c
+.RI "#define \fBGL_FONT_BIG_WIDTH\fP   16"
+.br
+.ti -1c
+.RI "#define \fBGL_FONT_BIG_HEIGHT\fP   24"
+.br
+.ti -1c
+.RI "#define \fBGL_FONT_SMALL_WIDTH\fP   8"
+.br
+.ti -1c
+.RI "#define \fBGL_FONT_SMALL_HEIGHT\fP   8"
+.br
+.ti -1c
+.RI "#define \fBLCD_WIDTH\fP   480"
+.br
+.ti -1c
+.RI "#define \fBLCD_HEIGHT\fP   272"
+.br
+.ti -1c
+.RI "#define \fBC_GLCD_REFRESH_FREQ\fP   (50HZ)"
+.br
+.ti -1c
+.RI "#define \fBC_GLCD_H_SIZE\fP   \fBLCD_WIDTH\fP"
+.br
+.ti -1c
+.RI "#define \fBC_GLCD_H_PULSE\fP   45"
+.br
+.ti -1c
+.RI "#define \fBC_GLCD_H_FRONT_PORCH\fP   45"
+.br
+.ti -1c
+.RI "#define \fBC_GLCD_H_BACK_PORCH\fP   45"
+.br
+.ti -1c
+.RI "#define \fBC_GLCD_V_SIZE\fP   \fBLCD_HEIGHT\fP"
+.br
+.ti -1c
+.RI "#define \fBC_GLCD_V_PULSE\fP   16"
+.br
+.ti -1c
+.RI "#define \fBC_GLCD_V_FRONT_PORCH\fP   16"
+.br
+.ti -1c
+.RI "#define \fBC_GLCD_V_BACK_PORCH\fP   16"
+.br
+.ti -1c
+.RI "#define \fBC_GLCD_CLK_PER_LINE\fP   (C_GLCD_H_SIZE + C_GLCD_H_PULSE + C_GLCD_H_FRONT_PORCH + C_GLCD_H_BACK_PORCH)"
+.br
+.ti -1c
+.RI "#define \fBC_GLCD_LINES_PER_FRAME\fP   (C_GLCD_V_SIZE + C_GLCD_V_PULSE + C_GLCD_V_FRONT_PORCH + C_GLCD_V_BACK_PORCH)"
+.br
+.ti -1c
+.RI "#define \fBC_GLCD_PIX_CLK\fP   (6\&.4MHZ)"
+.br
+.ti -1c
+.RI "#define \fBC_GLCD_PWR_ENA_DIS_DLY\fP   10000000"
+.br
+.ti -1c
+.RI "#define \fBC_GLCD_ENA_DIS_DLY\fP   10000000"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBDRV_LCD_Init\fP ()"
+.br
+.ti -1c
+.RI "void \fBDRV_LCD_PowerOn\fP ()"
+.br
+.ti -1c
+.RI "void \fBDRV_LCD_PowerOff\fP ()"
+.br
+.ti -1c
+.RI "void \fBDRV_LCD_TestFillColor\fP (uint8_t red, uint8_t green, uint8_t blue)"
+.br
+.ti -1c
+.RI "void \fBDRV_LCD_PutPixel\fP (uint16_t x, uint16_t y, uint8_t red, uint8_t green, uint8_t blue)"
+.br
+.ti -1c
+.RI "void \fBDRV_LCD_ClrScr\fP ()"
+.br
+.ti -1c
+.RI "void \fBDRV_LCD_DrawChar_Big\fP (uint8_t Xpos, uint16_t Ypos, const uint16_t *c, \fBLCD_PIXEL\fP TextColor, \fBLCD_PIXEL\fP BackgroundTextColor)"
+.br
+.ti -1c
+.RI "void \fBDRV_LCD_DrawChar_Small\fP (uint8_t Xpos, uint16_t Ypos, const uint16_t *c, \fBLCD_PIXEL\fP TextColor, \fBLCD_PIXEL\fP BackgroundTextColor)"
+.br
+.ti -1c
+.RI "void \fBDRV_LCD_DisplayCharSmall\fP (uint16_t Line, uint16_t Column, uint8_t Ascii, \fBLCD_PIXEL\fP TextColor, \fBLCD_PIXEL\fP BackgroundTextColor)"
+.br
+.ti -1c
+.RI "void \fBDRV_LCD_DisplayChar\fP (uint16_t Line, uint16_t Column, uint8_t Ascii, \fBLCD_PIXEL\fP TextColor, \fBLCD_PIXEL\fP BackgroundTextColor)"
+.br
+.ti -1c
+.RI "void \fBDRV_LCD_Puts_Small\fP (char *string, uint16_t x, uint16_t y, \fBLCD_PIXEL\fP TextColor, \fBLCD_PIXEL\fP BackgroundTextColor)"
+.br
+.ti -1c
+.RI "void \fBDRV_LCD_Puts_Big\fP (char *string, uint16_t x, uint16_t y, \fBLCD_PIXEL\fP TextColor, \fBLCD_PIXEL\fP BackgroundTextColor)"
+.br
+.ti -1c
+.RI "void \fBDRV_LCD_Puts\fP (char *string, uint16_t x, uint16_t y, \fBLCD_PIXEL\fP TextColor, \fBLCD_PIXEL\fP BackgroundTextColor, \fBBOOLEAN\fP big)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBLCD_PIXEL\fP \fBLCD_Frame_Buffer\fP [\fBLCD_WIDTH\fP *\fBLCD_HEIGHT\fP]"
+.br
+.RI "\fIThe LCD Frame Buffer\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+LCD Driver\&. 
+
+Contains the driver for the LCD on the Olimex board The LCD on the Olimex Board is a RGB LCD, resolution 480x272\&. Before using any functions from this module, a call of DRV_LCD_Init must be performed 
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define LCD_HEIGHT   272"
+LCD vertical size 
+.PP
+Definition at line 32 of file drv_lcd\&.h\&.
+.SS "#define LCD_WIDTH   480"
+LCD horizontal size 
+.PP
+Definition at line 27 of file drv_lcd\&.h\&.
+.SH "Function Documentation"
+.PP 
+.SS "void DRV_LCD_ClrScr (void)"
+Clear screen
+.PP
+This function is used to clear the screen\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 210 of file drv_lcd\&.c\&.
+.SS "void DRV_LCD_DisplayChar (uint16_tLine, uint16_tColumn, uint8_tAscii, \fBLCD_PIXEL\fPTextColor, \fBLCD_PIXEL\fPBackgroundTextColor)"
+Print a character using a small font
+.PP
+This function is used to print a character on the screen using a small font of the specified color at the desired coordinates\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fILine\fP x coordinate (x < LCD_HEIGHT) 
+.br
+\fIColumn\fP y coordinate (y < LCD_WIDTH) 
+.br
+\fIAscii\fP The character to be printed 
+.br
+\fITextColor\fP The color of the character 
+.br
+\fIBackgroundTextColor\fP The color of the background of the character 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 397 of file drv_lcd\&.c\&.
+.SS "void DRV_LCD_DisplayCharSmall (uint16_tLine, uint16_tColumn, uint8_tAscii, \fBLCD_PIXEL\fPTextColor, \fBLCD_PIXEL\fPBackgroundTextColor)"
+Print a character using a small font
+.PP
+This function is used to print a character on the screen using a small font of the specified color at the desired coordinates\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fILine\fP x coordinate (x < LCD_HEIGHT) 
+.br
+\fIColumn\fP y coordinate (y < LCD_WIDTH) 
+.br
+\fIAscii\fP The character to be printed 
+.br
+\fITextColor\fP The color of the character 
+.br
+\fIBackgroundTextColor\fP The color of the background of the character 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 380 of file drv_lcd\&.c\&.
+.SS "void DRV_LCD_DrawChar_Big (uint8_tXpos, uint16_tYpos, const uint16_t *c, \fBLCD_PIXEL\fPTextColor, \fBLCD_PIXEL\fPBackgroundTextColor)\fC [private]\fP"
+Draw a character mapping using a big font
+.PP
+This function is used to draw a character mapping on the screen using a big font of the specified color at the desired coordinates\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIXpos\fP x coordinate (x < LCD_HEIGHT) 
+.br
+\fIYpos\fP y coordinate (y < LCD_WIDTH) 
+.br
+\fIc\fP A pointer to the location of the character font mapping 
+.br
+\fITextColor\fP The color of the character 
+.br
+\fIBackgroundTextColor\fP The color of the background of the character 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 234 of file drv_lcd\&.c\&.
+.SS "void DRV_LCD_DrawChar_Small (uint8_tXpos, uint16_tYpos, const uint16_t *c, \fBLCD_PIXEL\fPTextColor, \fBLCD_PIXEL\fPBackgroundTextColor)\fC [private]\fP"
+Draw a character mapping using a small font
+.PP
+This function is used to draw a character mapping on the screen using a small font of the specified color at the desired coordinates\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIXpos\fP x coordinate (x < LCD_HEIGHT) 
+.br
+\fIYpos\fP y coordinate (y < LCD_WIDTH) 
+.br
+\fIc\fP A pointer to the location of the character font mapping 
+.br
+\fITextColor\fP The color of the character 
+.br
+\fIBackgroundTextColor\fP The color of the background of the character 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 308 of file drv_lcd\&.c\&.
+.SS "void DRV_LCD_Init (void)"
+Initialize the LCD Controller
+.PP
+This function is used to initialize the LCD controller of the processor to use the LCD on the board The frame buffer for the LCD is stored on the external RAM memory 
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 55 of file drv_lcd\&.c\&.
+.SS "void DRV_LCD_PowerOff (void)\fC [private]\fP"
+Power off the LCD
+.PP
+This function is used to power off the LCD 
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 153 of file drv_lcd\&.c\&.
+.SS "void DRV_LCD_PowerOn (void)\fC [private]\fP"
+Power on the LCD
+.PP
+This function is used to power on the LCD 
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 138 of file drv_lcd\&.c\&.
+.SS "void DRV_LCD_PutPixel (uint16_tx, uint16_ty, uint8_tred, uint8_tgreen, uint8_tblue)"
+Draw pixel
+.PP
+This function is used to draw a pixel at the specified coordinates of a given color 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIx\fP x coordinate (x < LCD_HEIGHT) 
+.br
+\fIy\fP y coordinate (y < LCD_WIDTH) 
+.br
+\fIred\fP The red component of the color 
+.br
+\fIgreen\fP The green component of the color 
+.br
+\fIblue\fP The blue component of the color 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 196 of file drv_lcd\&.c\&.
+.SS "void DRV_LCD_Puts (char *string, uint16_tx, uint16_ty, \fBLCD_PIXEL\fPTextColor, \fBLCD_PIXEL\fPBackgroundTextColor, \fBBOOLEAN\fPbig)"
+Print a zero terminated string using a big or small font
+.PP
+This function is used to print a zero terminated string on the screen using a big or small font of the specified color at the desired coordinates\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIstring\fP The zero terminated string that will be printed 
+.br
+\fIx\fP x coordinate (x < LCD_HEIGHT) 
+.br
+\fIy\fP y coordinate (y < LCD_WIDTH) 
+.br
+\fITextColor\fP The color of the characters of the string 
+.br
+\fIBackgroundTextColor\fP The color of the background of the characters of the string 
+.br
+\fIbig\fP A boolean specifing whether the font will be small if parameter value is \fBfalse\fP or big if the parameter value is \fBtrue\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 464 of file drv_lcd\&.c\&.
+.SS "void DRV_LCD_Puts_Big (char *string, uint16_tx, uint16_ty, \fBLCD_PIXEL\fPTextColor, \fBLCD_PIXEL\fPBackgroundTextColor)"
+Print a zero terminated string using a big font
+.PP
+This function is used to print a zero terminated string on the screen using a big font of the specified color at the desired coordinates\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIstring\fP The zero terminated string that will be printed 
+.br
+\fIx\fP x coordinate (x < LCD_HEIGHT) 
+.br
+\fIy\fP y coordinate (y < LCD_WIDTH) 
+.br
+\fITextColor\fP The color of the characters of the string 
+.br
+\fIBackgroundTextColor\fP The color of the background of the characters of the string 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 439 of file drv_lcd\&.c\&.
+.SS "void DRV_LCD_Puts_Small (char *string, uint16_tx, uint16_ty, \fBLCD_PIXEL\fPTextColor, \fBLCD_PIXEL\fPBackgroundTextColor)"
+Print a zero terminated string using a small font
+.PP
+This function is used to print a zero terminated string on the screen using a small font of the specified color at the desired coordinates\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIstring\fP The zero terminated string that will be printed 
+.br
+\fIx\fP x coordinate (x < LCD_HEIGHT) 
+.br
+\fIy\fP y coordinate (y < LCD_WIDTH) 
+.br
+\fITextColor\fP The color of the characters of the string 
+.br
+\fIBackgroundTextColor\fP The color of the background of the characters of the string 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 415 of file drv_lcd\&.c\&.
+.SS "void DRV_LCD_TestFillColor (uint8_tred, uint8_tgreen, uint8_tblue)"
+Fill the LCD
+.PP
+This function is used to fill the whole LCD with a given color 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIred\fP The red component of the color 
+.br
+\fIgreen\fP The green component of the color 
+.br
+\fIblue\fP The blue component of the color 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 170 of file drv_lcd\&.c\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Lab TD from the source code\&.

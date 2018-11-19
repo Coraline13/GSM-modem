@@ -1,0 +1,118 @@
+.TH "code/utils/timer_software.h" 3 "Mon Nov 12 2018" "Lab TD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+code/utils/timer_software.h \- 
+.PP
+Timer software library\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdint\&.h>\fP
+.br
+
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fBSOFTWARE_TIMER\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBSW_TIMER_PERIOD\fP   1000"
+.br
+.ti -1c
+.RI "#define \fBMAX_NR_TIMERS\fP   16"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef int16_t \fBtimer_software_handler_t\fP"
+.br
+.ti -1c
+.RI "typedef void(* \fBTIMER_SOFTWARE_Callback\fP )(\fBtimer_software_handler_t\fP)"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBSOFTWARE_TIMER_MODE\fP { \fBMODE_0\fP, \fBMODE_1\fP, \fBMODE_2\fP, \fBMODE_3\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBTIMER_SOFTWARE_ModX\fP ()"
+.br
+.ti -1c
+.RI "void \fBTIMER_SOFTWARE_init\fP ()"
+.br
+.ti -1c
+.RI "uint8_t \fBTIMER_SOFTWARE_release_timer\fP (\fBtimer_software_handler_t\fP timer_handler)"
+.br
+.ti -1c
+.RI "\fBtimer_software_handler_t\fP \fBTIMER_SOFTWARE_request_timer\fP ()"
+.br
+.ti -1c
+.RI "int8_t \fBTIMER_SOFTWARE_configure_timer\fP (\fBtimer_software_handler_t\fP timer_handler, \fBSOFTWARE_TIMER_MODE\fP timer_mode, uint32_t period, uint8_t enable)"
+.br
+.ti -1c
+.RI "int8_t \fBTIMER_SOFTWARE_enable_timer\fP (\fBtimer_software_handler_t\fP timer_handler)"
+.br
+.ti -1c
+.RI "int8_t \fBTIMER_SOFTWARE_disable_timer\fP (\fBtimer_software_handler_t\fP timer_handler)"
+.br
+.ti -1c
+.RI "int8_t \fBTIMER_SOFTWARE_start_timer\fP (\fBtimer_software_handler_t\fP timer_handler)"
+.br
+.ti -1c
+.RI "int8_t \fBTIMER_SOFTWARE_stop_timer\fP (\fBtimer_software_handler_t\fP timer_handler)"
+.br
+.ti -1c
+.RI "int8_t \fBTIMER_SOFTWARE_set_callback\fP (\fBtimer_software_handler_t\fP timer_handler, \fBTIMER_SOFTWARE_Callback\fP callback)"
+.br
+.ti -1c
+.RI "void \fBTIMER_SOFTWARE_Wait\fP (uint32_t time)"
+.br
+.ti -1c
+.RI "void \fBTIMER_SOFTWARE_reset_timer\fP (\fBtimer_software_handler_t\fP timer_handler)"
+.br
+.ti -1c
+.RI "uint8_t \fBTIMER_SOFTWARE_interrupt_pending\fP (\fBtimer_software_handler_t\fP timer_handler)"
+.br
+.ti -1c
+.RI "void \fBTIMER_SOFTWARE_clear_interrupt\fP (\fBtimer_software_handler_t\fP timer_handler)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Timer software library\&. 
+
+Timer software library hardware abstraction layer\&.
+.PP
+\fBAuthor:\fP
+.RS 4
+Valentin STANGACIU, DSPLabs
+.RE
+.PP
+Contains a library that implements a software timer module
+.PP
+\fBAuthor:\fP
+.RS 4
+Valentin STANGACIU, DSPLabs
+.RE
+.PP
+Contains the hardware abstraction layer for the software timer 
+.PP
+Definition in file \fBtimer_software\&.h\fP\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Lab TD from the source code\&.

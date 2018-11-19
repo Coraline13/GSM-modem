@@ -1,0 +1,65 @@
+
+UART_BAUDRATE_VALUE_DIV_MUL	 DRV_GENERAL_CalculateBaudrateDivMul(uint32_t PeripheralClock, uint32_t baudrate, uint8_t sampling)
+{
+	UART_BAUDRATE_VALUE_DIV_MUL result = {0,0,0,0};
+    uint32_t uClk=0;
+    uint32_t calcBaudrate = 0;
+    uint32_t temp = 0;
+
+    uint32_t mulFracDiv, dividerAddFracDiv;
+    uint32_t diviser = 0 ;
+    uint32_t mulFracDivOptimal = 1;
+    uint32_t dividerAddOptimal = 0;
+    uint32_t diviserOptimal = 0;
+
+    uint32_t relativeError = 0;
+    uint32_t relativeOptimalError = 100000;
+
+	uClk = PeripheralClock;
+    uClk = uClk >> 4; /* div by 16 */
+    /* In the Uart IP block, baud rate is calculated using FDR and DLL-DLM registers
+    * The formula is :
+    * BaudRate= uClk * (mulFracDiv/(mulFracDiv+dividerAddFracDiv) / (16 * (DLL)
+    * It involves floating point calculations. That's the reason the formulae are adjusted with
+    * Multiply and divide method.*/
+    /* The value of mulFracDiv and dividerAddFracDiv should comply to the following expressions:
+    * 0 < mulFracDiv <= 15, 0 <= dividerAddFracDiv <= 15 */
+    for (mulFracDiv = 1 ; mulFracDiv <= 15 ;mulFracDiv++)
+    {
+    for (dividerAddFracDiv = 0 ; dividerAddFracDiv <= 15 ;dividerAddFracDiv++)
+    {
+      temp = (mulFracDiv * uClk) / ((mulFracDiv + dividerAddFracDiv));
+
+      diviser = temp / baudrate;
+      if ((temp % baudrate) > (baudrate / 2))
+        diviser++;
+
+      if (diviser > 2 && diviser < 65536)
+      {
+        calcBaudrate = temp / diviser;
+
+        if (calcBaudrate <= baudrate)
+          relativeError = baudrate - calcBaudrate;
+        else
+          relativeError = calcBaudrate - baudrate;
+
+        if ((relativeError < relativeOptimalError))
+        {
+          mulFracDivOptimal = mulFracDiv ;
+          dividerAddOptimal = dividerAddFracDiv;
+          diviserOptimal = diviser;
+          relativeOptimalError = relativeError;
+          if (relativeError == 0)
+            break;
+        }
+      } /* End of if */
+    } /* end of inner for loop */
+    if (relativeError == 0)
+      break;
+    } /* end of outer for loop  */
+	result.DLM = UART_LOAD_DLM(diviserOptimal);
+	result.DLL = UART_LOAD_DLL(diviserOptimal);
+	result.dval = dividerAddOptimal;
+	result.mval = mulFracDivOptimal;
+	return result;
+}

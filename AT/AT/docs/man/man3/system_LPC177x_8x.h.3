@@ -1,0 +1,162 @@
+.TH "code/system_LPC177x_8x.h" 3 "Mon Nov 12 2018" "Lab TD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+code/system_LPC177x_8x.h \- 
+.PP
+CMSIS Cortex-M3 Device Peripheral Access Layer Source File for the NXP LPC177x_8x Device Series\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdint\&.h>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBXTAL\fP   (12000000UL)        /* Oscillator frequency               */"
+.br
+.ti -1c
+.RI "#define \fBOSC_CLK\fP   (      XTAL)        /* Main oscillator frequency          */"
+.br
+.ti -1c
+.RI "#define \fBRTC_CLK\fP   (   32768UL)        /* RTC oscillator frequency           */"
+.br
+.ti -1c
+.RI "#define \fBIRC_OSC\fP   (12000000UL)        /* Internal RC oscillator frequency   */"
+.br
+.ti -1c
+.RI "#define \fBWDT_OSC\fP   (  500000UL)		/* Internal WDT oscillator frequency  */"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBSystemInit\fP (void)"
+.br
+.RI "\fISetup the microcontroller system\&. Initialize the System and update the SystemCoreClock variable\&. \fP"
+.ti -1c
+.RI "void \fBSystemCoreClockUpdate\fP (void)"
+.br
+.RI "\fIUpdates the SystemCoreClock with current core Clock retrieved from cpu registers\&. \fP"
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "uint32_t \fBSystemCoreClock\fP"
+.br
+.ti -1c
+.RI "uint32_t \fBPeripheralClock\fP"
+.br
+.ti -1c
+.RI "uint32_t \fBEMCClock\fP"
+.br
+.ti -1c
+.RI "uint32_t \fBUSBClock\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+CMSIS Cortex-M3 Device Peripheral Access Layer Source File for the NXP LPC177x_8x Device Series\&. 
+
+\fBVersion:\fP
+.RS 4
+1\&.0 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+02\&. June\&. 2011 
+.RE
+.PP
+\fBAuthor:\fP
+.RS 4
+NXP MCU SW Application Team
+.RE
+.PP
+Copyright(C) 2011, NXP Semiconductor All rights reserved\&.
+.PP
+Software that is described herein is for illustrative purposes only which provides customers with programming information regarding the products\&. This software is supplied 'AS IS' without any warranties\&. NXP Semiconductors assumes no responsibility or liability for the use of the software, conveys no license or title under any patent, copyright, or mask work right to the product\&. NXP Semiconductors reserves the right to make changes in the software without notification\&. NXP Semiconductors also make no representation or warranty that such application will be suitable for the specified use without further testing or modification\&. 
+.PP
+Definition in file \fBsystem_LPC177x_8x\&.h\fP\&.
+.SH "Function Documentation"
+.PP 
+.SS "void SystemCoreClockUpdate (void)"
+
+.PP
+Updates the SystemCoreClock with current core Clock retrieved from cpu registers\&. Update SystemCoreClock variable
+.PP
+\fBParameters:\fP
+.RS 4
+\fInone\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+none 
+.RE
+.PP
+
+.PP
+Definition at line 369 of file system_LPC177x_8x\&.c\&.
+.SS "void SystemInit (void)"
+
+.PP
+Setup the microcontroller system\&. Initialize the System and update the SystemCoreClock variable\&. Initialize the system
+.PP
+\fBParameters:\fP
+.RS 4
+\fInone\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+none
+.RE
+.PP
+Setup the microcontroller system\&. Initialize the System and update the SystemCoreClock variable\&.
+.PP
+Initialize the system
+.PP
+\fBParameters:\fP
+.RS 4
+\fInone\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+none 
+.RE
+.PP
+
+.PP
+Definition at line 458 of file system_LPC177x_8x\&.c\&.
+.SH "Variable Documentation"
+.PP 
+.SS "uint32_t EMCClock"
+EMC Clock
+.PP
+EMC Clock Frequency 
+.PP
+Definition at line 361 of file system_LPC177x_8x\&.c\&.
+.SS "uint32_t PeripheralClock"
+Peripheral Clock Frequency (Pclk) 
+.PP
+Definition at line 360 of file system_LPC177x_8x\&.c\&.
+.SS "uint32_t SystemCoreClock"
+System Clock Frequency (Core Clock) 
+.PP
+Definition at line 359 of file system_LPC177x_8x\&.c\&.
+.SS "uint32_t USBClock"
+USB Frequency
+.PP
+USB Clock Frequency - this value will be updated after call SystemCoreClockUpdate, should be 48MHz 
+.PP
+Definition at line 362 of file system_LPC177x_8x\&.c\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Lab TD from the source code\&.

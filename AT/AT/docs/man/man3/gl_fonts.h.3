@@ -1,0 +1,87 @@
+.TH "code/drv/gl_fonts.h" 3 "Mon Nov 12 2018" "Lab TD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+code/drv/gl_fonts.h \- 
+.PP
+Header for \fBgl_fonts\&.c\fP\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdint\&.h>\fP
+.br
+
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fBtFont\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBLINE\fP(x)   ((x) * (((sFONT *)LCD_GetFont())->Height))"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef struct \fBtFont\fP \fBgl_sFONT\fP"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBgl_sFONT\fP \fBGL_Font16x24\fP"
+.br
+.RI "\fIexported fonts \fP"
+.ti -1c
+.RI "\fBgl_sFONT\fP \fBGL_Font12x12\fP"
+.br
+.ti -1c
+.RI "\fBgl_sFONT\fP \fBGL_Font8x12\fP"
+.br
+.ti -1c
+.RI "\fBgl_sFONT\fP \fBGL_Font8x12_bold\fP"
+.br
+.ti -1c
+.RI "\fBgl_sFONT\fP \fBGL_Font8x8\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Header for \fBgl_fonts\&.c\fP\&. 
+
+\fBAuthor:\fP
+.RS 4
+MCD Application Team 
+.RE
+.PP
+\fBVersion:\fP
+.RS 4
+V2\&.0\&.0 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+11-July-2011 
+.RE
+.PP
+\fBAttention:\fP
+.RS 4
+.RE
+.PP
+THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE TIME\&. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS\&.
+.PP
+.SS "(C) COPYRIGHT 2011 STMicroelectronics"
+
+.PP
+Definition in file \fBgl_fonts\&.h\fP\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Lab TD from the source code\&.

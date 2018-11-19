@@ -1,0 +1,29 @@
+*** Creating Trace Output File '.\output\test.tra' Ok.
+### Preparing for ADS-LD.
+### Creating ADS-LD Command Line
+### List of Objects: adding '".\output\main.o"'
+### List of Objects: adding '".\output\system_lpc177x_8x.o"'
+### List of Objects: adding '".\output\startup_lpc177x_8x.o"'
+### List of Objects: adding '".\output\retarget.o"'
+### List of Objects: adding '".\output\drv_sdram.o"'
+### List of Objects: adding '".\output\drv_lcd.o"'
+### List of Objects: adding '".\output\drv_uart.o"'
+### List of Objects: adding '".\output\drv_general.o"'
+### List of Objects: adding '".\output\ringbuf.o"'
+### List of Objects: adding '".\output\timer_software.o"'
+### List of Objects: adding '".\output\timer_software_init.o"'
+### ADS-LD Command completed:
+--cpu Cortex-M3 ".\output\main.o" ".\output\system_lpc177x_8x.o" ".\output\startup_lpc177x_8x.o" ".\output\retarget.o" ".\output\drv_sdram.o" ".\output\drv_lcd.o" ".\output\drv_uart.o" ".\output\drv_general.o" ".\output\ringbuf.o" ".\output\timer_software.o" ".\output\timer_software_init.o" --strict --scatter ".\output\test.sct" 
+--summary_stderr --info summarysizes --map --xref --callgraph --symbols 
+--info sizes --info totals --info unused --info veneers 
+ --list ".\list\test.map" -o .\output\test.axf### Preparing Environment (PrepEnvAds)
+### ADS-LD Output File: '.\output\test.axf'
+### ADS-LD Command File: '.\output\test.lnp'
+### Checking for dirty Components...
+### Creating CmdFile '.\output\test.lnp', Handle=0x00000168
+### Writing '.lnp' file
+### ADS-LD Command file '.\output\test.lnp' is ready.
+### ADS-LD: About to start ADS-LD Thread.
+### ADS-LD: executed with 0 errors
+### Updating obj list
+### LDADS_file() completed.

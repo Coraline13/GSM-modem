@@ -1,0 +1,129 @@
+.TH "code/drv/drv_uart.h" 3 "Mon Nov 12 2018" "Lab TD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+code/drv/drv_uart.h \- 
+.PP
+UART Driver\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdint\&.h>\fP
+.br
+\fC#include <utils/ringbuf\&.h>\fP
+.br
+\fC#include <utils/timer_software\&.h>\fP
+.br
+\fC#include 'drv_general\&.h'\fP
+.br
+
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fBUART_MAP\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef void(* \fBUART_TX_CALLBACK\fP )(\fBUART\fP uart, \fBSTATUS\fP status)"
+.br
+.ti -1c
+.RI "typedef void(* \fBUART_RX_CALLBACK\fP )(\fBUART\fP uart, uint32_t size)"
+.br
+.ti -1c
+.RI "typedef \fBBOOLEAN\fP(* \fBUART_RX_TRIGGER\fP )(\fBUART\fP uart, uint8_t byte)"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBUART\fP { \fBUART_0\fP = 0x00, \fBUART_1\fP = 0x01, \fBUART_2\fP = 0x02, \fBUART_3\fP = 0x03, \fBUART_4\fP = 0x04 }"
+.br
+.ti -1c
+.RI "enum \fBUART_PARITY\fP { \fBUART_PARITY_ODD_PARITY\fP = 0x00, \fBUART_PARITY_EVEN_PARITY\fP = 0x01, \fBUART_PARITY_FORCE_0\fP = 0x02, \fBUART_PARITY_FORCE_1\fP = 0x03, \fBUART_PARITY_NO_PARITY\fP = 0x04 }"
+.br
+.ti -1c
+.RI "enum \fBUART_CHARACTER_LENGTH\fP { \fBUART_CHARACTER_LENGTH_5\fP = 0x00, \fBUART_CHARACTER_LENGTH_6\fP = 0x01, \fBUART_CHARACTER_LENGTH_7\fP = 0x02, \fBUART_CHARACTER_LENGTH_8\fP = 0x03 }"
+.br
+.ti -1c
+.RI "enum \fBUART_ERROR_TYPE\fP { \fBUART_ERROR_NO_ERROR\fP, \fBUART_ERROR_READ_TIMEOUT\fP, \fBUART_ERROR_WRITE_TIMEOUT\fP, \fBUART_ERROR_CONFIG_ERROR\fP, \fBUART_ERROR_BUFFER_LIMITS_EXCEEDED\fP, \fBUART_ERROR_BUFFERING_DISABLED\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBDRV_UART_SetTimeout\fP (\fBUART\fP uart, uint32_t read_write_timeout_ms)"
+.br
+.ti -1c
+.RI "uint32_t \fBDRV_UART_GetTimeout\fP (\fBUART\fP uart)"
+.br
+.ti -1c
+.RI "void \fBDRV_UART_Configure\fP (\fBUART\fP uart, \fBUART_CHARACTER_LENGTH\fP charLength, uint32_t baud, \fBUART_PARITY\fP parity, uint8_t stopBits, \fBBOOLEAN\fP buffered, uint32_t read_write_timeout_ms)"
+.br
+.ti -1c
+.RI "\fBSTATUS\fP \fBDRV_UART_SendCharBlocking\fP (\fBUART\fP uart, uint8_t data)"
+.br
+.ti -1c
+.RI "\fBSTATUS\fP \fBDRV_UART_GetCharBlocking\fP (\fBUART\fP uart, uint8_t *dest)"
+.br
+.ti -1c
+.RI "\fBSTATUS\fP \fBDRV_UART_SendByte\fP (\fBUART\fP uart, uint8_t byte)"
+.br
+.ti -1c
+.RI "\fBSTATUS\fP \fBDRV_UART_ReadByte\fP (\fBUART\fP uart, uint8_t *dst)"
+.br
+.ti -1c
+.RI "uint32_t \fBDRV_UART_BytesAvailable\fP (\fBUART\fP uart)"
+.br
+.ti -1c
+.RI "void \fBDRV_UART_SendBufferBlocking\fP (\fBUART\fP uart, uint8_t *buffer, uint16_t size)"
+.br
+.ti -1c
+.RI "\fBUART_ERROR_TYPE\fP \fBDRV_UART_GetErrno\fP (\fBUART\fP uart)"
+.br
+.ti -1c
+.RI "uint32_t \fBDRV_UART_Read\fP (\fBUART\fP uart, uint8_t *dest, uint32_t count)"
+.br
+.ti -1c
+.RI "uint32_t \fBDRV_UART_Write\fP (\fBUART\fP uart, uint8_t *src, uint32_t count)"
+.br
+.ti -1c
+.RI "void \fBDRV_UART_Process\fP ()"
+.br
+.ti -1c
+.RI "\fBSTATUS\fP \fBDRV_UART_SetRxCallback\fP (\fBUART\fP uart_port, \fBUART_RX_CALLBACK\fP callback)"
+.br
+.ti -1c
+.RI "\fBSTATUS\fP \fBDRV_UART_SetTxCallback\fP (\fBUART\fP uart_port, \fBUART_TX_CALLBACK\fP callback)"
+.br
+.ti -1c
+.RI "\fBSTATUS\fP \fBDRV_UART_SetRxTriggerFunction\fP (\fBUART\fP uart_port, \fBUART_RX_TRIGGER\fP function)"
+.br
+.ti -1c
+.RI "\fBSTATUS\fP \fBDRV_UART_FlushRX\fP (\fBUART\fP uart_port)"
+.br
+.ti -1c
+.RI "\fBSTATUS\fP \fBDRV_UART_FlushTX\fP (\fBUART\fP uart_port)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+UART Driver\&. 
+
+\fBAuthor:\fP
+.RS 4
+Valentin STANGACIU, DSPLabs
+.RE
+.PP
+Contains the driver for the uart modules of the microcontroller 
+.PP
+Definition in file \fBdrv_uart\&.h\fP\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Lab TD from the source code\&.

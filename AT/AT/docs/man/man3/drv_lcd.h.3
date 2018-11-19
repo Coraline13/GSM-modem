@@ -1,0 +1,123 @@
+.TH "code/drv/drv_lcd.h" 3 "Mon Nov 12 2018" "Lab TD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+code/drv/drv_lcd.h \- 
+.PP
+LCD Driver\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdint\&.h>\fP
+.br
+\fC#include 'drv_general\&.h'\fP
+.br
+
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fBLCD_PIXEL\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBLCD_WIDTH\fP   480"
+.br
+.ti -1c
+.RI "#define \fBLCD_HEIGHT\fP   272"
+.br
+.ti -1c
+.RI "#define \fBC_GLCD_REFRESH_FREQ\fP   (50HZ)"
+.br
+.ti -1c
+.RI "#define \fBC_GLCD_H_SIZE\fP   \fBLCD_WIDTH\fP"
+.br
+.ti -1c
+.RI "#define \fBC_GLCD_H_PULSE\fP   45"
+.br
+.ti -1c
+.RI "#define \fBC_GLCD_H_FRONT_PORCH\fP   45"
+.br
+.ti -1c
+.RI "#define \fBC_GLCD_H_BACK_PORCH\fP   45"
+.br
+.ti -1c
+.RI "#define \fBC_GLCD_V_SIZE\fP   \fBLCD_HEIGHT\fP"
+.br
+.ti -1c
+.RI "#define \fBC_GLCD_V_PULSE\fP   16"
+.br
+.ti -1c
+.RI "#define \fBC_GLCD_V_FRONT_PORCH\fP   16"
+.br
+.ti -1c
+.RI "#define \fBC_GLCD_V_BACK_PORCH\fP   16"
+.br
+.ti -1c
+.RI "#define \fBC_GLCD_CLK_PER_LINE\fP   (C_GLCD_H_SIZE + C_GLCD_H_PULSE + C_GLCD_H_FRONT_PORCH + C_GLCD_H_BACK_PORCH)"
+.br
+.ti -1c
+.RI "#define \fBC_GLCD_LINES_PER_FRAME\fP   (C_GLCD_V_SIZE + C_GLCD_V_PULSE + C_GLCD_V_FRONT_PORCH + C_GLCD_V_BACK_PORCH)"
+.br
+.ti -1c
+.RI "#define \fBC_GLCD_PIX_CLK\fP   (6\&.4MHZ)"
+.br
+.ti -1c
+.RI "#define \fBC_GLCD_PWR_ENA_DIS_DLY\fP   10000000"
+.br
+.ti -1c
+.RI "#define \fBC_GLCD_ENA_DIS_DLY\fP   10000000"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBDRV_LCD_Init\fP (void)"
+.br
+.ti -1c
+.RI "void \fBDRV_LCD_PowerOn\fP (void)"
+.br
+.ti -1c
+.RI "void \fBDRV_LCD_PowerOff\fP (void)"
+.br
+.ti -1c
+.RI "void \fBDRV_LCD_TestFillColor\fP (uint8_t red, uint8_t green, uint8_t blue)"
+.br
+.ti -1c
+.RI "void \fBDRV_LCD_PutPixel\fP (uint16_t x, uint16_t y, uint8_t red, uint8_t green, uint8_t blue)"
+.br
+.ti -1c
+.RI "void \fBDRV_LCD_ClrScr\fP (void)"
+.br
+.ti -1c
+.RI "void \fBDRV_LCD_Puts\fP (char *string, uint16_t x, uint16_t y, \fBLCD_PIXEL\fP TextColor, \fBLCD_PIXEL\fP BackgroundTextColor, \fBBOOLEAN\fP big)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBLCD_PIXEL\fP \fBLCD_Frame_Buffer\fP [\fBLCD_WIDTH\fP *\fBLCD_HEIGHT\fP]"
+.br
+.RI "\fIThe LCD Frame Buffer\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+LCD Driver\&. 
+
+\fBAuthor:\fP
+.RS 4
+Valentin STANGACIU, DSPLabs
+.RE
+.PP
+Contains the driver for the LCD on the Olimex board The LCD on the Olimex Board is a RGB LCD, resolution 480x272\&. Before using any functions from this module, a call of DRV_LCD_Init must be performed 
+.PP
+Definition in file \fBdrv_lcd\&.h\fP\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Lab TD from the source code\&.

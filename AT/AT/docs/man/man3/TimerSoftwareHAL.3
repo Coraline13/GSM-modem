@@ -1,0 +1,36 @@
+.TH "TimerSoftwareHAL" 3 "Mon Nov 12 2018" "Lab TD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+TimerSoftwareHAL \- 
+.PP
+Timer software library hardware abstraction layer\&.  
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBTIMER0_IRQHandler\fP ()"
+.br
+.ti -1c
+.RI "void \fBTIMER_SOFTWARE_init_system\fP ()"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Timer software library hardware abstraction layer\&. 
+
+Contains the hardware abstraction layer for the software timer 
+.SH "Function Documentation"
+.PP 
+.SS "void TIMER0_IRQHandler ()\fC [private]\fP"
+LPC1788 Specific interrupt service routing for TIMER0 which executes the processing routing of the software timer \fBTIMER_SOFTWARE_ModX\fP 
+.PP
+Definition at line 44 of file timer_software_init\&.c\&.
+.SS "void TIMER_SOFTWARE_init_system ()"
+Software timer system initilization\&. This function is mandatory to be the first called function before using the rest of the library (including \fBTIMER_SOFTWARE_Wait\fP) 
+.PP
+Definition at line 55 of file timer_software_init\&.c\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Lab TD from the source code\&.

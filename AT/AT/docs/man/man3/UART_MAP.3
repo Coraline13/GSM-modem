@@ -1,0 +1,135 @@
+.TH "UART_MAP" 3 "Mon Nov 12 2018" "Lab TD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+UART_MAP \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "\fBUART\fP \fBuartPort\fP"
+.br
+.ti -1c
+.RI "\fBBOOLEAN\fP \fBisOpen\fP"
+.br
+.ti -1c
+.RI "\fBtRingBufObject\fP * \fBuart_rx_ring_buffer\fP"
+.br
+.ti -1c
+.RI "\fBtRingBufObject\fP * \fBuart_tx_ring_buffer\fP"
+.br
+.ti -1c
+.RI "uint8_t * \fBuart_rx_buffer\fP"
+.br
+.ti -1c
+.RI "uint8_t * \fBuart_tx_buffer\fP"
+.br
+.ti -1c
+.RI "uint16_t \fBuart_rx_buffer_size\fP"
+.br
+.ti -1c
+.RI "uint16_t \fBuart_tx_buffer_size\fP"
+.br
+.ti -1c
+.RI "\fBUART_ERROR_TYPE\fP \fBuart_errno\fP"
+.br
+.ti -1c
+.RI "\fBtimer_software_handler_t\fP \fBuart_timer\fP"
+.br
+.ti -1c
+.RI "\fBBOOLEAN\fP \fBuart_buffering_enabled\fP"
+.br
+.ti -1c
+.RI "uint32_t \fBread_write_timeout_ms\fP"
+.br
+.ti -1c
+.RI "\fBBOOLEAN\fP \fBtrigger\fP"
+.br
+.ti -1c
+.RI "\fBUART_TX_CALLBACK\fP \fBuart_tx_callback\fP"
+.br
+.ti -1c
+.RI "\fBUART_RX_CALLBACK\fP \fBuart_rx_callback\fP"
+.br
+.ti -1c
+.RI "\fBUART_RX_TRIGGER\fP \fBuart_rx_trigger\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Structure that holds various uart information\&. Used internally for mapping the settings to the uart module The structure is initialized internally for each uart\&. No user intervention is required 
+.PP
+Definition at line 110 of file drv_uart\&.h\&.
+.SH "Field Documentation"
+.PP 
+.SS "\fBBOOLEAN\fP UART_MAP::isOpen"
+Specifies if the coresponding UART port si configured, opened and ready to use\&. Used internally by the driver 
+.PP
+Definition at line 113 of file drv_uart\&.h\&.
+.SS "uint32_t UART_MAP::read_write_timeout_ms"
+Holds the actual value of the uart timeout (in milliseconds 
+.PP
+Definition at line 123 of file drv_uart\&.h\&.
+.SS "\fBBOOLEAN\fP UART_MAP::trigger"
+Specified if the receive callback action has been triggered\&. Used internally by the driver in case receive triggering is activated 
+.PP
+Definition at line 124 of file drv_uart\&.h\&.
+.SS "\fBBOOLEAN\fP UART_MAP::uart_buffering_enabled"
+Specifies if the buffering mode of the uart is enabled 
+.PP
+Definition at line 122 of file drv_uart\&.h\&.
+.SS "\fBUART_ERROR_TYPE\fP UART_MAP::uart_errno"
+Holds a variable conaining the last error reported by the uart driver 
+.PP
+Definition at line 120 of file drv_uart\&.h\&.
+.SS "uint8_t* UART_MAP::uart_rx_buffer"
+Holds a pointer to the memory zone actually used by the uart receive ring buffer 
+.PP
+Definition at line 116 of file drv_uart\&.h\&.
+.SS "uint16_t UART_MAP::uart_rx_buffer_size"
+Holds the size of the memory zone used by the uart receive ring buffer 
+.PP
+Definition at line 118 of file drv_uart\&.h\&.
+.SS "\fBUART_RX_CALLBACK\fP UART_MAP::uart_rx_callback"
+Holds the pointer to the receive callback function 
+.PP
+Definition at line 126 of file drv_uart\&.h\&.
+.SS "\fBtRingBufObject\fP* UART_MAP::uart_rx_ring_buffer"
+Holds a pointer to the uart receive ring buffer 
+.PP
+Definition at line 114 of file drv_uart\&.h\&.
+.SS "\fBUART_RX_TRIGGER\fP UART_MAP::uart_rx_trigger"
+Holds the pointer to the receive trigger function 
+.PP
+Definition at line 127 of file drv_uart\&.h\&.
+.SS "\fBtimer_software_handler_t\fP UART_MAP::uart_timer"
+Holds the software timer handler needed by the uart driver for the specified module to implement the timeout system 
+.PP
+Definition at line 121 of file drv_uart\&.h\&.
+.SS "uint8_t* UART_MAP::uart_tx_buffer"
+Holds a pointer to the memory zone actually used by the uart transmit ring buffer 
+.PP
+Definition at line 117 of file drv_uart\&.h\&.
+.SS "uint16_t UART_MAP::uart_tx_buffer_size"
+Holds the size of the memory zone used by the uart transmit ring buffer 
+.PP
+Definition at line 119 of file drv_uart\&.h\&.
+.SS "\fBUART_TX_CALLBACK\fP UART_MAP::uart_tx_callback"
+Holds the pointer to the transmission callback function 
+.PP
+Definition at line 125 of file drv_uart\&.h\&.
+.SS "\fBtRingBufObject\fP* UART_MAP::uart_tx_ring_buffer"
+Holds a pointer to the uart transmit ring buffer 
+.PP
+Definition at line 115 of file drv_uart\&.h\&.
+.SS "\fBUART\fP UART_MAP::uartPort"
+Identifies the UART module 
+.PP
+Definition at line 112 of file drv_uart\&.h\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Lab TD from the source code\&.

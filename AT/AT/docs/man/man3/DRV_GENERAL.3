@@ -1,0 +1,318 @@
+.TH "DRV_GENERAL" 3 "Mon Nov 12 2018" "Lab TD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+DRV_GENERAL \- 
+.PP
+General structures, types, functions and defines\&.  
+
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fBUART_BAUDRATE_VALUE_DLD\fP"
+.br
+.ti -1c
+.RI "struct \fBUART_BAUDRATE_VALUE_DIV_MUL\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBMHZ\fP   *1000000l"
+.br
+.ti -1c
+.RI "#define \fBKHZ\fP   *1000l"
+.br
+.ti -1c
+.RI "#define \fBHZ\fP   *1l"
+.br
+.ti -1c
+.RI "#define \fBMAX\fP(x, y)   ( (x > y) ? x : y )"
+.br
+.ti -1c
+.RI "#define \fBMIN\fP(x, y)   ( (x < y) ? x : y )"
+.br
+.ti -1c
+.RI "#define \fBABS\fP(x)   ( (x > 0) ? x : (-x) )"
+.br
+.ti -1c
+.RI "#define \fBNULL\fP   0"
+.br
+.ti -1c
+.RI "#define \fBUART0_TX_BUFFER_SIZE\fP   512"
+.br
+.ti -1c
+.RI "#define \fBUART1_TX_BUFFER_SIZE\fP   512"
+.br
+.ti -1c
+.RI "#define \fBUART2_TX_BUFFER_SIZE\fP   512"
+.br
+.ti -1c
+.RI "#define \fBUART3_TX_BUFFER_SIZE\fP   512"
+.br
+.ti -1c
+.RI "#define \fBUART4_TX_BUFFER_SIZE\fP   512"
+.br
+.ti -1c
+.RI "#define \fBUART0_RX_BUFFER_SIZE\fP   512"
+.br
+.ti -1c
+.RI "#define \fBUART1_RX_BUFFER_SIZE\fP   512"
+.br
+.ti -1c
+.RI "#define \fBUART2_RX_BUFFER_SIZE\fP   512"
+.br
+.ti -1c
+.RI "#define \fBUART3_RX_BUFFER_SIZE\fP   512"
+.br
+.ti -1c
+.RI "#define \fBUART4_RX_BUFFER_SIZE\fP   512"
+.br
+.ti -1c
+.RI "#define \fBUART_RX_FIFO_TRIGGER\fP   0"
+.br
+.ti -1c
+.RI "#define \fBUART_LOAD_DLM\fP(div)   (((div) >> 8) & 0xFF)"
+.br
+.ti -1c
+.RI "#define \fBUART_LOAD_DLL\fP(div)   ((div) & 0xFF)"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBBOOLEAN\fP { \fBFALSE\fP = 0x00, \fBTRUE\fP = 0x01 }"
+.br
+.ti -1c
+.RI "enum \fBSTATUS\fP { \fBOK\fP = 0, \fBNOT_OK\fP = 1, \fBEMPTY_QUEUE\fP = 2, \fBBUSY\fP = 3, \fBIDLE\fP = 4, \fBINCORRECT_PARAMS\fP = 5, \fBTIMEOUT\fP = 6, \fBRESERVED_6\fP = 7, \fBRESERVED_8\fP = 8, \fBNOT_INIT\fP = 9, \fBFULL_QUEUE\fP = 10, \fBEND_OF_QUEUE\fP = 11, \fBCRC_ERROR\fP = 12, \fBOUT_OF_SYNC\fP = 13, \fBINCORRECT_PASSWORD\fP = 14, \fBNO_TIMERS_AVAILABLE\fP = 15, \fBNOT_READY\fP = 16 }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "uint8_t \fBDRV_GENERAL_GetFirstDigit\fP (uint32_t n)"
+.br
+.ti -1c
+.RI "\fBUART_BAUDRATE_VALUE_DLD\fP \fBDRV_GENERAL_CalculateBaudrateDLD\fP (uint32_t \fBPeripheralClock\fP, uint32_t baud, uint8_t sampling)"
+.br
+.ti -1c
+.RI "\fBUART_BAUDRATE_VALUE_DIV_MUL\fP \fBDRV_GENERAL_CalculateBaudrateDivMul\fP (uint32_t \fBPeripheralClock\fP, uint32_t baudrate, uint8_t sampling)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+General structures, types, functions and defines\&. 
+
+Contains various types, functions and defines used by the rest of this driver library 
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define ABS(x)   ( (x > 0) ? x : (-x) )"
+Define macro for the absolute value of a number 
+.PP
+Definition at line 25 of file drv_general\&.h\&.
+.SS "#define HZ   *1l"
+Define for Hz 
+.PP
+Definition at line 21 of file drv_general\&.h\&.
+.SS "#define KHZ   *1000l"
+Define for KHz 
+.PP
+Definition at line 20 of file drv_general\&.h\&.
+.SS "#define MAX(x, y)   ( (x > y) ? x : y )"
+Define macro for the maximum value between two numbers 
+.PP
+Definition at line 23 of file drv_general\&.h\&.
+.SS "#define MHZ   *1000000l"
+Define for MHz 
+.PP
+Definition at line 19 of file drv_general\&.h\&.
+.SS "#define MIN(x, y)   ( (x < y) ? x : y )"
+Define macro for the minimum value between two numbers 
+.PP
+Definition at line 24 of file drv_general\&.h\&.
+.SS "#define UART0_RX_BUFFER_SIZE   512"
+Defines the receive buffer size for UART 0 
+.PP
+Definition at line 39 of file drv_general\&.h\&.
+.SS "#define UART0_TX_BUFFER_SIZE   512"
+Defines the transmit buffer size for UART 0 
+.PP
+Definition at line 33 of file drv_general\&.h\&.
+.SS "#define UART1_RX_BUFFER_SIZE   512"
+Defines the receive buffer size for UART 1 
+.PP
+Definition at line 40 of file drv_general\&.h\&.
+.SS "#define UART1_TX_BUFFER_SIZE   512"
+Defines the transmit buffer size for UART 1 
+.PP
+Definition at line 34 of file drv_general\&.h\&.
+.SS "#define UART2_RX_BUFFER_SIZE   512"
+Defines the receive buffer size for UART 2 
+.PP
+Definition at line 41 of file drv_general\&.h\&.
+.SS "#define UART2_TX_BUFFER_SIZE   512"
+Defines the transmit buffer size for UART 2 
+.PP
+Definition at line 35 of file drv_general\&.h\&.
+.SS "#define UART3_RX_BUFFER_SIZE   512"
+Defines the receive buffer size for UART 3 
+.PP
+Definition at line 42 of file drv_general\&.h\&.
+.SS "#define UART3_TX_BUFFER_SIZE   512"
+Defines the transmit buffer size for UART 3 
+.PP
+Definition at line 36 of file drv_general\&.h\&.
+.SS "#define UART4_RX_BUFFER_SIZE   512"
+Defines the receive buffer size for UART 4 
+.PP
+Definition at line 43 of file drv_general\&.h\&.
+.SS "#define UART4_TX_BUFFER_SIZE   512"
+Defines the transmit buffer size for UART 4 
+.PP
+Definition at line 37 of file drv_general\&.h\&.
+.SS "#define UART_LOAD_DLL(div)   ((div) & 0xFF)"
+Macro for loading least significant halfs of divisors 
+.PP
+Definition at line 89 of file drv_general\&.h\&.
+.SS "#define UART_LOAD_DLM(div)   (((div) >> 8) & 0xFF)"
+Macro for loading most significant halfs of divisors 
+.PP
+Definition at line 88 of file drv_general\&.h\&.
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBBOOLEAN\fP"
+Defines the a boolean type This structure uses DLD as the fractional divider 
+.PP
+\fBEnumerator: \fP
+.in +1c
+.TP
+\fB\fIFALSE \fP\fP
+False boolean value 
+.TP
+\fB\fITRUE \fP\fP
+True boolean value 
+.PP
+Definition at line 54 of file drv_general\&.h\&.
+.SS "enum \fBSTATUS\fP"
+Defines a status return type This enum defines the possible return status types of the functions defined by this library 
+.PP
+\fBEnumerator: \fP
+.in +1c
+.TP
+\fB\fIOK \fP\fP
+Operation finished ok 
+.TP
+\fB\fINOT_OK \fP\fP
+Operation finished not ok 
+.TP
+\fB\fIEMPTY_QUEUE \fP\fP
+The queue/buffer is empty 
+.TP
+\fB\fIBUSY \fP\fP
+The called module is busy 
+.TP
+\fB\fIIDLE \fP\fP
+The called module is empty 
+.TP
+\fB\fIINCORRECT_PARAMS \fP\fP
+The parameters are incorrect 
+.TP
+\fB\fITIMEOUT \fP\fP
+Timeout occured in the called module 
+.TP
+\fB\fINOT_INIT \fP\fP
+The module was not initialized 
+.TP
+\fB\fIFULL_QUEUE \fP\fP
+The queue/buffer is full 
+.TP
+\fB\fIEND_OF_QUEUE \fP\fP
+End of queue/buffer was reached 
+.TP
+\fB\fICRC_ERROR \fP\fP
+CRC check failed 
+.TP
+\fB\fIOUT_OF_SYNC \fP\fP
+Operation was out of sync 
+.TP
+\fB\fIINCORRECT_PASSWORD \fP\fP
+Incorrect password 
+.TP
+\fB\fINO_TIMERS_AVAILABLE \fP\fP
+No more software timers available 
+.TP
+\fB\fINOT_READY \fP\fP
+The called module is not ready 
+.PP
+Definition at line 97 of file drv_general\&.h\&.
+.SH "Function Documentation"
+.PP 
+.SS "\fBUART_BAUDRATE_VALUE_DIV_MUL\fP DRV_GENERAL_CalculateBaudrateDivMul (uint32_tPeripheralClock, uint32_tbaudrate, uint8_tsampling)\fC [private]\fP"
+Calculate the baud rate divisors using the fractional divisor as mval/dval
+.PP
+This function is used to calculate de divisors for a specific baudrate and peripheral input clock 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIPeripheralClock\fP The Peripheral input clock in Hz 
+.br
+\fIbaudrate\fP Desired baud rate 
+.br
+\fIsampling\fP Sampling rate (8, 16) 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+A structure containing DLM, DLL and the fractional components mval and dval 
+.RE
+.PP
+
+.PP
+Definition at line 104 of file drv_general\&.c\&.
+.SS "\fBUART_BAUDRATE_VALUE_DLD\fP DRV_GENERAL_CalculateBaudrateDLD (uint32_tPeripheralClock, uint32_tbaud, uint8_tsampling)\fC [private]\fP"
+Calculate the baud rate divisors using the DLD method
+.PP
+This function is used to calculate de divisors for a specific baudrate and peripheral input clock 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIPeripheralClock\fP The Peripheral input clock in Hz 
+.br
+\fIbaud\fP Desired baud rate 
+.br
+\fIsampling\fP Sampling rate (8, 16) 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+A structure containing DLM, DLL and DLD 
+.RE
+.PP
+
+.PP
+Definition at line 61 of file drv_general\&.c\&.
+.SS "uint8_t DRV_GENERAL_GetFirstDigit (uint32_tn)\fC [private]\fP"
+Calculates the first digit of a number
+.PP
+This function is used to extract the first digit of a number 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIn\fP The number to extract the 1st digit from 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+The 1st digit of the number 
+.RE
+.PP
+
+.PP
+Definition at line 37 of file drv_general\&.c\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Lab TD from the source code\&.

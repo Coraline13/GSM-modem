@@ -18,6 +18,46 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="code\at.c" />
+    <ClCompile Include="code\drv\drv_general.c" />
+    <ClCompile Include="code\drv\drv_lcd.c" />
+    <ClCompile Include="code\drv\drv_led.c" />
+    <ClCompile Include="code\drv\drv_sdram.c" />
+    <ClCompile Include="code\drv\drv_touchscreen.c" />
+    <ClCompile Include="code\drv\drv_uart.c" />
+    <ClCompile Include="code\drv\gl_fonts.c" />
+    <ClCompile Include="code\drv\wiznet.c" />
+    <ClCompile Include="code\drv\wiznet_io.c" />
+    <ClCompile Include="code\drv\wiznet_print.c" />
+    <ClCompile Include="code\main.c" />
+    <ClCompile Include="code\Retarget.c" />
+    <ClCompile Include="code\system_LPC177x_8x.c" />
+    <ClCompile Include="code\utils\ringbuf.c" />
+    <ClCompile Include="code\utils\timer_software.c" />
+    <ClCompile Include="code\utils\timer_software_init.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="code\at.h" />
+    <ClInclude Include="code\drv\drv_general.h" />
+    <ClInclude Include="code\drv\drv_lcd.h" />
+    <ClInclude Include="code\drv\drv_led.h" />
+    <ClInclude Include="code\drv\drv_sdram.h" />
+    <ClInclude Include="code\drv\drv_touchscreen.h" />
+    <ClInclude Include="code\drv\drv_uart.h" />
+    <ClInclude Include="code\drv\gl_fonts.h" />
+    <ClInclude Include="code\drv\wiznet.h" />
+    <ClInclude Include="code\drv\wiznet_io.h" />
+    <ClInclude Include="code\drv\wiznet_print.h" />
+    <ClInclude Include="code\retarget.h" />
+    <ClInclude Include="code\system_LPC177x_8x.h" />
+    <ClInclude Include="code\utils\ringbuf.h" />
+    <ClInclude Include="code\utils\timer_software.h" />
+    <ClInclude Include="code\utils\timer_software_init.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="code\startup_LPC177x_8x.s" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{96650D35-6013-43E8-BB96-6E3E2284C570}</ProjectGuid>
@@ -101,6 +141,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)\code;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,13 +179,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="at.c" />
-    <ClCompile Include="unit-test.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="at.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

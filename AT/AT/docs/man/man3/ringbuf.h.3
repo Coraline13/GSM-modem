@@ -1,0 +1,100 @@
+.TH "code/utils/ringbuf.h" 3 "Fri Nov 30 2012" "Lab TD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+code/utils/ringbuf.h \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBtRingBufObject\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBtrue\fP   1"
+.br
+.ti -1c
+.RI "#define \fBfalse\fP   0"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef unsigned char \fBtBoolean\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBtBoolean\fP \fBRingBufFull\fP (\fBtRingBufObject\fP *ptRingBuf)"
+.br
+.ti -1c
+.RI "\fBtBoolean\fP \fBRingBufEmpty\fP (\fBtRingBufObject\fP *ptRingBuf)"
+.br
+.ti -1c
+.RI "void \fBRingBufFlush\fP (\fBtRingBufObject\fP *ptRingBuf)"
+.br
+.ti -1c
+.RI "unsigned long \fBRingBufUsed\fP (\fBtRingBufObject\fP *ptRingBuf)"
+.br
+.ti -1c
+.RI "unsigned long \fBRingBufFree\fP (\fBtRingBufObject\fP *ptRingBuf)"
+.br
+.ti -1c
+.RI "unsigned long \fBRingBufContigUsed\fP (\fBtRingBufObject\fP *ptRingBuf)"
+.br
+.ti -1c
+.RI "unsigned long \fBRingBufContigFree\fP (\fBtRingBufObject\fP *ptRingBuf)"
+.br
+.ti -1c
+.RI "unsigned long \fBRingBufSize\fP (\fBtRingBufObject\fP *ptRingBuf)"
+.br
+.ti -1c
+.RI "unsigned char \fBRingBufReadOne\fP (\fBtRingBufObject\fP *ptRingBuf)"
+.br
+.ti -1c
+.RI "void \fBRingBufRead\fP (\fBtRingBufObject\fP *ptRingBuf, unsigned char *pucData, unsigned long ulLength)"
+.br
+.ti -1c
+.RI "void \fBRingBufWriteOne\fP (\fBtRingBufObject\fP *ptRingBuf, unsigned char ucData)"
+.br
+.ti -1c
+.RI "void \fBRingBufWrite\fP (\fBtRingBufObject\fP *ptRingBuf, unsigned char *pucData, unsigned long ulLength)"
+.br
+.ti -1c
+.RI "void \fBRingBufAdvanceWrite\fP (\fBtRingBufObject\fP *ptRingBuf, unsigned long ulNumBytes)"
+.br
+.ti -1c
+.RI "void \fBRingBufAdvanceRead\fP (\fBtRingBufObject\fP *ptRingBuf, unsigned long ulNumBytes)"
+.br
+.ti -1c
+.RI "void \fBRingBufInit\fP (\fBtRingBufObject\fP *ptRingBuf, unsigned char *pucBuf, unsigned long ulSize)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define false   0"
+
+.PP
+Definition at line 76 of file ringbuf\&.h\&.
+.SS "#define true   1"
+
+.PP
+Definition at line 72 of file ringbuf\&.h\&.
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef unsigned char \fBtBoolean\fP"
+
+.PP
+Definition at line 69 of file ringbuf\&.h\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Lab TD from the source code\&.

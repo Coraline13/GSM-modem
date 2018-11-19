@@ -1,0 +1,68 @@
+.TH "code/drv/drv_led.h" 3 "Mon Nov 12 2018" "Lab TD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+code/drv/drv_led.h \- 
+.PP
+LED Driver\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdint\&.h>\fP
+.br
+\fC#include <utils/ringbuf\&.h>\fP
+.br
+\fC#include <utils/timer_software\&.h>\fP
+.br
+\fC#include 'drv_general\&.h'\fP
+.br
+
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fBLED_MAP\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBLED_STATE\fP { \fBLED_OFF\fP, \fBLED_ON\fP }"
+.br
+.ti -1c
+.RI "enum \fBLED\fP { \fBLED_UNKNOWN\fP = 0, \fBLED_1\fP = 1, \fBLED_2\fP = 2, \fBLED_3\fP = 3, \fBLED_4\fP = 4 }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBDRV_LED_Init\fP ()"
+.br
+.ti -1c
+.RI "void \fBDRV_LED_Off\fP (\fBLED\fP led)"
+.br
+.ti -1c
+.RI "void \fBDRV_LED_On\fP (\fBLED\fP led)"
+.br
+.ti -1c
+.RI "void \fBDRV_LED_Toggle\fP (\fBLED\fP led)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+LED Driver\&. 
+
+\fBAuthor:\fP
+.RS 4
+Valentin STANGACIU, DSPLabs
+.RE
+.PP
+Contains the driver for the 4 leds on the board 
+.PP
+Definition in file \fBdrv_led\&.h\fP\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Lab TD from the source code\&.

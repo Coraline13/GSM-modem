@@ -1,0 +1,223 @@
+.TH "code/drv/drv_touchscreen.c" 3 "Mon Nov 12 2018" "Lab TD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+code/drv/drv_touchscreen.c \- 
+.PP
+TOUCH SCREEN Driver\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'drv_touchscreen\&.h'\fP
+.br
+\fC#include <stdint\&.h>\fP
+.br
+\fC#include 'LPC177x_8x\&.h'\fP
+.br
+\fC#include 'system_LPC177x_8x\&.h'\fP
+.br
+\fC#include 'drv_general\&.h'\fP
+.br
+\fC#include 'drv_lcd\&.h'\fP
+.br
+\fC#include <utils\\timer_software\&.h>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBTS_X1_MASK\fP   (1UL << 24)"
+.br
+.ti -1c
+.RI "#define \fBTS_X1_FIO\fP   LPC_GPIO0->PIN"
+.br
+.ti -1c
+.RI "#define \fBTS_X1_FDIR\fP   LPC_GPIO0->DIR"
+.br
+.ti -1c
+.RI "#define \fBTS_X1_FSET\fP   LPC_GPIO0->SET"
+.br
+.ti -1c
+.RI "#define \fBTS_X1_FCLR\fP   LPC_GPIO0->CLR"
+.br
+.ti -1c
+.RI "#define \fBTS_X1_INTR_R\fP   LPC_GPIOINT->IO0IntEnR"
+.br
+.ti -1c
+.RI "#define \fBTS_X1_INTR_CLR\fP   LPC_GPIOINT->IO0IntClr"
+.br
+.ti -1c
+.RI "#define \fBTS_X1_IOCON\fP   LPC_IOCON->P0_24"
+.br
+.ti -1c
+.RI "#define \fBTS_X2_MASK\fP   (1UL << 22)"
+.br
+.ti -1c
+.RI "#define \fBTS_X2_FIO\fP   LPC_GPIO0->PIN"
+.br
+.ti -1c
+.RI "#define \fBTS_X2_FDIR\fP   LPC_GPIO0->DIR"
+.br
+.ti -1c
+.RI "#define \fBTS_X2_FSET\fP   LPC_GPIO0->SET"
+.br
+.ti -1c
+.RI "#define \fBTS_X2_FCLR\fP   LPC_GPIO0->CLR"
+.br
+.ti -1c
+.RI "#define \fBTS_X2_INTR_R\fP   LPC_GPIOINT->IO0IntEnR"
+.br
+.ti -1c
+.RI "#define \fBTS_X2_INTR_CLR\fP   LPC_GPIOINT->IO0IntClr"
+.br
+.ti -1c
+.RI "#define \fBTS_X2_IOCON\fP   LPC_IOCON->P0_22"
+.br
+.ti -1c
+.RI "#define \fBTS_Y1_MASK\fP   (1UL << 23)"
+.br
+.ti -1c
+.RI "#define \fBTS_Y1_FIO\fP   LPC_GPIO0->PIN"
+.br
+.ti -1c
+.RI "#define \fBTS_Y1_FDIR\fP   LPC_GPIO0->DIR"
+.br
+.ti -1c
+.RI "#define \fBTS_Y1_FSET\fP   LPC_GPIO0->SET"
+.br
+.ti -1c
+.RI "#define \fBTS_Y1_FCLR\fP   LPC_GPIO0->CLR"
+.br
+.ti -1c
+.RI "#define \fBTS_Y1_INTR_R\fP   LPC_GPIOINT->IO0IntEnR"
+.br
+.ti -1c
+.RI "#define \fBTS_Y1_INTR_CLR\fP   LPC_GPIOINT->IO0IntClr"
+.br
+.ti -1c
+.RI "#define \fBTS_Y1_IOCON\fP   LPC_IOCON->P0_23"
+.br
+.ti -1c
+.RI "#define \fBTS_Y2_MASK\fP   (1UL << 21)"
+.br
+.ti -1c
+.RI "#define \fBTS_Y2_FIO\fP   LPC_GPIO0->PIN"
+.br
+.ti -1c
+.RI "#define \fBTS_Y2_FDIR\fP   LPC_GPIO0->DIR"
+.br
+.ti -1c
+.RI "#define \fBTS_Y2_FSET\fP   LPC_GPIO0->SET"
+.br
+.ti -1c
+.RI "#define \fBTS_Y2_FCLR\fP   LPC_GPIO0->CLR"
+.br
+.ti -1c
+.RI "#define \fBTS_Y2_INTR_R\fP   LPC_GPIOINT->IO0IntEnR"
+.br
+.ti -1c
+.RI "#define \fBTS_Y2_INTR_CLR\fP   LPC_GPIOINT->IO0IntClr"
+.br
+.ti -1c
+.RI "#define \fBTS_Y2_IOCON\fP   LPC_IOCON->P0_21"
+.br
+.ti -1c
+.RI "#define \fBTS_INTR_PRIORITY\fP   2"
+.br
+.ti -1c
+.RI "#define \fBTS_SETUP_DLY\fP   50"
+.br
+.ti -1c
+.RI "#define \fBTS_SAMPLE_DLY\fP   10000"
+.br
+.ti -1c
+.RI "#define \fBTS_INIT_DLY\fP   50000"
+.br
+.ti -1c
+.RI "#define \fBTS_SAMPLES\fP   32"
+.br
+.ti -1c
+.RI "#define \fBIMAGE_WIDTH\fP   C_GLCD_H_SIZE"
+.br
+.ti -1c
+.RI "#define \fBIMAGE_HEIGHT\fP   C_GLCD_V_SIZE"
+.br
+.ti -1c
+.RI "#define \fBLEFT_UP_X\fP   (50*TS_SAMPLES*2)"
+.br
+.ti -1c
+.RI "#define \fBRIGHT_UP_X\fP   (930*TS_SAMPLES*2)"
+.br
+.ti -1c
+.RI "#define \fBLEFT_UP_Y\fP   (200*TS_SAMPLES*2)"
+.br
+.ti -1c
+.RI "#define \fBRIGHT_UP_Y\fP   (800*TS_SAMPLES*2)"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef enum \fB_TouchScrState_t\fP \fBTouchScrState_t\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fB_TouchScrState_t\fP { \fBTS_INTR_SETUP_DLY\fP = 0, \fBTS_WAIT_FOR_TOUCH\fP, \fBTS_X1_SETUP_DLY\fP, \fBTS_X1_MEASURE\fP, \fBTS_X2_SETUP_DLY\fP, \fBTS_X2_MEASURE\fP, \fBTS_Y1_SETUP_DLY\fP, \fBTS_Y1_MEASURE\fP, \fBTS_Y2_SETUP_DLY\fP, \fBTS_Y2_MEASURE\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBDRV_TOUCHSCREEN_Init\fP ()"
+.br
+.ti -1c
+.RI "void \fBTIMER1_IRQHandler\fP ()"
+.br
+.ti -1c
+.RI "void \fBGPIO_IRQHandler\fP ()"
+.br
+.ti -1c
+.RI "void \fBADC_IRQHandler\fP ()"
+.br
+.ti -1c
+.RI "\fBBOOLEAN\fP \fBTouchGet\fP (\fBTouchResult\fP *pData)"
+.br
+.ti -1c
+.RI "\fBSTATUS\fP \fBDRV_TOUCHSCREEN_SetTouchCallback\fP (TOUCHSCREEN_CallBack callback)"
+.br
+.ti -1c
+.RI "void \fBDRV_TOUCHSCREEN_Process\fP ()"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBTouchResult\fP \fBtouchResultData\fP"
+.br
+.ti -1c
+.RI "TOUCHSCREEN_CallBack \fBcurrentTouchScreenCallback\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+TOUCH SCREEN Driver\&. 
+
+\fBAuthor:\fP
+.RS 4
+Valentin STANGACIU, DSPLabs
+.RE
+.PP
+Contains the driver for the touchscreen of the Olimex board 
+.PP
+Definition in file \fBdrv_touchscreen\&.c\fP\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Lab TD from the source code\&.

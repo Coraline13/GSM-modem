@@ -1,0 +1,61 @@
+.TH "code/drv/drv_touchscreen.h" 3 "Mon Nov 12 2018" "Lab TD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+code/drv/drv_touchscreen.h \- 
+.PP
+TOUCH SCREEN Driver\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdint\&.h>\fP
+.br
+\fC#include 'drv_general\&.h'\fP
+.br
+
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fBTouchResult\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef void(* \fBTOUCHSCREEN_CallBack\fP )(\fBTouchResult\fP *touchData)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBDRV_TOUCHSCREEN_Init\fP ()"
+.br
+.ti -1c
+.RI "\fBBOOLEAN\fP \fBTouchGet\fP (\fBTouchResult\fP *pData)"
+.br
+.ti -1c
+.RI "\fBSTATUS\fP \fBDRV_TOUCHSCREEN_SetTouchCallback\fP (TOUCHSCREEN_CallBack callback)"
+.br
+.ti -1c
+.RI "void \fBDRV_TOUCHSCREEN_Process\fP ()"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+TOUCH SCREEN Driver\&. 
+
+\fBAuthor:\fP
+.RS 4
+Valentin STANGACIU, DSPLabs
+.RE
+.PP
+Contains the header file of the driver for the touchscreen of the Olimex board 
+.PP
+Definition in file \fBdrv_touchscreen\&.h\fP\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Lab TD from the source code\&.

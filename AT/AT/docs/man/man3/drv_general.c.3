@@ -1,0 +1,48 @@
+.TH "code/drv/drv_general.c" 3 "Mon Nov 12 2018" "Lab TD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+code/drv/drv_general.c \- 
+.PP
+General structures, types, functions and defines\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'drv_general\&.h'\fP
+.br
+\fC#include <stdint\&.h>\fP
+.br
+\fC#include 'LPC177x_8x\&.h'\fP
+.br
+\fC#include 'system_LPC177x_8x\&.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "uint8_t \fBDRV_GENERAL_GetFirstDigit\fP (uint32_t n)"
+.br
+.ti -1c
+.RI "\fBUART_BAUDRATE_VALUE_DLD\fP \fBDRV_GENERAL_CalculateBaudrateDLD\fP (uint32_t \fBPeripheralClock\fP, uint32_t baud, uint8_t sampling)"
+.br
+.ti -1c
+.RI "\fBUART_BAUDRATE_VALUE_DIV_MUL\fP \fBDRV_GENERAL_CalculateBaudrateDivMul\fP (uint32_t \fBPeripheralClock\fP, uint32_t baudrate, uint8_t sampling)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+General structures, types, functions and defines\&. 
+
+\fBAuthor:\fP
+.RS 4
+Valentin STANGACIU, DSPLabs
+.RE
+.PP
+Contains various types, functions and defines used by the rest of this driver library 
+.PP
+Definition in file \fBdrv_general\&.c\fP\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Lab TD from the source code\&.

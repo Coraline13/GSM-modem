@@ -1,0 +1,130 @@
+.TH "code/drv/drv_uart.c" 3 "Mon Nov 12 2018" "Lab TD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+code/drv/drv_uart.c \- 
+.PP
+UART Driver\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'drv_uart\&.h'\fP
+.br
+\fC#include <stdint\&.h>\fP
+.br
+\fC#include <assert\&.h>\fP
+.br
+\fC#include <utils/ringbuf\&.h>\fP
+.br
+\fC#include <utils/timer_software\&.h>\fP
+.br
+\fC#include 'LPC177x_8x\&.h'\fP
+.br
+\fC#include 'system_LPC177x_8x\&.h'\fP
+.br
+\fC#include 'drv_general\&.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBDRV_UART_GeneralIRQHandler\fP (\fBUART\fP uart)"
+.br
+.ti -1c
+.RI "void \fBUART0_IRQHandler\fP ()"
+.br
+.ti -1c
+.RI "void \fBUART1_IRQHandler\fP ()"
+.br
+.ti -1c
+.RI "void \fBUART2_IRQHandler\fP ()"
+.br
+.ti -1c
+.RI "void \fBUART3_IRQHandler\fP ()"
+.br
+.ti -1c
+.RI "void \fBUART4_IRQHandler\fP ()"
+.br
+.ti -1c
+.RI "void \fBDRV_UART_SetTimeout\fP (\fBUART\fP uart, uint32_t read_write_timeout_ms)"
+.br
+.ti -1c
+.RI "uint32_t \fBDRV_UART_GetTimeout\fP (\fBUART\fP uart)"
+.br
+.ti -1c
+.RI "void \fBDRV_UART_Configure\fP (\fBUART\fP uart, \fBUART_CHARACTER_LENGTH\fP charLength, uint32_t baud, \fBUART_PARITY\fP parity, uint8_t stopBits, \fBBOOLEAN\fP buffered, uint32_t read_write_timeout_ms)"
+.br
+.ti -1c
+.RI "\fBSTATUS\fP \fBDRV_UART_SendCharBlocking\fP (\fBUART\fP uart, uint8_t data)"
+.br
+.ti -1c
+.RI "void \fBDRV_UART_SendBufferBlocking\fP (\fBUART\fP uart, uint8_t *buffer, uint16_t size)"
+.br
+.ti -1c
+.RI "\fBSTATUS\fP \fBDRV_UART_GetCharBlocking\fP (\fBUART\fP uart, uint8_t *dest)"
+.br
+.ti -1c
+.RI "void \fBDRV_UART_PrivateSendByte\fP (\fBUART\fP uart, uint8_t byte)"
+.br
+.ti -1c
+.RI "uint32_t \fBDRV_UART_BytesAvailable\fP (\fBUART\fP uart)"
+.br
+.ti -1c
+.RI "\fBSTATUS\fP \fBDRV_UART_ReadByte\fP (\fBUART\fP uart, uint8_t *dst)"
+.br
+.ti -1c
+.RI "\fBSTATUS\fP \fBDRV_UART_SendByte\fP (\fBUART\fP uart, uint8_t byte)"
+.br
+.ti -1c
+.RI "\fBUART_ERROR_TYPE\fP \fBDRV_UART_GetErrno\fP (\fBUART\fP uart)"
+.br
+.ti -1c
+.RI "uint32_t \fBDRV_UART_Read\fP (\fBUART\fP uart, uint8_t *dest, uint32_t count)"
+.br
+.ti -1c
+.RI "uint32_t \fBDRV_UART_Write\fP (\fBUART\fP uart, uint8_t *src, uint32_t count)"
+.br
+.ti -1c
+.RI "void \fBDRV_UART_Process\fP ()"
+.br
+.ti -1c
+.RI "\fBSTATUS\fP \fBDRV_UART_SetRxCallback\fP (\fBUART\fP uart_port, \fBUART_RX_CALLBACK\fP callback)"
+.br
+.ti -1c
+.RI "\fBSTATUS\fP \fBDRV_UART_SetTxCallback\fP (\fBUART\fP uart_port, \fBUART_TX_CALLBACK\fP callback)"
+.br
+.ti -1c
+.RI "\fBSTATUS\fP \fBDRV_UART_SetRxTriggerFunction\fP (\fBUART\fP uart_port, \fBUART_RX_TRIGGER\fP function)"
+.br
+.ti -1c
+.RI "\fBSTATUS\fP \fBDRV_UART_FlushRX\fP (\fBUART\fP uart_port)"
+.br
+.ti -1c
+.RI "\fBSTATUS\fP \fBDRV_UART_FlushTX\fP (\fBUART\fP uart_port)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBUART_MAP\fP \fBuartMaps\fP []"
+.br
+.RI "\fIUART Mapping Table\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+UART Driver\&. 
+
+\fBAuthor:\fP
+.RS 4
+Valentin STANGACIU, DSPLabs
+.RE
+.PP
+Contains the driver for the uart modules of the microcontroller 
+.PP
+Definition in file \fBdrv_uart\&.c\fP\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Lab TD from the source code\&.

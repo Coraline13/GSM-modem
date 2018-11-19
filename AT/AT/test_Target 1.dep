@@ -1,0 +1,146 @@
+Dependencies for Project 'test', Target 'Target 1': (DO NOT MODIFY !)
+F (.\code\main.c)(0x528231FC)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I.\code-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\NXP\LPC177x_8x-o .\output\main.o --omf_browse .\output\main.crf --depend .\output\main.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7FD94)
+I (C:\Keil\ARM\ARMCC\include\assert.h)(0x51C7FD94)
+I (C:\Keil\ARM\ARMCC\include\string.h)(0x51C7FD94)
+I (C:\Keil\ARM\ARMCC\include\stdio.h)(0x51C7FD94)
+I (C:\Keil\ARM\ARMCC\include\stdlib.h)(0x51C7FD94)
+I (C:\Keil\ARM\Inc\NXP\LPC177x_8x\LPC177x_8x.h)(0x51C7F714)
+I (C:\Keil\ARM\CMSIS\Include\core_cm3.h)(0x51C7FB9A)
+I (C:\Keil\ARM\CMSIS\Include\core_cmInstr.h)(0x51C7FB9A)
+I (C:\Keil\ARM\CMSIS\Include\core_cmFunc.h)(0x51C7FB9A)
+I (C:\Keil\ARM\Inc\NXP\LPC177x_8x\system_LPC177x_8x.h)(0x51C7F714)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\system_LPC177x_8x.h)(0x526FBF8D)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\retarget.h)(0x526FBF8D)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\DRV\drv_sdram.h)(0x526FBF8D)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\DRV\drv_lcd.h)(0x526FBF8D)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\DRV\drv_general.h)(0x526FBF8D)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\DRV\drv_uart.h)(0x542AC014)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\utils\ringbuf.h)(0x526FBF8D)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\utils\timer_software.h)(0x526FBF8D)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\DRV\drv_touchscreen.h)(0x526FBF8D)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\DRV\drv_led.h)(0x526FBF8D)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\utils\timer_software_init.h)(0x526FBF8D)
+F (.\code\system_LPC177x_8x.c)(0x526FBF8D)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I.\code-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\NXP\LPC177x_8x-o .\output\system_lpc177x_8x.o --omf_browse .\output\system_lpc177x_8x.crf --depend .\output\system_lpc177x_8x.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7FD94)
+I (C:\Keil\ARM\Inc\NXP\LPC177x_8x\LPC177x_8x.h)(0x51C7F714)
+I (C:\Keil\ARM\CMSIS\Include\core_cm3.h)(0x51C7FB9A)
+I (C:\Keil\ARM\CMSIS\Include\core_cmInstr.h)(0x51C7FB9A)
+I (C:\Keil\ARM\CMSIS\Include\core_cmFunc.h)(0x51C7FB9A)
+I (C:\Keil\ARM\Inc\NXP\LPC177x_8x\system_LPC177x_8x.h)(0x51C7F714)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\system_LPC177x_8x.h)(0x526FBF8D)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\utils\timer_software.h)(0x526FBF8D)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\utils\timer_software_init.h)(0x526FBF8D)
+F (.\code\startup_LPC177x_8x.s)(0x526FBF8D)(--cpu Cortex-M3 -g --apcs=interwork -I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\NXP\LPC177x_8x--list .\list\startup_lpc177x_8x.lst --xref -o .\output\startup_lpc177x_8x.o --depend .\output\startup_lpc177x_8x.d)
+F (.\code\Retarget.c)(0x53FFFFEF)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I.\code-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\NXP\LPC177x_8x-o .\output\retarget.o --omf_browse .\output\retarget.crf --depend .\output\retarget.d)
+I (C:\Keil\ARM\ARMCC\include\stdio.h)(0x51C7FD94)
+I (C:\Keil\ARM\ARMCC\include\rt_misc.h)(0x51C7FD94)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7FD94)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\DRV\drv_general.h)(0x526FBF8D)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\DRV\drv_uart.h)(0x542AC014)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\utils\ringbuf.h)(0x526FBF8D)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\utils\timer_software.h)(0x526FBF8D)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\retarget.h)(0x526FBF8D)
+F (.\code\drv\drv_sdram.c)(0x526FBF8D)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I.\code-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\NXP\LPC177x_8x-o .\output\drv_sdram.o --omf_browse .\output\drv_sdram.crf --depend .\output\drv_sdram.d)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\drv\drv_sdram.h)(0x526FBF8D)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7FD94)
+I (C:\Keil\ARM\Inc\NXP\LPC177x_8x\LPC177x_8x.h)(0x51C7F714)
+I (C:\Keil\ARM\CMSIS\Include\core_cm3.h)(0x51C7FB9A)
+I (C:\Keil\ARM\CMSIS\Include\core_cmInstr.h)(0x51C7FB9A)
+I (C:\Keil\ARM\CMSIS\Include\core_cmFunc.h)(0x51C7FB9A)
+I (C:\Keil\ARM\Inc\NXP\LPC177x_8x\system_LPC177x_8x.h)(0x51C7F714)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\system_LPC177x_8x.h)(0x526FBF8D)
+F (.\code\drv\drv_lcd.c)(0x53FC7255)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I.\code-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\NXP\LPC177x_8x-o .\output\drv_lcd.o --omf_browse .\output\drv_lcd.crf --depend .\output\drv_lcd.d)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\drv\drv_lcd.h)(0x526FBF8D)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7FD94)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\drv\drv_general.h)(0x526FBF8D)
+I (C:\Keil\ARM\ARMCC\include\assert.h)(0x51C7FD94)
+I (C:\Keil\ARM\Inc\NXP\LPC177x_8x\LPC177x_8x.h)(0x51C7F714)
+I (C:\Keil\ARM\CMSIS\Include\core_cm3.h)(0x51C7FB9A)
+I (C:\Keil\ARM\CMSIS\Include\core_cmInstr.h)(0x51C7FB9A)
+I (C:\Keil\ARM\CMSIS\Include\core_cmFunc.h)(0x51C7FB9A)
+I (C:\Keil\ARM\Inc\NXP\LPC177x_8x\system_LPC177x_8x.h)(0x51C7F714)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\system_LPC177x_8x.h)(0x526FBF8D)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\drv\gl_fonts.h)(0x526FBF8D)
+F (.\code\drv\drv_uart.c)(0x5437D225)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I.\code-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\NXP\LPC177x_8x-o .\output\drv_uart.o --omf_browse .\output\drv_uart.crf --depend .\output\drv_uart.d)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\drv\drv_uart.h)(0x542AC014)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7FD94)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\utils\ringbuf.h)(0x526FBF8D)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\utils\timer_software.h)(0x526FBF8D)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\drv\drv_general.h)(0x526FBF8D)
+I (C:\Keil\ARM\ARMCC\include\assert.h)(0x51C7FD94)
+I (C:\Keil\ARM\Inc\NXP\LPC177x_8x\LPC177x_8x.h)(0x51C7F714)
+I (C:\Keil\ARM\CMSIS\Include\core_cm3.h)(0x51C7FB9A)
+I (C:\Keil\ARM\CMSIS\Include\core_cmInstr.h)(0x51C7FB9A)
+I (C:\Keil\ARM\CMSIS\Include\core_cmFunc.h)(0x51C7FB9A)
+I (C:\Keil\ARM\Inc\NXP\LPC177x_8x\system_LPC177x_8x.h)(0x51C7F714)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\system_LPC177x_8x.h)(0x526FBF8D)
+F (.\code\drv\drv_general.c)(0x526FBF8D)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I.\code-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\NXP\LPC177x_8x-o .\output\drv_general.o --omf_browse .\output\drv_general.crf --depend .\output\drv_general.d)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\drv\drv_general.h)(0x526FBF8D)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7FD94)
+I (C:\Keil\ARM\Inc\NXP\LPC177x_8x\LPC177x_8x.h)(0x51C7F714)
+I (C:\Keil\ARM\CMSIS\Include\core_cm3.h)(0x51C7FB9A)
+I (C:\Keil\ARM\CMSIS\Include\core_cmInstr.h)(0x51C7FB9A)
+I (C:\Keil\ARM\CMSIS\Include\core_cmFunc.h)(0x51C7FB9A)
+I (C:\Keil\ARM\Inc\NXP\LPC177x_8x\system_LPC177x_8x.h)(0x51C7F714)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\system_LPC177x_8x.h)(0x526FBF8D)
+F (.\code\drv\drv_touchscreen.c)(0x53FC7255)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I.\code-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\NXP\LPC177x_8x-o .\output\drv_touchscreen.o --omf_browse .\output\drv_touchscreen.crf --depend .\output\drv_touchscreen.d)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\drv\drv_touchscreen.h)(0x526FBF8D)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7FD94)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\drv\drv_general.h)(0x526FBF8D)
+I (C:\Keil\ARM\Inc\NXP\LPC177x_8x\LPC177x_8x.h)(0x51C7F714)
+I (C:\Keil\ARM\CMSIS\Include\core_cm3.h)(0x51C7FB9A)
+I (C:\Keil\ARM\CMSIS\Include\core_cmInstr.h)(0x51C7FB9A)
+I (C:\Keil\ARM\CMSIS\Include\core_cmFunc.h)(0x51C7FB9A)
+I (C:\Keil\ARM\Inc\NXP\LPC177x_8x\system_LPC177x_8x.h)(0x51C7F714)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\system_LPC177x_8x.h)(0x526FBF8D)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\drv\drv_lcd.h)(0x526FBF8D)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\utils\timer_software.h)(0x526FBF8D)
+F (.\code\drv\gl_fonts.c)(0x526FBF8D)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I.\code-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\NXP\LPC177x_8x-o .\output\gl_fonts.o --omf_browse .\output\gl_fonts.crf --depend .\output\gl_fonts.d)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\drv\gl_fonts.h)(0x526FBF8D)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7FD94)
+F (.\code\drv\drv_led.c)(0x526FBF8D)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I.\code-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\NXP\LPC177x_8x-o .\output\drv_led.o --omf_browse .\output\drv_led.crf --depend .\output\drv_led.d)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\drv\drv_led.h)(0x526FBF8D)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7FD94)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\utils\ringbuf.h)(0x526FBF8D)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\utils\timer_software.h)(0x526FBF8D)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\drv\drv_general.h)(0x526FBF8D)
+I (C:\Keil\ARM\Inc\NXP\LPC177x_8x\LPC177x_8x.h)(0x51C7F714)
+I (C:\Keil\ARM\CMSIS\Include\core_cm3.h)(0x51C7FB9A)
+I (C:\Keil\ARM\CMSIS\Include\core_cmInstr.h)(0x51C7FB9A)
+I (C:\Keil\ARM\CMSIS\Include\core_cmFunc.h)(0x51C7FB9A)
+I (C:\Keil\ARM\Inc\NXP\LPC177x_8x\system_LPC177x_8x.h)(0x51C7F714)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\system_LPC177x_8x.h)(0x526FBF8D)
+F (.\code\drv\wiznet.c)(0x5297712B)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I.\code-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\NXP\LPC177x_8x-o .\output\wiznet.o --omf_browse .\output\wiznet.crf --depend .\output\wiznet.d)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\drv\wiznet.h)(0x529770C2)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\drv\drv_general.h)(0x526FBF8D)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7FD94)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\drv\wiznet_io.h)(0x5297706F)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\drv\wiznet_print.h)(0x5297706F)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\Utils\timer_software.h)(0x526FBF8D)
+I (C:\Keil\ARM\ARMCC\include\stdio.h)(0x51C7FD94)
+F (.\code\drv\wiznet_io.c)(0x52977184)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I.\code-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\NXP\LPC177x_8x-o .\output\wiznet_io.o --omf_browse .\output\wiznet_io.crf --depend .\output\wiznet_io.d)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\drv\wiznet_io.h)(0x5297706F)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7FD94)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\drv\drv_general.h)(0x526FBF8D)
+F (.\code\drv\wiznet_print.c)(0x529771A2)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I.\code-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\NXP\LPC177x_8x-o .\output\wiznet_print.o --omf_browse .\output\wiznet_print.crf --depend .\output\wiznet_print.d)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\drv\wiznet_print.h)(0x5297706F)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\drv\wiznet.h)(0x529770C2)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\drv\drv_general.h)(0x526FBF8D)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7FD94)
+I (C:\Keil\ARM\ARMCC\include\stdio.h)(0x51C7FD94)
+F (.\code\utils\ringbuf.c)(0x526FBF8D)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I.\code-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\NXP\LPC177x_8x-o .\output\ringbuf.o --omf_browse .\output\ringbuf.crf --depend .\output\ringbuf.d)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\utils\ringbuf.h)(0x526FBF8D)
+F (.\code\utils\timer_software.c)(0x526FBF8D)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I.\code-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\NXP\LPC177x_8x-o .\output\timer_software.o --omf_browse .\output\timer_software.crf --depend .\output\timer_software.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7FD94)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\utils\timer_software.h)(0x526FBF8D)
+F (.\code\utils\timer_software_init.c)(0x526FBF8D)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I.\code-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\NXP\LPC177x_8x-o .\output\timer_software_init.o --omf_browse .\output\timer_software_init.crf --depend .\output\timer_software_init.d)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\utils\timer_software_init.h)(0x526FBF8D)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\utils\timer_software.h)(0x526FBF8D)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x51C7FD94)
+I (C:\Keil\ARM\Inc\NXP\LPC177x_8x\LPC177x_8x.h)(0x51C7F714)
+I (C:\Keil\ARM\CMSIS\Include\core_cm3.h)(0x51C7FB9A)
+I (C:\Keil\ARM\CMSIS\Include\core_cmInstr.h)(0x51C7FB9A)
+I (C:\Keil\ARM\CMSIS\Include\core_cmFunc.h)(0x51C7FB9A)
+I (C:\Keil\ARM\Inc\NXP\LPC177x_8x\system_LPC177x_8x.h)(0x51C7F714)
+I (C:\Users\Valy\work\lab_boards\Module_laborator_TD_LPC\lpc_test_1\code\system_LPC177x_8x.h)(0x526FBF8D)

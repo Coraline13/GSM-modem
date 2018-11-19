@@ -1,0 +1,139 @@
+.TH "code/main.c" 3 "Fri Nov 30 2012" "Lab TD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+code/main.c \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdint\&.h>\fP
+.br
+\fC#include <assert\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include 'LPC177x_8x\&.h'\fP
+.br
+\fC#include 'system_LPC177x_8x\&.h'\fP
+.br
+\fC#include <retarget\&.h>\fP
+.br
+\fC#include <DRV\\drv_sdram\&.h>\fP
+.br
+\fC#include <DRV\\drv_lcd\&.h>\fP
+.br
+\fC#include <DRV\\drv_uart\&.h>\fP
+.br
+\fC#include <utils\\timer_software\&.h>\fP
+.br
+\fC#include <utils\\timer_software_init\&.h>\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBTestSRAM\fP ()"
+.br
+.ti -1c
+.RI "void \fBtestLCD\fP ()"
+.br
+.ti -1c
+.RI "void \fBtestUart\fP ()"
+.br
+.ti -1c
+.RI "void \fBtestPinTimer\fP ()"
+.br
+.ti -1c
+.RI "void \fBtestPinTimerSoftware\fP ()"
+.br
+.ti -1c
+.RI "void \fBTestUartBuffered\fP ()"
+.br
+.ti -1c
+.RI "void \fBTestUartBuffered1\fP ()"
+.br
+.ti -1c
+.RI "void \fBTestUartBuffered2\fP ()"
+.br
+.ti -1c
+.RI "void \fBTestUartRetarget\fP ()"
+.br
+.ti -1c
+.RI "int \fBmain\fP (void)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "volatile uint8_t \fBflag\fP = 0"
+.br
+.ti -1c
+.RI "uint16_t \fBtest\fP [128]"
+.br
+.ti -1c
+.RI "uint16_t * \fBlcd_frame_buffer\fP = (uint16_t*)\fBSDRAM_BASE_ADDR\fP"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "int main (void)"
+
+.PP
+Definition at line 193 of file main\&.c\&.
+.SS "void testLCD ()"
+
+.PP
+Definition at line 39 of file main\&.c\&.
+.SS "void testPinTimer ()"
+
+.PP
+Definition at line 74 of file main\&.c\&.
+.SS "void testPinTimerSoftware ()"
+
+.PP
+Definition at line 97 of file main\&.c\&.
+.SS "void TestSRAM ()"
+
+.PP
+Definition at line 21 of file main\&.c\&.
+.SS "void testUart ()"
+
+.PP
+Definition at line 65 of file main\&.c\&.
+.SS "void TestUartBuffered ()"
+
+.PP
+Definition at line 131 of file main\&.c\&.
+.SS "void TestUartBuffered1 ()"
+
+.PP
+Definition at line 145 of file main\&.c\&.
+.SS "void TestUartBuffered2 ()"
+
+.PP
+Definition at line 164 of file main\&.c\&.
+.SS "void TestUartRetarget ()"
+
+.PP
+Definition at line 183 of file main\&.c\&.
+.SH "Variable Documentation"
+.PP 
+.SS "volatile uint8_t flag = 0"
+
+.PP
+Definition at line 16 of file main\&.c\&.
+.SS "uint16_t* lcd_frame_buffer = (uint16_t*)\fBSDRAM_BASE_ADDR\fP"
+
+.PP
+Definition at line 19 of file main\&.c\&.
+.SS "uint16_t test[128]"
+
+.PP
+Definition at line 18 of file main\&.c\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Lab TD from the source code\&.

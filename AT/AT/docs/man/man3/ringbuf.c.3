@@ -1,0 +1,76 @@
+.TH "code/utils/ringbuf.c" 3 "Fri Nov 30 2012" "Lab TD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+code/utils/ringbuf.c \- 
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'utils/ringbuf\&.h'\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBNULL\fP   ((void *)0)"
+.br
+.ti -1c
+.RI "#define \fBASSERT\fP(x)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "static void \fBUpdateIndexAtomic\fP (volatile unsigned long *pulVal, unsigned long ulDelta, unsigned long ulSize)"
+.br
+.ti -1c
+.RI "\fBtBoolean\fP \fBRingBufFull\fP (\fBtRingBufObject\fP *ptRingBuf)"
+.br
+.ti -1c
+.RI "\fBtBoolean\fP \fBRingBufEmpty\fP (\fBtRingBufObject\fP *ptRingBuf)"
+.br
+.ti -1c
+.RI "void \fBRingBufFlush\fP (\fBtRingBufObject\fP *ptRingBuf)"
+.br
+.ti -1c
+.RI "unsigned long \fBRingBufUsed\fP (\fBtRingBufObject\fP *ptRingBuf)"
+.br
+.ti -1c
+.RI "unsigned long \fBRingBufFree\fP (\fBtRingBufObject\fP *ptRingBuf)"
+.br
+.ti -1c
+.RI "unsigned long \fBRingBufContigUsed\fP (\fBtRingBufObject\fP *ptRingBuf)"
+.br
+.ti -1c
+.RI "unsigned long \fBRingBufContigFree\fP (\fBtRingBufObject\fP *ptRingBuf)"
+.br
+.ti -1c
+.RI "unsigned long \fBRingBufSize\fP (\fBtRingBufObject\fP *ptRingBuf)"
+.br
+.ti -1c
+.RI "unsigned char \fBRingBufReadOne\fP (\fBtRingBufObject\fP *ptRingBuf)"
+.br
+.ti -1c
+.RI "void \fBRingBufRead\fP (\fBtRingBufObject\fP *ptRingBuf, unsigned char *pucData, unsigned long ulLength)"
+.br
+.ti -1c
+.RI "void \fBRingBufAdvanceRead\fP (\fBtRingBufObject\fP *ptRingBuf, unsigned long ulNumBytes)"
+.br
+.ti -1c
+.RI "void \fBRingBufAdvanceWrite\fP (\fBtRingBufObject\fP *ptRingBuf, unsigned long ulNumBytes)"
+.br
+.ti -1c
+.RI "void \fBRingBufWriteOne\fP (\fBtRingBufObject\fP *ptRingBuf, unsigned char ucData)"
+.br
+.ti -1c
+.RI "void \fBRingBufWrite\fP (\fBtRingBufObject\fP *ptRingBuf, unsigned char *pucData, unsigned long ulLength)"
+.br
+.ti -1c
+.RI "void \fBRingBufInit\fP (\fBtRingBufObject\fP *ptRingBuf, unsigned char *pucBuf, unsigned long ulSize)"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Lab TD from the source code\&.

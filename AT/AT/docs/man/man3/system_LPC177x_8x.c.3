@@ -1,0 +1,226 @@
+.TH "code/system_LPC177x_8x.c" 3 "Mon Nov 12 2018" "Lab TD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+code/system_LPC177x_8x.c \- 
+.PP
+CMSIS Cortex-M3 Device Peripheral Access Layer Source File for the NXP LPC177x_8x Device Series\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdint\&.h>\fP
+.br
+\fC#include 'LPC177x_8x\&.h'\fP
+.br
+\fC#include 'system_LPC177x_8x\&.h'\fP
+.br
+\fC#include <utils\\timer_software\&.h>\fP
+.br
+\fC#include <utils\\timer_software_init\&.h>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fB__CLK_DIV\fP(x, y)   ((y == 0) ? 0: x/y)"
+.br
+.ti -1c
+.RI "#define \fBCLOCK_SETUP\fP   1"
+.br
+.ti -1c
+.RI "#define \fBSCS_Val\fP   0x00000021"
+.br
+.ti -1c
+.RI "#define \fBCLKSRCSEL_Val\fP   0x00000001"
+.br
+.ti -1c
+.RI "#define \fBPLL0_SETUP\fP   1"
+.br
+.ti -1c
+.RI "#define \fBPLL0CFG_Val\fP   0x00000009"
+.br
+.ti -1c
+.RI "#define \fBPLL1_SETUP\fP   1"
+.br
+.ti -1c
+.RI "#define \fBPLL1CFG_Val\fP   0x00000023"
+.br
+.ti -1c
+.RI "#define \fBCCLKSEL_Val\fP   0x00000101"
+.br
+.ti -1c
+.RI "#define \fBUSBCLKSEL_Val\fP   0x00000201"
+.br
+.ti -1c
+.RI "#define \fBEMCCLKSEL_Val\fP   0x00000000"
+.br
+.ti -1c
+.RI "#define \fBPCLKSEL_Val\fP   0x00000002"
+.br
+.ti -1c
+.RI "#define \fBPCONP_Val\fP   0x042887DE"
+.br
+.ti -1c
+.RI "#define \fBCLKOUTCFG_Val\fP   0x00000100"
+.br
+.ti -1c
+.RI "#define \fBFLASH_SETUP\fP   1"
+.br
+.ti -1c
+.RI "#define \fBFLASHCFG_Val\fP   0x00005000"
+.br
+.ti -1c
+.RI "#define \fBCHECK_RANGE\fP(val, min, max)   ((val < min) || (val > max))"
+.br
+.ti -1c
+.RI "#define \fBCHECK_RSVD\fP(val, mask)   (val & mask)"
+.br
+.ti -1c
+.RI "#define \fB__M\fP   ((PLL0CFG_Val & 0x1F) + 1)"
+.br
+.ti -1c
+.RI "#define \fB__PLL0_CLK\fP(__F_IN)   (__F_IN * __M)"
+.br
+.ti -1c
+.RI "#define \fB__CCLK_DIV\fP   (CCLKSEL_Val & 0x1F)"
+.br
+.ti -1c
+.RI "#define \fB__PCLK_DIV\fP   (PCLKSEL_Val & 0x1F)"
+.br
+.ti -1c
+.RI "#define \fB__ECLK_DIV\fP   ((EMCCLKSEL_Val & 0x01) + 1)"
+.br
+.ti -1c
+.RI "#define \fB__CORE_CLK\fP   (__PLL0_CLK(OSC_CLK) / __CCLK_DIV)"
+.br
+.ti -1c
+.RI "#define \fB__PER_CLK\fP   (__PLL0_CLK(OSC_CLK) / __PCLK_DIV)"
+.br
+.ti -1c
+.RI "#define \fB__EMC_CLK\fP   (__PLL0_CLK(OSC_CLK) / __ECLK_DIV)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBSystemCoreClockUpdate\fP (void)"
+.br
+.RI "\fIUpdates the SystemCoreClock with current core Clock retrieved from cpu registers\&. \fP"
+.ti -1c
+.RI "void \fBSystemInit\fP (void)"
+.br
+.RI "\fISetup the microcontroller system\&. Initialize the System\&. \fP"
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "uint32_t \fBSystemCoreClock\fP = __CORE_CLK"
+.br
+.ti -1c
+.RI "uint32_t \fBPeripheralClock\fP = __PER_CLK"
+.br
+.ti -1c
+.RI "uint32_t \fBEMCClock\fP = __EMC_CLK"
+.br
+.ti -1c
+.RI "uint32_t \fBUSBClock\fP = (48000000UL)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+CMSIS Cortex-M3 Device Peripheral Access Layer Source File for the NXP LPC177x_8x Device Series\&. 
+
+.PP
+.nf
+    ARM Limited (ARM) is supplying this software for use with 
+    Cortex-M processor based microcontrollers.  This file can be 
+    freely distributed within development tools that are supporting 
+    such ARM based processors.
+.fi
+.PP
+.PP
+\fBVersion:\fP
+.RS 4
+1\&.0 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+02\&. June\&. 2011 
+.RE
+.PP
+\fBAuthor:\fP
+.RS 4
+NXP MCU SW Application Team
+.RE
+.PP
+Copyright(C) 2011, NXP Semiconductor All rights reserved\&. modified by KEIL
+.PP
+Software that is described herein is for illustrative purposes only which provides customers with programming information regarding the products\&. This software is supplied 'AS IS' without any warranties\&. NXP Semiconductors assumes no responsibility or liability for the use of the software, conveys no license or title under any patent, copyright, or mask work right to the product\&. NXP Semiconductors reserves the right to make changes in the software without notification\&. NXP Semiconductors also make no representation or warranty that such application will be suitable for the specified use without further testing or modification\&. 
+.PP
+Definition in file \fBsystem_LPC177x_8x\&.c\fP\&.
+.SH "Function Documentation"
+.PP 
+.SS "void SystemCoreClockUpdate (void)"
+
+.PP
+Updates the SystemCoreClock with current core Clock retrieved from cpu registers\&. Update SystemCoreClock variable
+.PP
+\fBParameters:\fP
+.RS 4
+\fInone\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+none 
+.RE
+.PP
+
+.PP
+Definition at line 369 of file system_LPC177x_8x\&.c\&.
+.SS "void SystemInit (void)"
+
+.PP
+Setup the microcontroller system\&. Initialize the System\&. Setup the microcontroller system\&. Initialize the System and update the SystemCoreClock variable\&.
+.PP
+Initialize the system
+.PP
+\fBParameters:\fP
+.RS 4
+\fInone\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+none 
+.RE
+.PP
+
+.PP
+Definition at line 458 of file system_LPC177x_8x\&.c\&.
+.SH "Variable Documentation"
+.PP 
+.SS "uint32_t EMCClock = __EMC_CLK"
+EMC Clock Frequency 
+.PP
+Definition at line 361 of file system_LPC177x_8x\&.c\&.
+.SS "uint32_t PeripheralClock = __PER_CLK"
+Peripheral Clock Frequency (Pclk) 
+.PP
+Definition at line 360 of file system_LPC177x_8x\&.c\&.
+.SS "uint32_t SystemCoreClock = __CORE_CLK"
+System Clock Frequency (Core Clock) 
+.PP
+Definition at line 359 of file system_LPC177x_8x\&.c\&.
+.SS "uint32_t USBClock = (48000000UL)"
+USB Clock Frequency - this value will be updated after call SystemCoreClockUpdate, should be 48MHz 
+.PP
+Definition at line 362 of file system_LPC177x_8x\&.c\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Lab TD from the source code\&.

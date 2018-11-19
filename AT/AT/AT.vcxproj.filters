@@ -13,18 +13,125 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\drv">
+      <UniqueIdentifier>{d6ffcff8-a814-46c1-9f28-f1e96495e0e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\utils">
+      <UniqueIdentifier>{4d68f56a-5688-4dcc-a561-e43136e73b66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\drv">
+      <UniqueIdentifier>{8e60fd55-fd77-41b1-9947-7f4df57d1772}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\utils">
+      <UniqueIdentifier>{fb993311-9a96-4803-adb9-576c29511ec1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="at.c">
+    <ClCompile Include="code\at.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="unit-test.c">
+    <ClCompile Include="code\main.c">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Retarget.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="code\system_LPC177x_8x.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="code\utils\ringbuf.c">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="code\utils\timer_software.c">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="code\utils\timer_software_init.c">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="code\drv\drv_general.c">
+      <Filter>Source Files\drv</Filter>
+    </ClCompile>
+    <ClCompile Include="code\drv\drv_lcd.c">
+      <Filter>Source Files\drv</Filter>
+    </ClCompile>
+    <ClCompile Include="code\drv\drv_led.c">
+      <Filter>Source Files\drv</Filter>
+    </ClCompile>
+    <ClCompile Include="code\drv\drv_sdram.c">
+      <Filter>Source Files\drv</Filter>
+    </ClCompile>
+    <ClCompile Include="code\drv\drv_touchscreen.c">
+      <Filter>Source Files\drv</Filter>
+    </ClCompile>
+    <ClCompile Include="code\drv\drv_uart.c">
+      <Filter>Source Files\drv</Filter>
+    </ClCompile>
+    <ClCompile Include="code\drv\gl_fonts.c">
+      <Filter>Source Files\drv</Filter>
+    </ClCompile>
+    <ClCompile Include="code\drv\wiznet.c">
+      <Filter>Source Files\drv</Filter>
+    </ClCompile>
+    <ClCompile Include="code\drv\wiznet_io.c">
+      <Filter>Source Files\drv</Filter>
+    </ClCompile>
+    <ClCompile Include="code\drv\wiznet_print.c">
+      <Filter>Source Files\drv</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="at.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="code\drv\drv_general.h">
+      <Filter>Header Files\drv</Filter>
     </ClInclude>
+    <ClInclude Include="code\drv\drv_lcd.h">
+      <Filter>Header Files\drv</Filter>
+    </ClInclude>
+    <ClInclude Include="code\drv\drv_led.h">
+      <Filter>Header Files\drv</Filter>
+    </ClInclude>
+    <ClInclude Include="code\drv\drv_sdram.h">
+      <Filter>Header Files\drv</Filter>
+    </ClInclude>
+    <ClInclude Include="code\drv\drv_touchscreen.h">
+      <Filter>Header Files\drv</Filter>
+    </ClInclude>
+    <ClInclude Include="code\drv\drv_uart.h">
+      <Filter>Header Files\drv</Filter>
+    </ClInclude>
+    <ClInclude Include="code\drv\gl_fonts.h">
+      <Filter>Header Files\drv</Filter>
+    </ClInclude>
+    <ClInclude Include="code\drv\wiznet.h">
+      <Filter>Header Files\drv</Filter>
+    </ClInclude>
+    <ClInclude Include="code\drv\wiznet_io.h">
+      <Filter>Header Files\drv</Filter>
+    </ClInclude>
+    <ClInclude Include="code\drv\wiznet_print.h">
+      <Filter>Header Files\drv</Filter>
+    </ClInclude>
+    <ClInclude Include="code\retarget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="code\system_LPC177x_8x.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="code\at.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="code\utils\ringbuf.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="code\utils\timer_software.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="code\utils\timer_software_init.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="code\startup_LPC177x_8x.s">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

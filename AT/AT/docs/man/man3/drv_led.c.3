@@ -1,0 +1,59 @@
+.TH "code/drv/drv_led.c" 3 "Mon Nov 12 2018" "Lab TD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+code/drv/drv_led.c \- 
+.PP
+LED Driver\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'drv_led\&.h'\fP
+.br
+\fC#include 'LPC177x_8x\&.h'\fP
+.br
+\fC#include 'system_LPC177x_8x\&.h'\fP
+.br
+\fC#include 'drv_general\&.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBDRV_LED_Init\fP ()"
+.br
+.ti -1c
+.RI "void \fBDRV_LED_Off\fP (\fBLED\fP led)"
+.br
+.ti -1c
+.RI "void \fBDRV_LED_On\fP (\fBLED\fP led)"
+.br
+.ti -1c
+.RI "void \fBDRV_LED_Toggle\fP (\fBLED\fP led)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBLED_MAP\fP \fBLedMap\fP []"
+.br
+.RI "\fILED Mapping Table\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+LED Driver\&. 
+
+\fBAuthor:\fP
+.RS 4
+Valentin STANGACIU, DSPLabs
+.RE
+.PP
+Contains the driver for the 4 leds on the board 
+.PP
+Definition in file \fBdrv_led\&.c\fP\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Lab TD from the source code\&.

@@ -1,0 +1,138 @@
+.TH "DRV_SDRAM" 3 "Mon Nov 12 2018" "Lab TD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+DRV_SDRAM \- 
+.PP
+Driver for the SDRAM memory on the Olimex board\&.  
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBSDRAM_BASE_ADDR\fP   0xA0000000"
+.br
+.ti -1c
+.RI "#define \fBSDRAM_SIZE\fP   0x02000000"
+.br
+.ti -1c
+.RI "#define \fBSDRAM_REFRESH\fP   7813"
+.br
+.ti -1c
+.RI "#define \fBSDRAM_TRP\fP   20"
+.br
+.ti -1c
+.RI "#define \fBSDRAM_TRAS\fP   45"
+.br
+.ti -1c
+.RI "#define \fBSDRAM_TAPR\fP   1"
+.br
+.ti -1c
+.RI "#define \fBSDRAM_TDAL\fP   3"
+.br
+.ti -1c
+.RI "#define \fBSDRAM_TWR\fP   3"
+.br
+.ti -1c
+.RI "#define \fBSDRAM_TRC\fP   65"
+.br
+.ti -1c
+.RI "#define \fBSDRAM_TRFC\fP   66"
+.br
+.ti -1c
+.RI "#define \fBSDRAM_TXSR\fP   67"
+.br
+.ti -1c
+.RI "#define \fBSDRAM_TRRD\fP   15"
+.br
+.ti -1c
+.RI "#define \fBSDRAM_TMRD\fP   3"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "float \fBDRV_SDRAM_PERIOD\fP (void)"
+.br
+.ti -1c
+.RI "uint32_t \fBDRV_SDRAM_P2C\fP (uint32_t period)"
+.br
+.ti -1c
+.RI "void \fBDRV_SDRAM_InitPins\fP ()"
+.br
+.ti -1c
+.RI "void \fBDRV_SDRAM_Init\fP ()"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Driver for the SDRAM memory on the Olimex board\&. 
+
+The SDRAM Memory can be used after the call of DRV_SDRAM_Init and after this call the memory becomes transparent and may be access started from address defined by SDRAM_BASE_ADDR and the size defined by SDRAM_SIZE 
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define SDRAM_BASE_ADDR   0xA0000000"
+The starting address of the Olimex OnBoard SDRAM memory 
+.PP
+Definition at line 28 of file drv_sdram\&.h\&.
+.SS "#define SDRAM_SIZE   0x02000000"
+The size of Olimex OnBoard SDRAM memory 
+.PP
+Definition at line 33 of file drv_sdram\&.h\&.
+.SH "Function Documentation"
+.PP 
+.SS "void DRV_SDRAM_Init ()"
+Initialize the SDRAM Controller
+.PP
+This function is used to initialize the EMC controller of the processor to use the SDRAM memory on the board 
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 186 of file drv_sdram\&.c\&.
+.SS "void DRV_SDRAM_InitPins ()\fC [private]\fP"
+Initializes the EMC - External Memory Controller of the LPC1788 microcontroller 
+.PP
+\fBReturns:\fP
+.RS 4
+None\&. 
+.RE
+.PP
+
+.PP
+Definition at line 71 of file drv_sdram\&.c\&.
+.SS "uint32_t DRV_SDRAM_P2C (uint32_tperiod)\fC [private]\fP"
+Converts from time period to SDRAM clock cycles\&. The period is taken from DRV_SDRAM_PERIOD 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIperiod\fP represents the value of the period to be converted 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+The value of the period in cc based on DRV_SDRAM_PERIOD 
+.RE
+.PP
+
+.PP
+Definition at line 50 of file drv_sdram\&.c\&.
+.SS "float DRV_SDRAM_PERIOD (void)\fC [private]\fP"
+Calculates the SDRAM period based on EMCClock global variable\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+SDRAM Period\&. 
+.RE
+.PP
+
+.PP
+Definition at line 39 of file drv_sdram\&.c\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Lab TD from the source code\&.

@@ -1,0 +1,53 @@
+.TH "UART_BAUDRATE_VALUE_DIV_MUL" 3 "Mon Nov 12 2018" "Lab TD" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+UART_BAUDRATE_VALUE_DIV_MUL \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <drv_general\&.h>\fP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "uint8_t \fBDLM\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBDLL\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBmval\fP"
+.br
+.ti -1c
+.RI "uint8_t \fBdval\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+The structure used for encapsulating the values used for the uart divisor in order to obtain a specific baudrate This structure uses mul and div for the fractional divider (fractional divider = (mval / dval) 
+.PP
+Definition at line 80 of file drv_general\&.h\&.
+.SH "Field Documentation"
+.PP 
+.SS "uint8_t UART_BAUDRATE_VALUE_DIV_MUL::DLL"
+The DLL value - least significant byte of the integer divider 
+.PP
+Definition at line 83 of file drv_general\&.h\&.
+.SS "uint8_t UART_BAUDRATE_VALUE_DIV_MUL::DLM"
+The DLM value - most significant byte of the integer divider 
+.PP
+Definition at line 82 of file drv_general\&.h\&.
+.SS "uint8_t UART_BAUDRATE_VALUE_DIV_MUL::dval"
+The denominator of the fractional divider 
+.PP
+Definition at line 85 of file drv_general\&.h\&.
+.SS "uint8_t UART_BAUDRATE_VALUE_DIV_MUL::mval"
+The numerator of the fractional divider 
+.PP
+Definition at line 84 of file drv_general\&.h\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Lab TD from the source code\&.
