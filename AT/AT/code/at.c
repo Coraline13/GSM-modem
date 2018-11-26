@@ -31,6 +31,8 @@ void print_data()
 uint8_t parse(char current_char)
 {
 	static uint8_t state = 0;
+	if(state == ERROR_STATE || state == SUCCESS_STATE) state = 0;
+	printf("State %u, char %c\n", state, current_char);
 	switch (state) {
 	case INIT_STATE:
 		// expecting '<CR>'
