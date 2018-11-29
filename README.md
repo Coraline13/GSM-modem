@@ -6,7 +6,7 @@ AT is the finite automata that checks the response of the GSM modem.
 
 ### Requirements
 * Windows
-* Visual Studio
+* Visual Studio OR Keil uVision 5
 
 ## Usage
 

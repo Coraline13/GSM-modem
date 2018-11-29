@@ -58,16 +58,14 @@ void testLCD()
 */
 void TouchScreenCallBack(TouchResult* touchData)
 {
-	printf("touched X=%3d Y=%3d\n", touchData->X, touchData->Y);		
-	
+	printf("touched X=%3d Y=%3d\n", touchData->X, touchData->Y);	
 }
 
 void BoardInit()
 {
-	//timer_software_handler_t handler;
+	// timer_software_handler_t handler;
 	
 	TIMER_SOFTWARE_init_system();
-	
 	
 	DRV_SDRAM_Init();
 	
@@ -79,12 +77,12 @@ void BoardInit()
 	DRV_TOUCHSCREEN_Init();
 	DRV_TOUCHSCREEN_SetTouchCallback(TouchScreenCallBack);
 	DRV_LED_Init();
-	printf ("Hello\n");	
+	printf("Hello\n");	
 	
-	//handler = TIMER_SOFTWARE_request_timer();
-//	TIMER_SOFTWARE_configure_timer(handler, MODE_1, 100, 1);
-	//TIMER_SOFTWARE_set_callback(handler, timer_callback_1);
-//	TIMER_SOFTWARE_start_timer(handler);
+	// handler = TIMER_SOFTWARE_request_timer();
+	// TIMER_SOFTWARE_configure_timer(handler, MODE_1, 100, 1);
+	// TIMER_SOFTWARE_set_callback(handler, timer_callback_1);
+	// TIMER_SOFTWARE_start_timer(handler);
 }
 
 void send_command(char *cmd) {
@@ -92,14 +90,16 @@ void send_command(char *cmd) {
 	
 	DRV_UART_FlushRX(UART_3);
 	DRV_UART_FlushTX(UART_3);
-	//printf("execute_command\n");
+	// printf("execute_command\n");
 	DRV_UART_Write(UART_3, (uint8_t*) cmd, strlen(cmd)); 
 	
-//	while(1) {
-//		while(DRV_UART_ReadByte(UART_3, &ch) == OK) {
-//			printf("%c", ch);
-//		}
-//	}
+	/*
+	while (1) {
+		while (DRV_UART_ReadByte(UART_3, &ch) == OK) {
+			printf("%c", ch);
+		}
+	}
+	*/
 }
 
 void get_command_response() {
@@ -111,11 +111,11 @@ void get_command_response() {
 	TIMER_SOFTWARE_reset_timer(handler);
 	TIMER_SOFTWARE_start_timer(handler);
 	
-	while(!TIMER_SOFTWARE_interrupt_pending(handler)){
+	while (!TIMER_SOFTWARE_interrupt_pending(handler)){
 		
-		while(DRV_UART_BytesAvailable(UART_3) > 0 && (state != ERROR_STATE)) {
+		while (DRV_UART_BytesAvailable(UART_3) > 0 && (state != ERROR_STATE)) {
 			DRV_UART_ReadByte(UART_3, &ch);
-			//printf("%c", ch);
+			// printf("%c", ch);
 			state = parse(ch);
 		}
 	}
@@ -132,11 +132,14 @@ bool verify_response(AT_DATA *data) {
 
 uint32_t tol(char *s) {
 	uint32_t nr = 0, i = 0;
-	while(s[i] != 0) {
-		if(s[i] >= '0' && s[i] <= '9') {
-			nr = nr*10 + (s[i] - '0');
+
+	while (s[i] != 0) {
+		if (s[i] >= '0' && s[i] <= '9') {
+			nr = nr * 10 + (s[i] - '0');
 		}
-		if(s[i] == ',') return nr;
+		if (s[i] == ',') {
+			return nr;
+		}
 		i++;
 	}
 	return nr;
@@ -144,76 +147,75 @@ uint32_t tol(char *s) {
 
 uint32_t get_asu_from_response(AT_DATA *data){
 	char *text;
-	//printf("%ld\n", tol(data->data[0]));
-	//return tol(data->data[0]);
+	// printf("%ld\n", tol(data->data[0]));
+	// return tol(data->data[0]);
 	return strtol(&data->data[0][6], NULL, 10);
 }
 int32_t asu_to_dbmw(uint32_t asu) {
-	return 2*asu - 113;
+	return 2 * asu - 113;
 }
 int main(void)
 {
-	//uint8_t ch;
+	// uint8_t ch;
 	uint32_t rssi_value_asu;
 	uint32_t rssi_value_dbmw;
 	
 	BoardInit();
-	//testLCD();
+	// testLCD();
 	
 	DRV_UART_Configure(UART_3, UART_CHARACTER_LENGTH_8, 115200, UART_PARITY_NO_PARITY, 1, TRUE, 3);
-	//DRV_UART_Configure(UART_2, UART_CHARACTER_LENGTH_8, 115200, UART_PARITY_NO_PARITY, 1, TRUE, 3);
+	// DRV_UART_Configure(UART_2, UART_CHARACTER_LENGTH_8, 115200, UART_PARITY_NO_PARITY, 1, TRUE, 3);
 	
 	handler = TIMER_SOFTWARE_request_timer();
 	TIMER_SOFTWARE_configure_timer(handler, MODE_1, 1000, 1);
 	// send AT command to tell modem to autobaud
 	send_command(at_command_at);
 	TIMER_SOFTWARE_Wait(1000);
-	//print_data();
+	// print_data();
 	
 	send_command(at_command_at);
 	TIMER_SOFTWARE_Wait(1000);
-	//print_data();
+	// print_data();
 	
 	send_command(at_command_at);
 	TIMER_SOFTWARE_Wait(1000);
-	//print_data();
+	// print_data();
 	
 	TIMER_SOFTWARE_reset_timer(handler);
 	TIMER_SOFTWARE_start_timer(handler);
 	
-	while(1) {
+	while (1) {
 		
-		if(TIMER_SOFTWARE_interrupt_pending(handler)) {
+		if (TIMER_SOFTWARE_interrupt_pending(handler)) {
 			execute_command(at_command_csq);
 			print_data();
-			if(verify_response(&data)) {
+			if (verify_response(&data)) {
 				rssi_value_asu = get_asu_from_response(&data);
 				rssi_value_dbmw = asu_to_dbmw(rssi_value_asu);
 				printf("GSM modem signal %"PRIu32" ASU -> %"PRIi32" dBmW\n", rssi_value_asu, rssi_value_dbmw);
 			}
-			//execute_command(at_command_at);
-		//	print_data();
+			// execute_command(at_command_at);
+			// print_data();
 			TIMER_SOFTWARE_clear_interrupt(handler);
 		}
-		
 	}
 	
 	
 	
-/*	while(1)
+/*	while (1)
 	{
 		DRV_LED_Toggle(LED_4);
-		
 	}
 	
-	while(1)
+	while (1)
 	{
 		DRV_UART_SendByte(UART_3, 'A');
-	//	TIMER_SOFTWARE_Wait(1000);
+		// TIMER_SOFTWARE_Wait(1000);
 	}
 	*/
+
 	/*
-	while(1)
+	while (1)
 	{
 		if (DRV_UART_ReadByte(UART_3, &ch) == OK)
 		{
@@ -221,7 +223,7 @@ int main(void)
 		}		
 	}
 
-	while(1)
+	while (1)
 	{
 		if (DRV_UART_ReadByte(UART_0, &ch) == OK)
 		{
@@ -237,12 +239,13 @@ int main(void)
 		}
 	}
 	
-	while(1)
+	while (1)
 	{
 		DRV_UART_Process();
 		DRV_TOUCHSCREEN_Process();
 	}
 */
+
 	return 0; 
 }
 
