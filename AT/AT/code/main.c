@@ -21,6 +21,12 @@
 
 char at_command_at[] = "AT\r\n";
 char at_command_csq[] = "AT+CSQ\r\n";
+char at_command_creg[] = "AT+CREG\r\n";
+char at_command_cops[] = "AT+COPS\r\n";
+char at_command_gsn[] = "AT+GSN\r\n";
+char at_command_gmi[] = "AT+GMI\r\n";
+char at_command_gmr[] = "AT+GMR\r\n";
+// char at_command_extended_creg[] = "AT+CREG\r\n";
 
 timer_software_handler_t handler;
 
