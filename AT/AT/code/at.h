@@ -20,6 +20,13 @@
 #define STATE_16 16
 #define ERROR_STATE 17
 
+#define AT_CSQ 0
+#define AT_CREG 1
+#define AT_COPS 2
+#define AT_GSN 3
+#define AT_GMI 4
+#define AT_GMR 5
+
 #define STR_CNT 100
 #define STR_SIZE 200
 
@@ -33,6 +40,6 @@ extern AT_DATA data;
 
 void print_data();
 
-uint8_t parse(char current_char);
+uint8_t parse(char current_char, uint8_t command_flag);
 
 #endif

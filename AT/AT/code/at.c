@@ -28,7 +28,7 @@ void print_data()
 }
 
 // returns true if the current state is either the success state or the error state and false if not (and still waits for chars)
-uint8_t parse(char current_char)
+uint8_t parse(char current_char, uint8_t command_flag)
 {
 	static uint8_t state = 0;
 
@@ -55,6 +55,9 @@ uint8_t parse(char current_char)
 
 			// adding '+' to the current string in data
 			append_char(data.data[data.line_count], current_char);
+		}
+		else if (command_flag == AT_GMI || command_flag == AT_GMR || command_flag == AT_GSN) {
+			state = STATE_4;
 		}
 		else if (current_char == 'O') {
 			state = STATE_9;

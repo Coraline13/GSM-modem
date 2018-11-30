@@ -122,7 +122,7 @@ void get_command_response() {
 		while (DRV_UART_BytesAvailable(UART_3) > 0 && (state != ERROR_STATE)) {
 			DRV_UART_ReadByte(UART_3, &ch);
 			// printf("%c", ch);
-			state = parse(ch);
+			state = parse(ch, AT_CSQ);
 		}
 	}
 }
