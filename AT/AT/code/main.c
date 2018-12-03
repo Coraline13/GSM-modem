@@ -94,29 +94,35 @@ bool verify_response(AT_DATA *data) {
 uint32_t get_asu_from_response(AT_DATA *data){
 	return strtol(&data->data[0][6], NULL, 10);
 }
+
 int32_t asu_to_dbmw(uint32_t asu) {
 	return 2 * asu - 113;
 }
 
-char* get_operator_name(AT_DATA *data) { // pentru AT_COPS
+// for AT_COPS
+char* get_operator_name(AT_DATA *data) {
 	char *op_name;
 	op_name = strstr(&data->data[0][8], ",");
 	return op_name;
 }
 
-char* get_imei(AT_DATA *data) { // pentru AT_GSN
+// for AT_GSN
+char* get_imei(AT_DATA *data) {
 	return data->data[0];
 }
 
-char* get_manufacturer_identity(AT_DATA *data) { // pentru AT_GMI
+// for AT_GMI
+char* get_manufacturer_identity(AT_DATA *data) {
 	return data->data[0];
 }
 
-char* get_software_version(AT_DATA *data) { // pentru AT_GMR
+// for AT_GMR
+char* get_software_version(AT_DATA *data) {
 	return &data->data[0][10];
 }
 
-char* get_network_state(AT_DATA *data) { // pentru AT_CREG
+// for AT_CREG
+char* get_network_state(AT_DATA *data) {
 	uint8_t stat;
 	stat = strtol(&data->data[0][9], NULL, 10);
 	switch (stat) {
@@ -154,8 +160,7 @@ int main(void)
 	TIMER_SOFTWARE_reset_timer(handler_main);
 	TIMER_SOFTWARE_start_timer(handler_main);
 	
-	while (1) {
-		
+	while (1) {		
 		if (TIMER_SOFTWARE_interrupt_pending(handler_main)) {
 			execute_command(at_command_csq, AT_CSQ);
 			if (verify_response(&data)) {
@@ -189,13 +194,16 @@ int main(void)
 			if(verify_response(&data)) {
 				printf("Modem software version: %s\n", get_software_version(&data));
 			}
+
 			/*
 			execute_command(at_command_extended_creg_2, AT_CREG);
 			print_data();
 			execute_command(at_command_creg, AT_CREG);
 			print_data();
 			*/
+
 			TIMER_SOFTWARE_clear_interrupt(handler_main);
+
 			printf("\n");
 		}
 	}
