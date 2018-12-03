@@ -14,7 +14,7 @@ static void append_char(char str[], char c) {
 	str[l] = c;
 }
 
-void print_data()
+void print_data(void)
 {
 	unsigned int i;
 
@@ -50,14 +50,11 @@ uint8_t parse(char current_char, uint8_t command_flag)
 		break;
 	case STATE_2:
 		// expecting '+' or 'O' or 'E'
-		if (current_char == '+') {
+		if (current_char == '+' || command_flag == AT_GMI || command_flag == AT_GMR || command_flag == AT_GSN) {
 			state = STATE_3;
 
 			// adding '+' to the current string in data
 			append_char(data.data[data.line_count], current_char);
-		}
-		else if (command_flag == AT_GMI || command_flag == AT_GMR || command_flag == AT_GSN) {
-			state = STATE_4;
 		}
 		else if (current_char == 'O') {
 			state = STATE_9;
