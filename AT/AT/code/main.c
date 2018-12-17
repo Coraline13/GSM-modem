@@ -29,6 +29,10 @@ char at_command_gmr[] = "AT+GMR\r\n";
 char at_command_extended_creg_1[] = "AT+CREG=1\r\n";
 char at_command_extended_creg_2[] = "AT+CREG=2\r\n";
 
+LCD_PIXEL white = {255, 255, 255};
+LCD_PIXEL primary = {95, 75, 139};
+LCD_PIXEL black = {0, 0, 0};
+
 timer_software_handler_t handler_main;
 timer_software_handler_t handler_get_response;
 
@@ -41,8 +45,13 @@ void TouchScreenCallBack(TouchResult* touchData)
 	printf("touched X=%3d Y=%3d\n", touchData->X, touchData->Y);	
 }
 
+void drawButtons(uint8_t, uint8_t, uint16_t, uint16_t, LCD_PIXEL);
+
 void BoardInit()
 {	
+	int button_width = LCD_WIDTH / 4;
+	int i,j;
+	
 	TIMER_SOFTWARE_init_system();
 	
 	DRV_SDRAM_Init();
@@ -55,7 +64,12 @@ void BoardInit()
 	DRV_TOUCHSCREEN_Init();
 	DRV_TOUCHSCREEN_SetTouchCallback(TouchScreenCallBack);
 	DRV_LED_Init();
+	
 	printf("Hello\n");	
+	
+	DRV_LCD_TestFillColor(255, 255, 255);
+	drawButtons(0, 200, LCD_WIDTH, LCD_HEIGHT, primary);
+	
 }
 
 void send_command(char *cmd) {
@@ -136,6 +150,20 @@ char* get_network_state(AT_DATA *data) {
 	}
 }
 
+
+void drawButtons(uint8_t x, uint8_t y, uint16_t width, uint16_t height, LCD_PIXEL bg_color) {
+	int i, j;
+	for(i = y; i <= height; i++) {
+		for(j = x; j <= width; j++) {
+			DRV_LCD_PutPixel(i, j, bg_color.red, bg_color.green, bg_color.blue);
+		}
+	}
+	DRV_LCD_Puts("<Prev", x+30, y+25, white, primary, 1);
+	DRV_LCD_Puts("Delete", x+150, y+25, white, primary, 1);	
+	DRV_LCD_Puts("Send", x+290, y+25, white, primary, 1);
+	DRV_LCD_Puts("Next>", x+390, y+25, white, primary, 1);
+}
+
 int main(void)
 {
 	uint32_t rssi_value_asu;
@@ -166,33 +194,33 @@ int main(void)
 			if (verify_response(&data)) {
 				rssi_value_asu = get_asu_from_response(&data);
 				rssi_value_dbmw = asu_to_dbmw(rssi_value_asu);
-				printf("GSM modem signal %"PRIu32" ASU -> %"PRIi32" dBmW\n", rssi_value_asu, rssi_value_dbmw);
+			//	printf("GSM modem signal %"PRIu32" ASU -> %"PRIi32" dBmW\n", rssi_value_asu, rssi_value_dbmw);
 			}
 			
 			execute_command(at_command_gsn, AT_GSN);
 			if (verify_response(&data)) {
-				printf("Modem IMEI: %s\n", get_imei(&data));
+		//		printf("Modem IMEI: %s\n", get_imei(&data));
 			}
 			
 			execute_command(at_command_extended_creg_1, AT_CREG);
 			execute_command(at_command_creg, AT_CREG);
 			if(verify_response(&data)){
-				printf("Network state: %s\n", get_network_state(&data));
+		//		printf("Network state: %s\n", get_network_state(&data));
 			}
 			
 			execute_command(at_command_cops, AT_COPS);
 			if(verify_response(&data)) {
-				printf("Network operator name: %s\n", get_operator_name(&data));
+		//		printf("Network operator name: %s\n", get_operator_name(&data));
 			}
 			
 			execute_command(at_command_gmi, AT_GMI);
 			if(verify_response(&data)) {
-				printf("Modem manufacturer: %s\n", get_manufacturer_identity(&data));
+		//		printf("Modem manufacturer: %s\n", get_manufacturer_identity(&data));
 			}
 			
 			execute_command(at_command_gmr, AT_GMR);
 			if(verify_response(&data)) {
-				printf("Modem software version: %s\n", get_software_version(&data));
+		//		printf("Modem software version: %s\n", get_software_version(&data));
 			}
 
 			/*
@@ -204,7 +232,9 @@ int main(void)
 
 			TIMER_SOFTWARE_clear_interrupt(handler_main);
 
-			printf("\n");
-		}
+		//	printf("\n");
+		} 
+		DRV_TOUCHSCREEN_Process();
+		printf("Height: %u\nWidth: %u\n", LCD_HEIGHT, LCD_WIDTH);
 	}
 }
