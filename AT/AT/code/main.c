@@ -48,10 +48,7 @@ void TouchScreenCallBack(TouchResult* touchData)
 void drawButtons(uint8_t, uint8_t, uint16_t, uint16_t, LCD_PIXEL);
 
 void BoardInit()
-{	
-	int button_width = LCD_WIDTH / 4;
-	int i,j;
-	
+{		
 	TIMER_SOFTWARE_init_system();
 	
 	DRV_SDRAM_Init();
@@ -167,7 +164,13 @@ void drawButtons(uint8_t x, uint8_t y, uint16_t width, uint16_t height, LCD_PIXE
 int main(void)
 {
 	uint32_t rssi_value_asu;
-	uint32_t rssi_value_dbmw;
+	int32_t rssi_value_dbmw;
+	int32_t previous_dbmw = 0;
+	char *previous_op_name;
+	char *previous_network_state;
+
+	strcpy(previous_op_name, "");
+	strcpy(previous_network_state, "Unknown state");
 	
 	BoardInit();
 	
@@ -195,6 +198,10 @@ int main(void)
 				rssi_value_asu = get_asu_from_response(&data);
 				rssi_value_dbmw = asu_to_dbmw(rssi_value_asu);
 			//	printf("GSM modem signal %"PRIu32" ASU -> %"PRIi32" dBmW\n", rssi_value_asu, rssi_value_dbmw);
+				if (previous_dmbw != rssi_value_dbmw) {
+					printf("GSM signal strength: %"PRIi32" dBmW\n", rssi_value_dbmw);
+				}
+				previous_dbmw = rssi_value_dbmw;
 			}
 			
 			execute_command(at_command_gsn, AT_GSN);
@@ -206,11 +213,19 @@ int main(void)
 			execute_command(at_command_creg, AT_CREG);
 			if(verify_response(&data)){
 		//		printf("Network state: %s\n", get_network_state(&data));
+				if (strcmp(previous_network_state, get_network_state(&data))) {
+					printf("Network state: %s\n", get_network_state(&data));
+				}
+				strcpy(previous_network_state, get_network_state(&data));
 			}
 			
 			execute_command(at_command_cops, AT_COPS);
 			if(verify_response(&data)) {
 		//		printf("Network operator name: %s\n", get_operator_name(&data));
+				if (strcmp(previous_op_name, get_operator_name(&data)) != 0) {
+					printf("Operator: %s\n", get_operator_name(&data));
+				}
+				strcpy(previous_op_name, get_operator_name(&data));
 			}
 			
 			execute_command(at_command_gmi, AT_GMI);
@@ -235,6 +250,6 @@ int main(void)
 		//	printf("\n");
 		} 
 		DRV_TOUCHSCREEN_Process();
-		printf("Height: %u\nWidth: %u\n", LCD_HEIGHT, LCD_WIDTH);
+		// printf("Height: %u\nWidth: %u\n", LCD_HEIGHT, LCD_WIDTH);
 	}
 }
