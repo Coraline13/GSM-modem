@@ -18,6 +18,17 @@
 #include <utils\timer_software_init.h>
 
 #include "at.h"
+#define SIM_STORAGE_SIZE 10
+
+uint8_t message_count = SIM_STORAGE_SIZE;
+
+typedef struct {
+	char nr[13];
+	char text[161];
+	char timestamp[21];
+} SMS;
+
+SMS messages[SIM_STORAGE_SIZE];
 
 char at_command_at[] = "AT\r\n";
 char at_command_csq[] = "AT+CSQ\r\n";
@@ -43,8 +54,14 @@ void timer_callback_1(timer_software_handler_t h)
 {
 }
 
+void drawButtons(uint8_t, uint8_t, uint16_t, uint16_t, LCD_PIXEL);
+void displaySMS(uint8_t);
+
 void TouchScreenCallBack(TouchResult* touchData)
 {
+	static uint8_t sms_id = 0;
+	int i, j;
+	
 	//printf("touched X=%3d Y=%3d\n", touchData->X, touchData->Y);	
 	handler_buttons = TIMER_SOFTWARE_request_timer();
 	TIMER_SOFTWARE_configure_timer(handler_buttons, MODE_1, 200, 1);
@@ -55,17 +72,97 @@ void TouchScreenCallBack(TouchResult* touchData)
 	if(touchData->Y >= 200) {
 		if(touchData->X >= 0 && touchData->X <= LCD_WIDTH/4) {
 			printf("<Prev button was pressed\n");
+			sms_id = (sms_id == 0) ? message_count - 1 : sms_id - 1;
+			displaySMS(sms_id);
 		} else if(touchData->X >= LCD_WIDTH/4 && touchData->X <= LCD_WIDTH/2) {
 			printf("Delete button was pressed\n");
+			for(i = 0; i < LCD_WIDTH; i++){
+				for(j = 41; j < 200; j++) {
+					DRV_LCD_PutPixel(j, i, white.red, white.green, white.blue);
+				}
+			}
+			for(i = sms_id; i < message_count - 1; i++) {
+				messages[i] = messages[i+1];
+			}
+			if(sms_id == message_count-1) sms_id = 0;
+			message_count--;
+			DRV_LCD_Puts("MESSAGE DELETED", 30, 65, black, white, 1);
+			TIMER_SOFTWARE_Wait(300);
+			displaySMS(sms_id);
 		} else if(touchData->X >= LCD_WIDTH/2 && touchData->X <= 3*LCD_WIDTH/4) {
 			printf("Send button was pressed\n");
+			for(i = 0; i < LCD_WIDTH; i++){
+				for(j = 41; j < 200; j++) {
+					DRV_LCD_PutPixel(j, i, white.red, white.green, white.blue);
+				}
+			}
+			DRV_LCD_Puts("MESSAGE SENT", 30, 65, black, white, 1);
 		} else {
 			printf("Next> button was pressed\n");
+			sms_id = (sms_id == message_count - 1) ? 0 : sms_id + 1;
+			displaySMS(sms_id);
 		}
 	}
 }
 
-void drawButtons(uint8_t, uint8_t, uint16_t, uint16_t, LCD_PIXEL);
+void addPlaceholderText(SMS *messages)
+{	
+	strcpy(messages[0].nr, "0765980589");
+	strcpy(messages[0].text, "Unde esti?");
+	strcpy(messages[0].timestamp, "0. 11:54");
+	
+	strcpy(messages[1].nr, "0770715451");
+	strcpy(messages[1].text, "Pe drum");
+	strcpy(messages[1].timestamp, "1. 11:59");
+	
+	strcpy(messages[2].nr, "0765980589");
+	strcpy(messages[2].text, "Spre?");
+	strcpy(messages[2].timestamp, "2. 12:04");
+	
+	strcpy(messages[3].nr, "0770715451");
+	strcpy(messages[3].text, "Spre camin. Tu unde esti?");
+	strcpy(messages[3].timestamp, "3. 12:11");
+	
+	strcpy(messages[4].nr, "0765980589");
+	strcpy(messages[4].text, "Te astept... De 34 de minute si 15 secunde...");
+	strcpy(messages[4].timestamp, "4. 12:12");
+	
+	strcpy(messages[5].nr, "0770715451");
+	strcpy(messages[5].text, "...scuze? Ajung imediat.");
+	strcpy(messages[5].timestamp, "5. 12:15");
+	
+	strcpy(messages[6].nr, "0765980589");
+	strcpy(messages[6].text, "?_?");
+	strcpy(messages[6].timestamp, "6. 12:16");
+	
+	strcpy(messages[7].nr, "0770715451");
+	strcpy(messages[7].text, "^.^");
+	strcpy(messages[7].timestamp, "7. 12:18");
+
+	strcpy(messages[8].nr, "0765980589");
+	strcpy(messages[8].text, "Te astept la intrare.");
+	strcpy(messages[8].timestamp, "8. 12:21");
+	
+	strcpy(messages[9].nr, "0770715451");
+	strcpy(messages[9].text, "Acu ajung.");
+	strcpy(messages[9].timestamp, "9. 12:24");
+}
+
+void displaySMS(uint8_t id) 
+{
+	int i, j;
+	for(i = 0; i < LCD_WIDTH; i++){
+		for(j = 41; j < 200; j++) {
+			DRV_LCD_PutPixel(j, i, white.red, white.green, white.blue);
+		}
+	}
+	DRV_LCD_Puts(messages[id].nr, 30, 65, black, white, 1);	
+	for(i = 10; i < 300; i++) {
+		DRV_LCD_PutPixel(85, i, black.red, black.green, black.blue);
+	}
+	DRV_LCD_Puts(messages[id].text, 20, 110, black, white, 0);	
+	DRV_LCD_Puts(messages[id].timestamp, 20, 120, black, white, 0);	
+}
 
 void BoardInit()
 {		
@@ -97,6 +194,9 @@ void BoardInit()
 	DRV_LCD_Puts("GSM modem signal: <acquiring data>", 20, 5, white, primary, 0);
 	DRV_LCD_Puts("Network state: <acquiring data>", 20, 18, white, primary, 0);
 	DRV_LCD_Puts("Network operator name: <acquiring data>", 20, 30, white, primary, 0);
+	
+	addPlaceholderText(messages);
+	displaySMS(0);
 }
               
 void send_command(char *cmd) {
@@ -167,9 +267,9 @@ char* get_network_state(AT_DATA *data) {
 	uint8_t stat;
 	stat = strtol(&data->data[0][9], NULL, 10);
 	switch (stat) {
-	case 0: return "Modem is not registered in the network and is not searching for a network";
+	case 0: return "Modem not searching for network";
 	case 1: return "Modem is registered to home network";
-	case 2: return "Modem is not registered but it is currently searching for a network";
+	case 2: return "Modem searching for network";
 	case 3: return "Modem registration into the network was denied";
 	case 4: return "Unknown modem registration state";
 	case 5: return "Modem is registered to roaming network";
@@ -222,12 +322,6 @@ int main(void)
 			DRV_LCD_PutPixel(i, j, primary.red, primary.green, primary.blue);
 		}
 	}
-	
-	execute_command(at_command_cmgl, AT_CSQ);
-			print_data();
-			if(verify_response(&data)) {
-				print_data();
-			}
 	
 	while (1) {	
 				
@@ -287,6 +381,5 @@ int main(void)
 		//	printf("\n");
 		} 
 		DRV_TOUCHSCREEN_Process();
-		// printf("Height: %u\nWidth: %u\n", LCD_HEIGHT, LCD_WIDTH);
 	}
 }
