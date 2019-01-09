@@ -43,14 +43,11 @@ char at_command_extended_creg_2[] = "AT+CREG=2\r\n";
 // select SMS - text mode
 char at_command_cmgf[] = "AT+CMGF=1\r\n";
 
-// read SMS
-char at_command_cmgr[] = "AT+CMGR=%s\r\n";
-
 // list SMS
 char at_command_cmgl[] = "AT+CMGL=\"ALL\"\r\n";
 
 // delete SMS
-char at_command_cmgd[] = "AT+CMGD\r\n";
+char at_command_cmgd[] = "AT+CMGD=%"PRId8"\r\n";
 
 LCD_PIXEL white = {255, 255, 255};
 LCD_PIXEL primary = {95, 75, 139};
@@ -66,6 +63,13 @@ void timer_callback_1(timer_software_handler_t h)
 
 void drawButtons(uint8_t, uint8_t, uint16_t, uint16_t, LCD_PIXEL);
 void displaySMS(uint8_t);
+
+void delete_sms(uint8_t index)
+{
+	char buf[20];
+	sprintf(buf, at_command_cmgd, index);
+	send_command(buf);
+}
 
 void TouchScreenCallBack(TouchResult* touchData)
 {
@@ -117,6 +121,7 @@ void TouchScreenCallBack(TouchResult* touchData)
 	}
 }
 
+/*
 void addPlaceholderText(SMS *messages)
 {	
 	strcpy(messages[0].nr, "0765980589");
@@ -149,6 +154,7 @@ void addPlaceholderText(SMS *messages)
 	strcpy(messages[9].nr, "0770715451");
 	strcpy(messages[9].text, "Acu ajung.");
 }
+*/
 
 void displaySMS(uint8_t id) 
 {
