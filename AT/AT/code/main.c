@@ -22,6 +22,7 @@
 #define SIM_STORAGE_SIZE 10
 
 uint8_t message_count = SIM_STORAGE_SIZE;
+uint8_t sms_counter;
 
 typedef struct {
 	uint8_t index;
@@ -55,6 +56,7 @@ LCD_PIXEL primary = {95, 75, 139};
 LCD_PIXEL black = {0, 0, 0};
 
 void send_command(char *);
+void execute_command(char *, uint8_t);
 
 timer_software_handler_t handler_main;
 timer_software_handler_t handler_get_response;
@@ -106,6 +108,8 @@ void TouchScreenCallBack(TouchResult* touchData)
 	static uint8_t sms_id = 0;
 	int i, j;
 	
+	message_count = sms_counter;
+	
 	// printf("touched X=%3d Y=%3d\n", touchData->X, touchData->Y);	
 	handler_buttons = TIMER_SOFTWARE_request_timer();
 	TIMER_SOFTWARE_configure_timer(handler_buttons, MODE_1, 200, 1);
@@ -114,11 +118,12 @@ void TouchScreenCallBack(TouchResult* touchData)
 	TIMER_SOFTWARE_Wait(200);
 	
 	if (touchData->Y >= 200) {
+		// CASE: Previous button
 		if (touchData->X >= 0 && touchData->X <= LCD_WIDTH / 4) {
 			printf("<Prev button was pressed\n");
 			sms_id = (sms_id == 0) ? message_count - 1 : sms_id - 1;
 			displaySMS(sms_id);
-		} else if (touchData->X >= LCD_WIDTH / 4 && touchData->X <= LCD_WIDTH / 2) {
+		} else if (touchData->X >= LCD_WIDTH / 4 && touchData->X <= LCD_WIDTH / 2) { // CASE: Delete button
 			printf("Delete button was pressed\n");
 			for (i = 0; i < LCD_WIDTH; i++){
 				for (j = 41; j < 200; j++) {
@@ -135,7 +140,7 @@ void TouchScreenCallBack(TouchResult* touchData)
 			DRV_LCD_Puts("MESSAGE DELETED", 30, 65, black, white, 1);
 			TIMER_SOFTWARE_Wait(300);
 			displaySMS(sms_id);
-		} else if (touchData->X >= LCD_WIDTH / 2 && touchData->X <= 3 * LCD_WIDTH / 4) {
+		} else if (touchData->X >= LCD_WIDTH / 2 && touchData->X <= 3 * LCD_WIDTH / 4) { // CASE: Send button
 			printf("Send button was pressed\n");
 			for (i = 0; i < LCD_WIDTH; i++){
 				for (j = 41; j < 200; j++) {
@@ -143,7 +148,7 @@ void TouchScreenCallBack(TouchResult* touchData)
 				}
 			}
 			DRV_LCD_Puts("MESSAGE SENT", 30, 65, black, white, 1);
-		} else {
+		} else { // CASE: Next button
 			printf("Next> button was pressed\n");
 			sms_id = (sms_id == message_count - 1) ? 0 : sms_id + 1;
 			displaySMS(sms_id);
@@ -159,6 +164,7 @@ void displaySMS(uint8_t id)
 			DRV_LCD_PutPixel(j, i, white.red, white.green, white.blue);
 		}
 	}
+	if(id > sms_counter) id = 0;
 	DRV_LCD_Puts(messages[id].nr, 30, 65, black, white, 1);	
 	for (i = 10; i < 300; i++) {
 		DRV_LCD_PutPixel(85, i, black.red, black.green, black.blue);
@@ -371,9 +377,25 @@ int main(void)
 		}
 	}
 	
+	execute_command(at_command_cmgl, AT_CMGL);
+	if(verify_response(&data)) {
+		sms_counter = get_sms_list(&data, messages);
+	}
+	displaySMS(0);
+	
 	while (1) {	
+		execute_command(at_command_cmgl, AT_CMGL);
 				
 		if (TIMER_SOFTWARE_interrupt_pending(handler_main)) {
+			
+			if(verify_response(&data)) {
+			//	print_data();
+				sms_counter = get_sms_list(&data, messages);
+				for(i = 0; i < sms_counter; i++) {
+					format_sms(messages + i, formatted_sms);
+					printf("%s\n", formatted_sms);
+				}
+			}
 			
 			execute_command(at_command_csq, AT_CSQ);
 			
@@ -396,20 +418,7 @@ int main(void)
 				sprintf(s, "Network operator name: %s", get_operator_name(&data));
 				DRV_LCD_Puts(s, 20, 30, white, primary, 0);
 			}
-
-			
-			execute_command(at_command_cmgl, AT_CMGL);
 	
-			if(verify_response(&data)) {
-			//	print_data();
-				sms_counter = get_sms_list(&data, messages);
-				for(i = 0; i < sms_counter; i++) {
-					format_sms(messages + i, formatted_sms);
-					printf("%s\n", formatted_sms);
-				}
-			}
-			
-
 			TIMER_SOFTWARE_clear_interrupt(handler_main);
 
 		} 
