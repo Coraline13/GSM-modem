@@ -115,6 +115,7 @@ uint8_t parse(char current_char, uint8_t command_flag)
 		}
 		else if (command_flag == AT_CMGL) {
 			state = STATE_4;
+			append_char(data.data[data.line_count], current_char);
 		}
 		else {
 			state = ERROR_STATE;

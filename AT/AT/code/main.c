@@ -53,6 +53,8 @@ LCD_PIXEL white = {255, 255, 255};
 LCD_PIXEL primary = {95, 75, 139};
 LCD_PIXEL black = {0, 0, 0};
 
+void send_command(char *);
+
 timer_software_handler_t handler_main;
 timer_software_handler_t handler_get_response;
 timer_software_handler_t handler_buttons;
@@ -121,41 +123,6 @@ void TouchScreenCallBack(TouchResult* touchData)
 	}
 }
 
-/*
-void addPlaceholderText(SMS *messages)
-{	
-	strcpy(messages[0].nr, "0765980589");
-	strcpy(messages[0].text, "Unde esti?");
-	
-	strcpy(messages[1].nr, "0770715451");
-	strcpy(messages[1].text, "Pe drum");
-	
-	strcpy(messages[2].nr, "0765980589");
-	strcpy(messages[2].text, "Spre?");
-	
-	strcpy(messages[3].nr, "0770715451");
-	strcpy(messages[3].text, "Spre camin. Tu unde esti?");
-	
-	strcpy(messages[4].nr, "0765980589");
-	strcpy(messages[4].text, "Te astept... De 34 de minute si 15 secunde...");
-	
-	strcpy(messages[5].nr, "0770715451");
-	strcpy(messages[5].text, "...scuze? Ajung imediat.");
-	
-	strcpy(messages[6].nr, "0765980589");
-	strcpy(messages[6].text, "?_?");
-	
-	strcpy(messages[7].nr, "0770715451");
-	strcpy(messages[7].text, "^.^");
-
-	strcpy(messages[8].nr, "0765980589");
-	strcpy(messages[8].text, "Te astept la intrare.");
-	
-	strcpy(messages[9].nr, "0770715451");
-	strcpy(messages[9].text, "Acu ajung.");
-}
-*/
-
 void displaySMS(uint8_t id) 
 {
 	int i, j;
@@ -203,7 +170,7 @@ void BoardInit()
 	DRV_LCD_Puts("Network state: <acquiring data>", 20, 18, white, primary, 0);
 	DRV_LCD_Puts("Network operator name: <acquiring data>", 20, 30, white, primary, 0);
 	
-	addPlaceholderText(messages);
+	//addPlaceholderText(messages);
 	displaySMS(0);
 }
               
@@ -297,12 +264,22 @@ char* get_network_state(AT_DATA *data)
 }
 
 // for AT_CMGL
-uint8_t* get_sms_list(AT_DATA *data, SMS *sms_list)
+uint8_t get_sms_list(AT_DATA *data, SMS *sms_list)
 {
 	uint8_t i, sms_counter = 0;
+	char *nr_start;
 
 	for (i = 0; i < data->line_count; i += 2) {
-		sscanf(data->data[sms_counter], "%"SCNd8",%*[^,],\"%[^\"]\"", &sms_list[sms_counter].index, sms_list[sms_counter].nr);
+		
+		if (data->data[sms_counter][7] == '1' && data->data[sms_counter][8] == '0') {
+			sms_list[sms_counter].index = 10;
+		} else if (data->data[sms_counter][7] >= '0' && data->data[sms_counter][7] <= '9') {
+			sms_list[sms_counter].index = data->data[sms_counter][7] - '0';
+		}
+		
+		nr_start = strstr(data->data[sms_counter], "\",\"");
+		strncpy(sms_list[sms_counter].nr, nr_start + 3, 12);
+		
 		strcpy(sms_list[sms_counter].text, data->data[sms_counter + 1]);
 		sms_counter++;
 	}
@@ -337,6 +314,8 @@ int main(void)
 	int32_t rssi_value_dbmw;
 	char s[200];
 	int i,j;
+	uint8_t sms_counter;
+	char formatted_sms[200];
 
 	BoardInit();
 	
@@ -367,59 +346,44 @@ int main(void)
 	while (1) {	
 				
 		if (TIMER_SOFTWARE_interrupt_pending(handler_main)) {
-			// printf("Sunt aici\n");
+			
 			execute_command(at_command_csq, AT_CSQ);
-			// print_data();
+			
 			if (verify_response(&data)) {
 				rssi_value_asu = get_asu_from_response(&data);
 				rssi_value_dbmw = asu_to_dbmw(rssi_value_asu);
-				// printf("GSM modem signal %"PRIu32" ASU -> %"PRIi32" dBmW\n", rssi_value_asu, rssi_value_dbmw);
 				sprintf(s, "GSM modem signal %"PRIi32" dBmW", rssi_value_dbmw);
 				DRV_LCD_Puts(s, 20, 5, white, primary, 0);
 			}
-			/*
-			execute_command(at_command_gsn, AT_GSN);
-			if (verify_response(&data)) {
-				printf("Modem IMEI: %s\n", get_imei(&data));
-			}
-			*/
+			
 			execute_command(at_command_extended_creg_1, AT_CREG);
 			execute_command(at_command_creg, AT_CREG);
 			if (verify_response(&data)){
-				// printf("Network state: %s\n", get_network_state(&data));
 				sprintf(s, "Network state: %s", get_network_state(&data));
 				DRV_LCD_Puts(s, 20, 18, white, primary, 0);
 			}
 			
 			execute_command(at_command_cops, AT_COPS);
 			if (verify_response(&data)) {
-			// print_data();
-				// printf("Network operator name: %s\n", get_operator_name(&data));
 				sprintf(s, "Network operator name: %s", get_operator_name(&data));
 				DRV_LCD_Puts(s, 20, 30, white, primary, 0);
 			}
-			/*
-			execute_command(at_command_gmi, AT_GMI);
-			if(verify_response(&data)) {
-				printf("Modem manufacturer: %s\n", get_manufacturer_identity(&data));
-			}
+
 			
-			execute_command(at_command_gmr, AT_GMR);
+			execute_command(at_command_cmgl, AT_CMGL);
+	
 			if(verify_response(&data)) {
-				printf("Modem software version: %s\n", get_software_version(&data));
+			//	print_data();
+				sms_counter = get_sms_list(&data, messages);
+				for(i = 0; i < sms_counter; i++) {
+					format_sms(messages + i, formatted_sms);
+					printf("%s\n", formatted_sms);
+				}
 			}
-			*/
-			/*
-			execute_command(at_command_extended_creg_2, AT_CREG);
-			print_data();
-			execute_command(at_command_creg, AT_CREG);
-			print_data();
-			*/
 			
 
 			TIMER_SOFTWARE_clear_interrupt(handler_main);
 
-		// printf("\n");
 		} 
 		DRV_TOUCHSCREEN_Process();
 	}
