@@ -61,10 +61,20 @@ void execute_command(char *, uint8_t);
 timer_software_handler_t handler_main;
 timer_software_handler_t handler_get_response;
 timer_software_handler_t handler_buttons;
+timer_software_handler_t handler_send_receive;
+
+bool verify_response(AT_DATA *);
 
 uint8_t send_receive(char *phone_number, char *text_message)
 {
 	static uint8_t state = 0;
+	char sub[2];
+	sub[0] = SUB; sub[1] = 0;
+	
+	handler_send_receive = TIMER_SOFTWARE_request_timer();
+	TIMER_SOFTWARE_configure_timer(handler_send_receive, MODE_1, 10000, 1);
+	
+	TIMER_SOFTWARE_reset_timer(handler_send_receive);
 
 	if (state == SUCCESS_STATE || state == ERROR_STATE) {
 		state = 0;
@@ -73,20 +83,30 @@ uint8_t send_receive(char *phone_number, char *text_message)
 	switch (state) {
 	case INIT_STATE:
 		// send CMGS command with phone number as parameter
-		execute_command(at_command_cmgs, 0);
+		execute_command(at_command_cmgs, AT_CMGS);
 		state = verify_response(&data) ? STATE_1 : ERROR_STATE;
 		break;
 	case STATE_1:
-		state = strcmp(data.data[0], ">") == 0 ? STATE_2 : ERROR_STATE;
+		state = strcmp(data.data[0], ">") == 0 ? STATE_2 : STATE_3;
 		break;
 	case STATE_2:
 		send_command(text_message);
-		execute_command(SUB, 0);
-		state = verify_response(&data) ? STATE_3 : ERROR_STATE;
+		execute_command(sub, 0);
+		state = verify_response(&data) ? SUCCESS_STATE : ERROR_STATE;
 		break;
 	case STATE_3:
-
+		TIMER_SOFTWARE_start_timer(handler_send_receive);
+		while(!TIMER_SOFTWARE_interrupt_pending(handler_send_receive)) {
+			state = ERROR_STATE;
+			if(strcmp(data.data[0], ">") == 0) {
+				state = STATE_2;
+				break;
+			}
+		}
+		break;
 	}
+	
+	return state;
 }
 
 void timer_callback_1(timer_software_handler_t h)
@@ -106,6 +126,7 @@ void delete_sms(uint8_t index)
 void TouchScreenCallBack(TouchResult* touchData)
 {
 	static uint8_t sms_id = 0;
+	uint8_t send_state;
 	int i, j;
 	
 	message_count = sms_counter;
@@ -130,13 +151,16 @@ void TouchScreenCallBack(TouchResult* touchData)
 					DRV_LCD_PutPixel(j, i, white.red, white.green, white.blue);
 				}
 			}
-			for (i = sms_id; i < message_count - 1; i++) {
+			delete_sms(sms_id);
+		/*	for (i = sms_id; i < message_count - 1; i++) {
 				messages[i] = messages[i + 1];
 			}
 			if (sms_id == message_count - 1) {
 				sms_id = 0;
 			}
 			message_count--;
+			*/
+		//	sms_counter--;
 			DRV_LCD_Puts("MESSAGE DELETED", 30, 65, black, white, 1);
 			TIMER_SOFTWARE_Wait(300);
 			displaySMS(sms_id);
@@ -147,7 +171,15 @@ void TouchScreenCallBack(TouchResult* touchData)
 					DRV_LCD_PutPixel(j, i, white.red, white.green, white.blue);
 				}
 			}
-			DRV_LCD_Puts("MESSAGE SENT", 30, 65, black, white, 1);
+			send_state = send_receive("+40770715451", "Mesaj de la modem");
+		//	printf("Initial send state: %d\n", send_state);
+			while(send_state != ERROR_STATE && send_state != SUCCESS_STATE) {				
+				send_state = send_receive("+40770715451", "Mesaj de la modem");				
+			}
+			if(send_state == SUCCESS_STATE) DRV_LCD_Puts("MESSAGE SENT", 30, 65, black, white, 1);
+			else DRV_LCD_Puts("FAILED", 30, 65, black, white, 1);
+			TIMER_SOFTWARE_Wait(300);
+			displaySMS(sms_id);
 		} else { // CASE: Next button
 			printf("Next> button was pressed\n");
 			sms_id = (sms_id == message_count - 1) ? 0 : sms_id + 1;
@@ -393,7 +425,7 @@ int main(void)
 				sms_counter = get_sms_list(&data, messages);
 				for(i = 0; i < sms_counter; i++) {
 					format_sms(messages + i, formatted_sms);
-					printf("%s\n", formatted_sms);
+				//	printf("%s\n", formatted_sms);
 				}
 			}
 			
