@@ -18,6 +18,7 @@
 #include <utils\timer_software_init.h>
 
 #include "at.h"
+
 #define SIM_STORAGE_SIZE 10
 
 uint8_t message_count = SIM_STORAGE_SIZE;
@@ -40,14 +41,14 @@ char at_command_gmr[] = "AT+GMR\r\n";
 char at_command_extended_creg_1[] = "AT+CREG=1\r\n";
 char at_command_extended_creg_2[] = "AT+CREG=2\r\n";
 
-// select SMS - text mode
-char at_command_cmgf[] = "AT+CMGF=1\r\n";
-
 // list SMS
 char at_command_cmgl[] = "AT+CMGL=\"ALL\"\r\n";
 
 // delete SMS
 char at_command_cmgd[] = "AT+CMGD=%"PRId8"\r\n";
+
+// send SMS
+char at_command_cmgs[] = "AT+CMGS=\"%s\"\r\n";
 
 LCD_PIXEL white = {255, 255, 255};
 LCD_PIXEL primary = {95, 75, 139};
@@ -58,6 +59,33 @@ void send_command(char *);
 timer_software_handler_t handler_main;
 timer_software_handler_t handler_get_response;
 timer_software_handler_t handler_buttons;
+
+uint8_t send_receive(char *phone_number, char *text_message)
+{
+	static uint8_t state = 0;
+
+	if (state == SUCCESS_STATE || state == ERROR_STATE) {
+		state = 0;
+	}
+
+	switch (state) {
+	case INIT_STATE:
+		// send CMGS command with phone number as parameter
+		execute_command(at_command_cmgs, 0);
+		state = verify_response(&data) ? STATE_1 : ERROR_STATE;
+		break;
+	case STATE_1:
+		state = strcmp(data.data[0], ">") == 0 ? STATE_2 : ERROR_STATE;
+		break;
+	case STATE_2:
+		send_command(text_message);
+		execute_command(SUB, 0);
+		state = verify_response(&data) ? STATE_3 : ERROR_STATE;
+		break;
+	case STATE_3:
+
+	}
+}
 
 void timer_callback_1(timer_software_handler_t h)
 {
@@ -70,7 +98,7 @@ void delete_sms(uint8_t index)
 {
 	char buf[20];
 	sprintf(buf, at_command_cmgd, index);
-	send_command(buf);
+	execute_command(buf, 0);
 }
 
 void TouchScreenCallBack(TouchResult* touchData)

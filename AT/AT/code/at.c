@@ -4,9 +4,6 @@
 #include <string.h>
 #include "at.h"
 
-#define CR 0xD
-#define LF 0xA
-
 AT_DATA data;
 
 static void append_char(char str[], char c) {
@@ -61,6 +58,11 @@ uint8_t parse(char current_char, uint8_t command_flag)
 		}
 		else if (current_char == 'E') {
 			state = STATE_13;
+		}
+		else if (command_flag == AT_CMGS && current_char == '>') {
+			state = SUCCESS_STATE;
+			append_char(data.data[data.line_count], current_char);
+			append_char(data.data[data.line_count], 0);
 		}
 		else {
 			state = ERROR_STATE;

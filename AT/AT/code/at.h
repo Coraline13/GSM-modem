@@ -27,9 +27,14 @@
 #define AT_GMI 4
 #define AT_GMR 5
 #define AT_CMGL 6
+#define AT_CMGS 7
 
 #define STR_CNT 100
 #define STR_SIZE 300
+
+#define CR 0xD
+#define LF 0xA
+#define SUB 0x1A
 
 typedef struct {
   char data[STR_CNT][STR_SIZE + 1];
