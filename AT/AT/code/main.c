@@ -70,7 +70,6 @@ uint8_t send_receive(char *phone_number, char *text_message)
 	static uint8_t state = 0;
 	char buf[20];
 	char sub[2];
-	char text[202];
 
 	sub[0] = 0x1a; sub[1] = 0;
 	
@@ -82,51 +81,41 @@ uint8_t send_receive(char *phone_number, char *text_message)
 	if (state == SUCCESS_STATE || state == ERROR_STATE) {
 		state = 0;
 	}
-	while (state != SUCCESS_STATE)
-	{
-	switch (state) {
-	case INIT_STATE: printf("Send state 0\n");
-		// send CMGS command with phone number as parameter
-		sprintf(buf, at_command_cmgs, phone_number);
-		//printf("%s\n", buf);
-		execute_command(buf, AT_CMGS); 
-		state = verify_response(&data) ? STATE_1 : ERROR_STATE;
-		printf ("sms_send_receive state:%d\n", state);
-		break;
-	case STATE_1: printf("Send state 1\n");
-		// verify if prompt character has arrived
-		state = strcmp(data.data[0], ">") == 0 ? STATE_2 : STATE_3;
-		
-		break;
-	case STATE_2: printf("Send state 2\n");
-		// send the actual text message and the substitute character
-	//	strcpy(text, text_message);
-	//	text[strlen(text_message)] = 0x1a;
-		send_command(text_message);
-		printf ("trimis text\n");
-		TIMER_SOFTWARE_Wait(1000);
-		printf ("vreau sa trimit SUB\n");
-		execute_command(sub, 0);
-		printf ("trimis SUB\n");
-		state = verify_response(&data) ? SUCCESS_STATE : ERROR_STATE;
-		printf ("gata cu sub - %d\n", state);
-		break;
-	case STATE_3: printf("Send state 3\n");
-		// verify if timeout has occured
-		TIMER_SOFTWARE_start_timer(handler_send_receive);
-		while (!TIMER_SOFTWARE_interrupt_pending(handler_send_receive)) {
-			state = ERROR_STATE;
-			if (strcmp(data.data[0], ">") == 0) {
-				state = STATE_2;
-				break;
+	while (state != SUCCESS_STATE) {
+		switch (state) {
+		case INIT_STATE: printf("Send state 0\n");
+			// send CMGS command with phone number as parameter
+			sprintf(buf, at_command_cmgs, phone_number);
+			execute_command(buf, AT_CMGS); 
+			state = verify_response(&data) ? STATE_1 : ERROR_STATE;
+			break;
+		case STATE_1: printf("Send state 1\n");
+			// verify if prompt character has arrived
+			state = strcmp(data.data[0], ">") == 0 ? STATE_2 : STATE_3;		
+			break;
+		case STATE_2: printf("Send state 2\n");
+			// send the actual text message and the substitute character
+			send_command(text_message);
+			TIMER_SOFTWARE_Wait(1000);
+			execute_command(sub, 0);
+			state = verify_response(&data) ? SUCCESS_STATE : ERROR_STATE;
+			break;
+		case STATE_3: printf("Send state 3\n");
+			// verify if timeout has occured
+			TIMER_SOFTWARE_start_timer(handler_send_receive);
+			while (!TIMER_SOFTWARE_interrupt_pending(handler_send_receive)) {
+				state = ERROR_STATE;
+				if (strcmp(data.data[0], ">") == 0) {
+					state = STATE_2;
+					break;
+				}
 			}
+			break;
+		default:
+			state = ERROR_STATE;
+			break;
 		}
-		break;
-	default: printf("Send state default\n");
-		state = ERROR_STATE;
-		break;
 	}
-}
 	print_data();
 	return state;
 }
@@ -145,13 +134,11 @@ void delete_sms(uint8_t index)
 {
 	int i;
 	char formatted_sms[200];
-	//char buf[20];
-	//sprintf(buf, at_command_cmgd, index);
+
 	execute_command(at_command_cmgd, 0);
 	if(verify_response(&data)) {
 		execute_command(at_command_cmgl, AT_CMGL);
 		if(verify_response(&data)) {
-			//	print_data();
 				sms_counter = get_sms_list(&data, messages);
 				for(i = 0; i < sms_counter; i++) {
 					format_sms(messages + i, formatted_sms);
@@ -189,15 +176,7 @@ void TouchScreenCallBack(TouchResult* touchData)
 				}
 			}
 			delete_sms(sms_id);
-		/*	for (i = sms_id; i < message_count - 1; i++) {
-				messages[i] = messages[i + 1];
-			}
-			if (sms_id == message_count - 1) {
-				sms_id = 0;
-			}
-			message_count--;
-			*/
-		//	sms_counter--;
+
 			DRV_LCD_Puts("MESSAGE DELETED", 30, 65, black, white, 1);
 			TIMER_SOFTWARE_Wait(300);
 			displaySMS(3);
@@ -209,7 +188,7 @@ void TouchScreenCallBack(TouchResult* touchData)
 				}
 			}
 			send_state = send_receive("+40770715451", "Mesaj de la modem");
-		//	printf("Initial send state: %d\n", send_state);
+
 			while(send_state != ERROR_STATE && send_state != SUCCESS_STATE) {				
 				send_state = send_receive("+40770715451", "Mesaj de la modem");				
 			}
@@ -239,7 +218,6 @@ void displaySMS(uint8_t id)
 		DRV_LCD_PutPixel(85, i, black.red, black.green, black.blue);
 	}
 	DRV_LCD_Puts(messages[id].text, 20, 110, black, white, 0);	
-	// DRV_LCD_Puts(messages[id].timestamp, 20, 120, black, white, 0);	
 }
 
 void BoardInit()
@@ -269,11 +247,11 @@ void BoardInit()
 			DRV_LCD_PutPixel(i, j, primary.red, primary.green, primary.blue);
 		}
 	}
+
 	DRV_LCD_Puts("GSM modem signal: <acquiring data>", 20, 5, white, primary, 0);
 	DRV_LCD_Puts("Network state: <acquiring data>", 20, 18, white, primary, 0);
 	DRV_LCD_Puts("Network operator name: <acquiring data>", 20, 30, white, primary, 0);
 	
-	// addPlaceholderText(messages);
 	displaySMS(0);
 }
               
@@ -288,23 +266,15 @@ void get_command_response(uint8_t command_flag)
 {
 	uint8_t ch;
 	uint8_t state = 0;
-	static uint8_t count = 0;
-	count++;
 	
 	TIMER_SOFTWARE_configure_timer(handler_get_response, MODE_1, 30000, 1);
 	
 	TIMER_SOFTWARE_reset_timer(handler_get_response);
 	TIMER_SOFTWARE_start_timer(handler_get_response);
-	printf ("in gcr %d - %d\n", count, state);
-	while (!TIMER_SOFTWARE_interrupt_pending(handler_get_response) && (state != SUCCESS_STATE)) {
-		
-		while ((DRV_UART_BytesAvailable(UART_3) > 0) && (state != ERROR_STATE) && (state != SUCCESS_STATE)  ) {
+
+	while (!TIMER_SOFTWARE_interrupt_pending(handler_get_response) && (state != SUCCESS_STATE)) {		
+		while ((DRV_UART_BytesAvailable(UART_3) > 0) && (state != ERROR_STATE) && (state != SUCCESS_STATE)) {
 			DRV_UART_ReadByte(UART_3, &ch);
-			if (count == 2)
-			{
-				printf ("am intrat aici\n");
-			}
-			printf("---%c\n", ch);
 			state = parse(ch, command_flag);
 		}
 	}
@@ -450,7 +420,7 @@ int main(void)
 	
 	send_state = send_receive("+40770715451", "Mesaj de la modem");
 	
-	while(1);
+	// while (1);
 	
 	for (i = 0; i <= 40; i++) {
 		for (j = 0; j <= LCD_WIDTH; j++) {

@@ -20,8 +20,6 @@
 #define STATE_16 16
 #define ERROR_STATE 17
 
-#define PROMPT_STATE 18
-
 #define AT_CSQ 0
 #define AT_CREG 1
 #define AT_COPS 2
