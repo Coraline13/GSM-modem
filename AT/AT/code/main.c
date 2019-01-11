@@ -46,7 +46,7 @@ char at_command_extended_creg_2[] = "AT+CREG=2\r\n";
 char at_command_cmgl[] = "AT+CMGL=\"ALL\"\r\n";
 
 // delete SMS
-char at_command_cmgd[] = "AT+CMGD=%"PRId8"\r\n";
+char at_command_cmgd[] = "AT+CMGD=3,0\r\n";
 
 // send SMS
 char at_command_cmgs[] = "AT+CMGS=\"%s\"\r\n";
@@ -69,6 +69,10 @@ uint8_t send_receive(char *phone_number, char *text_message)
 {
 	static uint8_t state = 0;
 	char buf[20];
+	char sub[2];
+	char text[202];
+
+	sub[0] = 0x1a; sub[1] = 0;
 	
 	handler_send_receive = TIMER_SOFTWARE_request_timer();
 	TIMER_SOFTWARE_configure_timer(handler_send_receive, MODE_1, 10000, 1);
@@ -78,25 +82,36 @@ uint8_t send_receive(char *phone_number, char *text_message)
 	if (state == SUCCESS_STATE || state == ERROR_STATE) {
 		state = 0;
 	}
-
+	while (state != SUCCESS_STATE)
+	{
 	switch (state) {
-	case INIT_STATE:
+	case INIT_STATE: printf("Send state 0\n");
 		// send CMGS command with phone number as parameter
-		sprintf(buf, at_command_cmgd, phone_number);
-		execute_command(buf, AT_CMGS);
+		sprintf(buf, at_command_cmgs, phone_number);
+		//printf("%s\n", buf);
+		execute_command(buf, AT_CMGS); 
 		state = verify_response(&data) ? STATE_1 : ERROR_STATE;
+		printf ("sms_send_receive state:%d\n", state);
 		break;
-	case STATE_1:
+	case STATE_1: printf("Send state 1\n");
 		// verify if prompt character has arrived
 		state = strcmp(data.data[0], ">") == 0 ? STATE_2 : STATE_3;
+		
 		break;
-	case STATE_2:
+	case STATE_2: printf("Send state 2\n");
 		// send the actual text message and the substitute character
+	//	strcpy(text, text_message);
+	//	text[strlen(text_message)] = 0x1a;
 		send_command(text_message);
-		execute_command("\x1A", 0);
+		printf ("trimis text\n");
+		TIMER_SOFTWARE_Wait(1000);
+		printf ("vreau sa trimit SUB\n");
+		execute_command(sub, 0);
+		printf ("trimis SUB\n");
 		state = verify_response(&data) ? SUCCESS_STATE : ERROR_STATE;
+		printf ("gata cu sub - %d\n", state);
 		break;
-	case STATE_3:
+	case STATE_3: printf("Send state 3\n");
 		// verify if timeout has occured
 		TIMER_SOFTWARE_start_timer(handler_send_receive);
 		while (!TIMER_SOFTWARE_interrupt_pending(handler_send_receive)) {
@@ -107,11 +122,12 @@ uint8_t send_receive(char *phone_number, char *text_message)
 			}
 		}
 		break;
-	default:
+	default: printf("Send state default\n");
 		state = ERROR_STATE;
 		break;
 	}
-	
+}
+	print_data();
 	return state;
 }
 
@@ -122,11 +138,27 @@ void timer_callback_1(timer_software_handler_t h)
 void drawButtons(uint8_t, uint8_t, uint16_t, uint16_t, LCD_PIXEL);
 void displaySMS(uint8_t);
 
+uint8_t get_sms_list(AT_DATA*, SMS*);
+char* format_sms(SMS *sms, char *sms_details);
+
 void delete_sms(uint8_t index)
 {
-	char buf[20];
-	sprintf(buf, at_command_cmgd, index);
-	execute_command(buf, 0);
+	int i;
+	char formatted_sms[200];
+	//char buf[20];
+	//sprintf(buf, at_command_cmgd, index);
+	execute_command(at_command_cmgd, 0);
+	if(verify_response(&data)) {
+		execute_command(at_command_cmgl, AT_CMGL);
+		if(verify_response(&data)) {
+			//	print_data();
+				sms_counter = get_sms_list(&data, messages);
+				for(i = 0; i < sms_counter; i++) {
+					format_sms(messages + i, formatted_sms);
+					printf("%s\n", formatted_sms);
+				}
+			}
+	}
 }
 
 void TouchScreenCallBack(TouchResult* touchData)
@@ -168,7 +200,7 @@ void TouchScreenCallBack(TouchResult* touchData)
 		//	sms_counter--;
 			DRV_LCD_Puts("MESSAGE DELETED", 30, 65, black, white, 1);
 			TIMER_SOFTWARE_Wait(300);
-			displaySMS(sms_id);
+			displaySMS(3);
 		} else if (touchData->X >= LCD_WIDTH / 2 && touchData->X <= 3 * LCD_WIDTH / 4) {	// CASE: Send button
 			printf("Send button was pressed\n");
 			for (i = 0; i < LCD_WIDTH; i++){
@@ -256,16 +288,23 @@ void get_command_response(uint8_t command_flag)
 {
 	uint8_t ch;
 	uint8_t state = 0;
-	handler_get_response = TIMER_SOFTWARE_request_timer();
-	TIMER_SOFTWARE_configure_timer(handler_get_response, MODE_1, 10000, 1);
+	static uint8_t count = 0;
+	count++;
+	
+	TIMER_SOFTWARE_configure_timer(handler_get_response, MODE_1, 30000, 1);
 	
 	TIMER_SOFTWARE_reset_timer(handler_get_response);
 	TIMER_SOFTWARE_start_timer(handler_get_response);
-	
+	printf ("in gcr %d - %d\n", count, state);
 	while (!TIMER_SOFTWARE_interrupt_pending(handler_get_response) && (state != SUCCESS_STATE)) {
 		
-		while (DRV_UART_BytesAvailable(UART_3) > 0 && (state != ERROR_STATE)) {
+		while ((DRV_UART_BytesAvailable(UART_3) > 0) && (state != ERROR_STATE) && (state != SUCCESS_STATE)  ) {
 			DRV_UART_ReadByte(UART_3, &ch);
+			if (count == 2)
+			{
+				printf ("am intrat aici\n");
+			}
+			printf("---%c\n", ch);
 			state = parse(ch, command_flag);
 		}
 	}
@@ -384,12 +423,13 @@ int main(void)
 	uint32_t rssi_value_asu;
 	int32_t rssi_value_dbmw;
 	char s[200];
+	uint8_t send_state;
 	int i,j;
 	uint8_t sms_counter;
 	char formatted_sms[200];
 
 	BoardInit();
-	
+	handler_get_response = TIMER_SOFTWARE_request_timer();
 	DRV_UART_Configure(UART_3, UART_CHARACTER_LENGTH_8, 115200, UART_PARITY_NO_PARITY, 1, TRUE, 3);
 	
 	handler_main = TIMER_SOFTWARE_request_timer();
@@ -408,11 +448,18 @@ int main(void)
 	TIMER_SOFTWARE_reset_timer(handler_main);
 	TIMER_SOFTWARE_start_timer(handler_main);
 	
+	send_state = send_receive("+40770715451", "Mesaj de la modem");
+	
+	while(1);
+	
 	for (i = 0; i <= 40; i++) {
 		for (j = 0; j <= LCD_WIDTH; j++) {
 			DRV_LCD_PutPixel(i, j, primary.red, primary.green, primary.blue);
 		}
 	}
+	
+	//execute_command("AT+CMGS=\"+40770715451\"\r\n", AT_CMGS);
+	//print_data();
 	
 	execute_command(at_command_cmgl, AT_CMGL);
 	if (verify_response(&data)) {
@@ -421,18 +468,9 @@ int main(void)
 	displaySMS(0);
 	
 	while (1) {	
-		execute_command(at_command_cmgl, AT_CMGL);
+		
 				
 		if (TIMER_SOFTWARE_interrupt_pending(handler_main)) {
-			
-			if(verify_response(&data)) {
-			//	print_data();
-				sms_counter = get_sms_list(&data, messages);
-				for(i = 0; i < sms_counter; i++) {
-					format_sms(messages + i, formatted_sms);
-				//	printf("%s\n", formatted_sms);
-				}
-			}
 			
 			execute_command(at_command_csq, AT_CSQ);
 			
@@ -457,7 +495,6 @@ int main(void)
 			}
 	
 			TIMER_SOFTWARE_clear_interrupt(handler_main);
-
 		} 
 		DRV_TOUCHSCREEN_Process();
 	}

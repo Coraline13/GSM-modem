@@ -31,12 +31,18 @@ uint8_t parse(char current_char, uint8_t command_flag)
 
 	if (state == SUCCESS_STATE || state == ERROR_STATE) {
 		state = 0;
-	}
+	} 
 
 	switch (state) {
 	case INIT_STATE:
 		// expecting '<CR>'
-		state = current_char == CR ? STATE_1 : ERROR_STATE;
+		// state = current_char == CR ? STATE_1 : ERROR_STATE;
+		
+		if (current_char == CR) {
+			state = STATE_1;
+		} else if (current_char == SUB || current_char == 0) {
+			state = SUCCESS_STATE;
+		} else state = ERROR_STATE;
 
 		// reset data structure
 		memset(&data, 0x00, sizeof(data));
@@ -59,10 +65,12 @@ uint8_t parse(char current_char, uint8_t command_flag)
 		else if (current_char == 'E') {
 			state = STATE_13;
 		}
-		else if (command_flag == AT_CMGS && current_char == '>') {
+		else if ((command_flag == AT_CMGS) && (current_char == '>')) {
+			printf("jkasdfhkaj\n");
 			state = SUCCESS_STATE;
 			append_char(data.data[data.line_count], current_char);
 			append_char(data.data[data.line_count], 0);
+			data.ok = 1;
 		}
 		else {
 			state = ERROR_STATE;
