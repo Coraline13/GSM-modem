@@ -68,8 +68,7 @@ bool verify_response(AT_DATA *);
 uint8_t send_receive(char *phone_number, char *text_message)
 {
 	static uint8_t state = 0;
-	char sub[2];
-	sub[0] = SUB; sub[1] = 0;
+	char buf[20];
 	
 	handler_send_receive = TIMER_SOFTWARE_request_timer();
 	TIMER_SOFTWARE_configure_timer(handler_send_receive, MODE_1, 10000, 1);
@@ -83,26 +82,33 @@ uint8_t send_receive(char *phone_number, char *text_message)
 	switch (state) {
 	case INIT_STATE:
 		// send CMGS command with phone number as parameter
-		execute_command(at_command_cmgs, AT_CMGS);
+		sprintf(buf, at_command_cmgd, phone_number);
+		execute_command(buf, AT_CMGS);
 		state = verify_response(&data) ? STATE_1 : ERROR_STATE;
 		break;
 	case STATE_1:
+		// verify if prompt character has arrived
 		state = strcmp(data.data[0], ">") == 0 ? STATE_2 : STATE_3;
 		break;
 	case STATE_2:
+		// send the actual text message and the substitute character
 		send_command(text_message);
-		execute_command(sub, 0);
+		execute_command("\x1A", 0);
 		state = verify_response(&data) ? SUCCESS_STATE : ERROR_STATE;
 		break;
 	case STATE_3:
+		// verify if timeout has occured
 		TIMER_SOFTWARE_start_timer(handler_send_receive);
-		while(!TIMER_SOFTWARE_interrupt_pending(handler_send_receive)) {
+		while (!TIMER_SOFTWARE_interrupt_pending(handler_send_receive)) {
 			state = ERROR_STATE;
-			if(strcmp(data.data[0], ">") == 0) {
+			if (strcmp(data.data[0], ">") == 0) {
 				state = STATE_2;
 				break;
 			}
 		}
+		break;
+	default:
+		state = ERROR_STATE;
 		break;
 	}
 	
@@ -139,12 +145,11 @@ void TouchScreenCallBack(TouchResult* touchData)
 	TIMER_SOFTWARE_Wait(200);
 	
 	if (touchData->Y >= 200) {
-		// CASE: Previous button
-		if (touchData->X >= 0 && touchData->X <= LCD_WIDTH / 4) {
+		if (touchData->X >= 0 && touchData->X <= LCD_WIDTH / 4) {							// CASE: Previous button		
 			printf("<Prev button was pressed\n");
 			sms_id = (sms_id == 0) ? message_count - 1 : sms_id - 1;
 			displaySMS(sms_id);
-		} else if (touchData->X >= LCD_WIDTH / 4 && touchData->X <= LCD_WIDTH / 2) { // CASE: Delete button
+		} else if (touchData->X >= LCD_WIDTH / 4 && touchData->X <= LCD_WIDTH / 2) {		// CASE: Delete button
 			printf("Delete button was pressed\n");
 			for (i = 0; i < LCD_WIDTH; i++){
 				for (j = 41; j < 200; j++) {
@@ -164,7 +169,7 @@ void TouchScreenCallBack(TouchResult* touchData)
 			DRV_LCD_Puts("MESSAGE DELETED", 30, 65, black, white, 1);
 			TIMER_SOFTWARE_Wait(300);
 			displaySMS(sms_id);
-		} else if (touchData->X >= LCD_WIDTH / 2 && touchData->X <= 3 * LCD_WIDTH / 4) { // CASE: Send button
+		} else if (touchData->X >= LCD_WIDTH / 2 && touchData->X <= 3 * LCD_WIDTH / 4) {	// CASE: Send button
 			printf("Send button was pressed\n");
 			for (i = 0; i < LCD_WIDTH; i++){
 				for (j = 41; j < 200; j++) {
@@ -180,7 +185,7 @@ void TouchScreenCallBack(TouchResult* touchData)
 			else DRV_LCD_Puts("FAILED", 30, 65, black, white, 1);
 			TIMER_SOFTWARE_Wait(300);
 			displaySMS(sms_id);
-		} else { // CASE: Next button
+		} else {																			// CASE: Next button
 			printf("Next> button was pressed\n");
 			sms_id = (sms_id == message_count - 1) ? 0 : sms_id + 1;
 			displaySMS(sms_id);
@@ -196,7 +201,7 @@ void displaySMS(uint8_t id)
 			DRV_LCD_PutPixel(j, i, white.red, white.green, white.blue);
 		}
 	}
-	if(id > sms_counter) id = 0;
+	if (id > sms_counter) id = 0;
 	DRV_LCD_Puts(messages[id].nr, 30, 65, black, white, 1);	
 	for (i = 10; i < 300; i++) {
 		DRV_LCD_PutPixel(85, i, black.red, black.green, black.blue);
@@ -236,7 +241,7 @@ void BoardInit()
 	DRV_LCD_Puts("Network state: <acquiring data>", 20, 18, white, primary, 0);
 	DRV_LCD_Puts("Network operator name: <acquiring data>", 20, 30, white, primary, 0);
 	
-	//addPlaceholderText(messages);
+	// addPlaceholderText(messages);
 	displaySMS(0);
 }
               
@@ -410,7 +415,7 @@ int main(void)
 	}
 	
 	execute_command(at_command_cmgl, AT_CMGL);
-	if(verify_response(&data)) {
+	if (verify_response(&data)) {
 		sms_counter = get_sms_list(&data, messages);
 	}
 	displaySMS(0);
